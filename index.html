@@ -19,9 +19,14 @@
         </nav>
         <div class="header-right">
             <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search Icon">
-            <div class="profile-icon">JD</div>
+            <div class="profile-icon">LB</div>
         </div>
     </header>
+
+    <div class="page-title">
+        <h1>Configure your XC90</h1>
+        <p>Choose from the options below to personalise your drive.</p>
+    </div>
 
     <div class="main-container">
         <div class="configurator-section">
@@ -33,51 +38,67 @@
                 </div>
             </div>
         </div>
-        <!--Expand to see all the options and images-->
+
         <div class="options-section">
-            <div class="option-group">
+            <div class="option-group level">
                 <h2>Choose your level</h2>
-                <div class="option">
-                    <span>Core</span>
-                    <span>£72,650</span>
+                <div class="option" onclick="selectOption(this, 'level')">
+                    <div class="option-header">
+                        <span class="option-name">Core</span>
+                        <span class="option-price">£72,650</span>
+                    </div>
+                    <p class="option-details">Included:<br>- T8 AWD Plug-in hybrid<br>- 11-inch centre display<br>- Matrix-design LED headlights<br>- Wireless phone charging<br>and more</p>
+                    <a href="#" class="learn-more">
+                        View all features <span class="arrow">&#9654;</span>
+                    </a>
                 </div>
-                <div class="option">
-                    <span>Plus</span>
-                    <span>£77,650</span>
+                <div class="option" onclick="selectOption(this, 'level')">
+                    <div class="option-header">
+                        <span class="option-name">Plus</span>
+                        <span class="option-price">£77,650</span>
+                    </div>
+                    <p class="option-details">Core features, plus:<br>- Panoramic roof<br>- Harman Kardon Premium Sound<br>- Active air suspension<br>and more</p>
+                    <a href="#" class="learn-more">
+                        View all features <span class="arrow">&#9654;</span>
+                    </a>
                 </div>
-                <div class="option">
-                    <span>Ultra</span>
-                    <span>£84,150</span>
+                <div class="option active" onclick="selectOption(this, 'level')">
+                    <div class="option-header">
+                        <span class="option-name">Ultra</span>
+                        <span class="option-price">£84,150</span>
+                    </div>
+                    <p class="option-details">Plus features, plus:<br>- Bowers & Wilkins High Fidelity audio system<br>- Front seat ventilation<br>- Front seat massage<br>and more</p>
+                    <a href="#" class="learn-more">
+                        View all features <span class="arrow">&#9654;</span>
+                    </a>
                 </div>
+                <a href="#" class="compare-link">Compare ></a>
             </div>
+            
+            
 
             <div class="option-group">
                 <h2>Your powertrain</h2>
-                <div class="option">
+                <div class="option active" onclick="selectOption(this, 'powertrain')">
                     <span>T8 AWD Plug-in hybrid</span>
-                    <span>201.8 mpg</span>
+                    <p class="option-details">Electric/Petrol • AWD • Automatic<br>0-100 km/h in 5.4s • 201.8 mpg</p>
+                    <a href="#" class="learn-more">View details</a>
                 </div>
             </div>
 
             <div class="option-group">
-                <h2>Choose your colour</h2>
-                <div class="option">
-                    <span>Vapour Grey</span>
-                </div>
-            </div>
-            <div class="option-group">
                 <h2>Choose your theme</h2>
-                <div class="option active">
+                <div class="option" onclick="selectOption(this, 'theme')">
                     <span>Bright</span>
                     <span>Standard</span>
                     <p class="option-details">A bright, sophisticated Scandinavian exterior design expression with chrome detailing.</p>
                 </div>
-                <div class="option">
+                <div class="option active" onclick="selectOption(this, 'theme')">
                     <span>Dark</span>
                     <span>No additional cost</span>
                 </div>
             </div>
-            
+
             <div class="option-group">
                 <h2>Choose your colour</h2>
                 <div class="color-selector">
@@ -89,33 +110,9 @@
                 </div>
                 <p class="option-details">Vapour Grey: A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.</p>
             </div>
-            
-            <div class="option-group">
-                <h2>Choose your wheels</h2>
-                <div class="wheel-selector">
-                    <div class="wheel-option active" style="background-image: url('Images/wheel1.png');" title="Wheel 1"></div>
-                    <div class="wheel-option" style="background-image: url('Images/wheel2.png');" title="Wheel 2"></div>
-                </div>
-                <p class="wheel-details">22” 7-double spoke black diamond cut - £795</p>
-                <a href="#" class="learn-more">Learn more</a>
-            </div>
-            
-            <div class="option-group">
-                <h2>Choose your interior</h2>
-                <div class="interior-selector">
-                    <div class="interior-option active" style="background-color: #2c2c2c;" title="Charcoal"></div>
-                    <div class="interior-option" style="background-color: #555;" title="Dark Grey"></div>
-                    <div class="interior-option" style="background-color: #c2b280;" title="Beige"></div>
-                    <div class="interior-option" style="background-color: #eaeaea;" title="Light Grey"></div>
-                </div>
-                <p class="interior-details">Cardamom Ventilated nappa leather in Charcoal interior<br>No additional cost<br>Brown Ash decor<br>Crystal gear shift by Orrefors®<br>Tailored sport steering wheel, Charcoal</p>
-                <a href="#" class="learn-more">Explore interior</a>
-            </div>
-            
         </div>
+        <div id="chatbot-trigger" onclick="initEmbeddedMessaging()">💬 Chat with us</div>
     </div>
-
-    <div id="embeddedMessagingContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
 
     <footer>
         &copy; This is not a real site. Salesforce Demo - No orders will be processed
@@ -149,6 +146,26 @@
         }
 
         updateImage();
+
+    // Function to select an option
+    function selectOption(element, category) {
+        // Get all options within the same category
+        const options = document.querySelectorAll(`.option-group.${category} .option`);
+        
+        // Remove active class from all options
+        options.forEach((option) => {
+            option.classList.remove('active');
+        });
+
+        // Add active class to the clicked option
+        element.classList.add('active');
+
+        // Optional: Update summary section dynamically
+        const selectedText = element.querySelector('.option-name').textContent;
+        updateSummary(category, selectedText);
+    }
+
+
 
         // Salesforce Chatbot Initialization
         function initEmbeddedMessaging() {
