@@ -4,160 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configure your XC90</title>
-    <style>
-        /* General Reset */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Header */
-        header {
-            background-color: white;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-        }
-
-        header img {
-            height: 40px;
-        }
-
-        .header-center {
-            display: flex;
-            flex: 1;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .header-center a {
-            text-decoration: none;
-            color: #333;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .header-right img {
-            height: 24px;
-            cursor: pointer;
-        }
-
-        .header-right .profile-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: white;
-        }
-
-        /* Main Layout */
-        .main-container {
-            display: flex;
-            flex-direction: row;
-            padding: 20px;
-            flex: 1;
-        }
-
-        .configurator-section {
-            flex: 3;
-        }
-
-        .configurator-image {
-            width: 100%;
-            max-height: 400px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .configurator-image img {
-            width: 100%;
-            height: auto;
-        }
-
-        .image-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            pointer-events: none;
-        }
-
-        .image-nav button {
-            pointer-events: all;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .options-section {
-            flex: 1.5;
-            padding-left: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .option-group {
-            margin-bottom: 20px;
-            background-color: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .option-group h2 {
-            margin: 0 0 10px 0;
-            font-size: 18px;
-            color: #003057;
-        }
-
-        .option {
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .option span {
-            font-size: 14px;
-        }
-
-        /* Footer Section */
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #003057;
-            color: white;
-            font-size: 14px;
-            margin-top: auto;
-        }
-    </style>
+    <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 <body>
     <header>
@@ -185,7 +32,7 @@
                 </div>
             </div>
         </div>
-
+        <!--Expand to see all the options and images-->
         <div class="options-section">
             <div class="option-group">
                 <h2>Choose your level</h2>
@@ -217,11 +64,58 @@
                     <span>Vapour Grey</span>
                 </div>
             </div>
+            <div class="option-group">
+                <h2>Choose your theme</h2>
+                <div class="option active">
+                    <span>Bright</span>
+                    <span>Standard</span>
+                    <p class="option-details">A bright, sophisticated Scandinavian exterior design expression with chrome detailing.</p>
+                </div>
+                <div class="option">
+                    <span>Dark</span>
+                    <span>No additional cost</span>
+                </div>
+            </div>
+            
+            <div class="option-group">
+                <h2>Choose your colour</h2>
+                <div class="color-selector">
+                    <div class="color-option active" style="background-color: #7d7d7d;" title="Vapour Grey"></div>
+                    <div class="color-option" style="background-color: #000;" title="Black"></div>
+                    <div class="color-option" style="background-color: #333;" title="Dark Grey"></div>
+                    <div class="color-option" style="background-color: #c0c0c0;" title="Silver"></div>
+                    <div class="color-option" style="background-color: #eaeaea;" title="White"></div>
+                </div>
+                <p class="option-details">Vapour Grey: A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.</p>
+            </div>
+            
+            <div class="option-group">
+                <h2>Choose your wheels</h2>
+                <div class="wheel-selector">
+                    <div class="wheel-option active" style="background-image: url('Images/wheel1.png');" title="Wheel 1"></div>
+                    <div class="wheel-option" style="background-image: url('Images/wheel2.png');" title="Wheel 2"></div>
+                </div>
+                <p class="wheel-details">22” 7-double spoke black diamond cut - £795</p>
+                <a href="#" class="learn-more">Learn more</a>
+            </div>
+            
+            <div class="option-group">
+                <h2>Choose your interior</h2>
+                <div class="interior-selector">
+                    <div class="interior-option active" style="background-color: #2c2c2c;" title="Charcoal"></div>
+                    <div class="interior-option" style="background-color: #555;" title="Dark Grey"></div>
+                    <div class="interior-option" style="background-color: #c2b280;" title="Beige"></div>
+                    <div class="interior-option" style="background-color: #eaeaea;" title="Light Grey"></div>
+                </div>
+                <p class="interior-details">Cardamom Ventilated nappa leather in Charcoal interior<br>No additional cost<br>Brown Ash decor<br>Crystal gear shift by Orrefors®<br>Tailored sport steering wheel, Charcoal</p>
+                <a href="#" class="learn-more">Explore interior</a>
+            </div>
+            
         </div>
     </div>
 
     <footer>
-        &copy; 2025 Volvo Cars. All rights reserved.
+        &copy; This is not a real site. Salesforce Demo - No orders will be processed
     </footer>
 
     <script>
@@ -232,8 +126,7 @@
             "Images/XC90Ultra4-6.jpeg",
             "Images/XC90Ultra5-6.jpeg",
             "Images/XC90Ultra6-6.jpeg"
-    ];
-    
+        ];
 
         let currentIndex = 0;
 
@@ -253,5 +146,25 @@
 
         updateImage();
     </script>
+    <script type='text/javascript'>
+        function initEmbeddedMessaging() {
+            try {
+                embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+    
+                embeddedservice_bootstrap.init(
+                    '00DJ9000000Qsx7',
+                    'SDO_Messaging_for_Web',
+                    'https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816',
+                    {
+                        scrt2URL: 'https://gov-convo-250109-4-demo.my.salesforce-scrt.com'
+                    }
+                );
+            } catch (err) {
+                console.error('Error loading Embedded Messaging: ', err);
+            }
+        };
+    </script>
+    <script type='text/javascript' src='https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+    
 </body>
 </html>
