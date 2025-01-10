@@ -1,7 +1,191 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volvo Car Configurator</title>
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #003057;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        header img {
+            height: 40px;
+        }
+
+        /* Main Section */
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            height: 90vh;
+        }
+
+        .configurator {
+            flex: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-right: 1px solid #ccc;
+        }
+
+        .configurator img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-window {
+            flex: 1;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: #003057;
+            color: white;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .chat-messages .message {
+            margin: 10px 0;
+        }
+
+        .chat-messages .message.agent {
+            text-align: right;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-input button {
+            margin-left: 10px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #003057;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #005792;
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <header>
+        <img src="https://www.volvo.com/logo.png" alt="Volvo Logo">
+        <h1>Volvo Car Configurator</h1>
+    </header>
+
+    <div class="main-container">
+        <!-- Car Configurator Section -->
+        <div class="configurator">
+            <img id="car-image" src="" alt="Car Configurator">
+        </div>
+
+        <!-- Chat Window Section -->
+        <div class="chat-window">
+            <div class="chat-header">Chat with Volvo Assistant</div>
+            <div class="chat-messages" id="chat-messages">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Type a message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Slideshow logic
+        const images = [
+            "car1.jpg",
+            "car2.jpg",
+            "car3.jpg"
+        ];
+
+        let currentImageIndex = 0;
+
+        function updateCarImage() {
+            const carImage = document.getElementById('car-image');
+            carImage.src = images[currentImageIndex];
+        }
+
+        // Initialize the first image
+        updateCarImage();
+
+        // Simulate chat interactions
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const messages = document.getElementById('chat-messages');
+            const userMessage = input.value;
+
+            if (userMessage.trim() === "") return;
+
+            // Add user message
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'message user';
+            userMessageDiv.textContent = userMessage;
+            messages.appendChild(userMessageDiv);
+
+            // Simulate agent response
+            setTimeout(() => {
+                const agentMessageDiv = document.createElement('div');
+                agentMessageDiv.className = 'message agent';
+                agentMessageDiv.textContent = "Changing car configuration...";
+                messages.appendChild(agentMessageDiv);
+
+                // Change the image
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                updateCarImage();
+                messages.scrollTop = messages.scrollHeight;
+            }, 1000);
+
+            input.value = "";
+        }
+    </script>
 </body>
 </html>
