@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
     <title>Configure your XC90</title>
     <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
@@ -120,6 +120,7 @@
     </footer>
 
     <script>
+        // Image Slideshow Script
         const images = [
             "Images/XC90Ultra1-6.jpeg",
             "Images/XC90Ultra2-6.jpeg",
@@ -146,12 +147,12 @@
         }
 
         updateImage();
-    </script>
-    <script type='text/javascript'>
+
+        // Salesforce Chatbot Initialization
         function initEmbeddedMessaging() {
             try {
-                embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
-    
+                embeddedservice_bootstrap.settings.language = 'en_US'; // Set language
+
                 embeddedservice_bootstrap.init(
                     '00DJ9000000Qsx7',
                     'SDO_Messaging_for_Web',
@@ -163,9 +164,13 @@
             } catch (err) {
                 console.error('Error loading Embedded Messaging: ', err);
             }
-        };
-    </script>
-    <script type='text/javascript' src='https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
-    
+        }
+
+        // Load Salesforce Chatbot Script
+        const chatbotScript = document.createElement('script');
+        chatbotScript.src = 'https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816/assets/js/bootstrap.min.js';
+        chatbotScript.onload = initEmbeddedMessaging;
+        document.head.appendChild(chatbotScript);
+    </script>    
 </body>
 </html>
