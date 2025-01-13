@@ -383,6 +383,11 @@ header img {
     color: #666;
 }
 
+/* Chatbot */
+.embeddedServiceSidebar.sidebarHeader {
+    background-color: red;
+    }
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .option {
