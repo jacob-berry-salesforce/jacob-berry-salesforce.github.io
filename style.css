@@ -274,20 +274,23 @@ header img {
 }
 
 .wheel-icon {
-    width: 80px; /* Set a fixed width */
-    height: 80px; /* Set a fixed height to make it a square */
+    width: 70px; /* Set a fixed width */
+    height: 70px; /* Set a fixed height to make it a square */
     border-radius: 50%; /* Make it a circle */
     object-fit: cover; /* Ensure the image fits nicely within the circle */
     border: 2px solid #ccc; /* Optional: Add a border for styling */
-    display: block; /* Ensure proper rendering as a block-level element */
-    margin: 0 auto; /* Center the wheel icon within its container */
+    display: inline-block; /* Use inline-block to align with text */
+    margin: 0; /* Remove auto-centering */
+    margin-bottom: 30px;
     transition: all 0.3s ease; /* Add a transition for hover effects */
+    vertical-align: middle; /* Align vertically with adjacent content */
 }
 
 .wheel-icon:hover {
     border-color: #0057a3; /* Highlight the border on hover */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a slight shadow for hover effect */
 }
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
