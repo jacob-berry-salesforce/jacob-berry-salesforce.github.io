@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
     <title>Configure your XC90</title>
     <link rel='stylesheet' type='text/css' href='style.css'>
+    <meta name="description" content="Configure your Volvo XC90 and explore various options to personalize your car.">
 </head>
 <body>
     <header>
@@ -28,13 +29,13 @@
         <p>Choose from the options below to personalise your drive.</p>
     </div>
 
-    <div class="main-container">
+    <main class="main-container">
         <div class="configurator-section">
             <div class="configurator-image">
                 <img id="car-image" src="Images/XC90Ultra1-6.jpeg" alt="Volvo XC90">
                 <div class="image-nav">
-                    <button onclick="prevImage()">&#10094;</button>
-                    <button onclick="nextImage()">&#10095;</button>
+                    <button class="nav-arrow left-arrow" aria-label="Previous Image" onclick="prevImage()">&#10094;</button>
+                    <button class="nav-arrow right-arrow" aria-label="Next Image" onclick="nextImage()">&#10095;</button>
                 </div>
             </div>
         </div>
@@ -74,52 +75,159 @@
                 </div>
                 <a href="#" class="compare-link">Compare ></a>
             </div>
+
+            <div class="options-section">
+                <!-- Powertrain -->
+                <div class="option-group">
+                    <h2>Your powertrain</h2>
+                    <div class="option active" onclick="toggleDetails(this)">
+                        <span class="option-name">T8 AWD Plug-in hybrid</span>
+                        <p class="option-details">
+                            <strong>Standard</strong><br>
+                            Electric/Petrol • AWD • Automatic<br>
+                            5.4 s • 0-100 km/h<br>
+                            201.8 mpg • Fuel Consumption (Combined)<br>
+                            42.9 miles • Electric Range (Combined)<br>
+                            455 hp • Max engine power (hp)
+                        </p>
+                    </div>
+                </div>
             
+                <div class="options-section">
+                    <!-- Theme -->
+                    <div class="option-group">
+                        <h2>Choose your theme</h2>
+                        <div class="option" onclick="toggleDetails(this)">
+                            <span class="option-name">Bright</span>
+                            <span class="option-price">Standard</span>
+                            <p class="option-details">
+                                A bright, sophisticated Scandinavian exterior design expression with chrome detailing.
+                            </p>
+                        </div>
+                        <div class="option active" onclick="toggleDetails(this)">
+                            <span class="option-name">Dark</span>
+                            <span class="option-price">No additional cost</span>
+                            <p class="option-details">
+                                A contemporary and dynamic exterior design with glossy black detailing.
+                            </p>
+                        </div>
+                    </div>
+                
+                    <!-- Colour -->
+                    <div class="option-group">
+                        <h2>Choose your colour</h2>
+                        <div class="color-options">
+                            <div class="option" onclick="toggleDetails(this)">
+                                <div class="color-option" style="background-color: #ffffff;" title="Crystal White"></div>
+                                <span class="option-name">Crystal White</span>
+                                <span class="option-price">£795</span>
+                                <p class="option-details">
+                                    Shimmering white pearl colour with a soft, deep pearlescent effect for a silky appearance.
+                                </p>
+                            </div>
+                            <div class="option" onclick="toggleDetails(this)">
+                                <div class="color-option" style="background-color: #000000;" title="Onyx Black"></div>
+                                <span class="option-name">Onyx Black</span>
+                                <span class="option-price">£795</span>
+                                <p class="option-details">
+                                    Elegant, deep black metallic with a brilliant sparkle in strong daylight and a solid darkness in reduced light.
+                                </p>
+                            </div>
+                            <div class="option" onclick="toggleDetails(this)">
+                                <div class="color-option" style="background-color: #4a678c;" title="Denim Blue"></div>
+                                <span class="option-name">Denim Blue</span>
+                                <span class="option-price">£795</span>
+                                <p class="option-details">
+                                    A rich, smokey blue metallic with plenty of depth and a fluid, silky finish.
+                                </p>
+                            </div>
+                            <div class="option" onclick="toggleDetails(this)">
+                                <div class="color-option" style="background-color: #c0c0c0;" title="Silver Dawn"></div>
+                                <span class="option-name">Silver Dawn</span>
+                                <span class="option-price">£795</span>
+                                <p class="option-details">
+                                    A modern silver metallic that shimmers from warm yellow to cold, more solid blue.
+                                </p>
+                            </div>
+                            <div class="option" onclick="toggleDetails(this)">
+                                <div class="color-option" style="background-color: #d4a9a0;" title="Bright Dusk"></div>
+                                <span class="option-name">Bright Dusk</span>
+                                <span class="option-price">£795</span>
+                                <p class="option-details">
+                                    A warm silver high-metallic with light rosé tones that distinguishes the car's shapes and gives an anodized metal look in direct sunlight.
+                                </p>
+                            </div>
+                            <div class="option" onclick="toggleDetails(this)">
+                                <div class="color-option" style="background-color: #6b2528;" title="Mulberry Red"></div>
+                                <span class="option-name">Mulberry Red</span>
+                                <span class="option-price">£795</span>
+                                <p class="option-details">
+                                    A dark, elegant blackish red that sparkles up in sunlight for a colourful expression with prominent shades of red.
+                                </p>
+                            </div>
+                            <div class="option active" onclick="toggleDetails(this)">
+                                <div class="color-option" style="background-color: #7d7d7d;" title="Vapour Grey"></div>
+                                <span class="option-name">Vapour Grey</span>
+                                <span class="option-price">Standard</span>
+                                <p class="option-details">
+                                    A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                
+                    <!-- Wheels -->
+                    <div class="option-group">
+                        <h2>Choose your wheels</h2>
+                        <div class="option active" onclick="toggleDetails(this)">
+                            <img src="placeholder-icon.png" alt="21″ Wheel Placeholder" class="wheel-icon">
+                            <span class="option-name">21″ 5-multi spoke black diamond cut</span>
+                            <span class="option-price">Standard</span>
+                        </div>
+                        <div class="option" onclick="toggleDetails(this)">
+                            <img src="placeholder-icon.png" alt="22″ Wheel Placeholder" class="wheel-icon">
+                            <span class="option-name">22″ 7-double spoke black diamond cut</span>
+                            <span class="option-price">£795</span>
+                        </div>
+                    </div>
+                </div>
+                
             
-
-            <div class="option-group">
-                <h2>Your powertrain</h2>
-                <div class="option active" onclick="selectOption(this, 'powertrain')">
-                    <span>T8 AWD Plug-in hybrid</span>
-                    <p class="option-details">Electric/Petrol • AWD • Automatic<br>0-100 km/h in 5.4s • 201.8 mpg</p>
-                    <a href="#" class="learn-more">View details</a>
+                <!-- Interior -->
+                <div class="option-group">
+                    <h2>Choose your interior</h2>
+                    <div class="option active" onclick="toggleDetails(this)">
+                        <div class="color-circle" style="background-color: #4b4b4b;" title="Charcoal"></div>
+                        <span class="option-name">Charcoal Ventilated nappa leather</span>
+                        <span class="option-price">Standard</span>
+                        <p class="option-details">
+                            Ventilated nappa leather in Charcoal interior<br>
+                            Grey Ash decor • Crystal gear shift by Orrefors®<br>
+                            Tailored sport steering wheel, Charcoal
+                        </p>
+                    </div>
+                    <div class="option" onclick="toggleDetails(this)">
+                        <div class="color-circle" style="background-color: #d9d9d9;" title="Grey"></div>
+                        <span class="option-name">Grey Ventilated nappa leather</span>
+                        <span class="option-price">£1,495</span>
+                        <p class="option-details">
+                            Ventilated nappa leather in Grey interior<br>
+                            Grey Ash decor • Crystal gear shift by Orrefors®<br>
+                            Tailored sport steering wheel, Charcoal
+                        </p>
+                    </div>
                 </div>
             </div>
-
-            <div class="option-group">
-                <h2>Choose your theme</h2>
-                <div class="option" onclick="selectOption(this, 'theme')">
-                    <span>Bright</span>
-                    <span>Standard</span>
-                    <p class="option-details">A bright, sophisticated Scandinavian exterior design expression with chrome detailing.</p>
-                </div>
-                <div class="option active" onclick="selectOption(this, 'theme')">
-                    <span>Dark</span>
-                    <span>No additional cost</span>
-                </div>
-            </div>
-
-            <div class="option-group">
-                <h2>Choose your colour</h2>
-                <div class="color-selector">
-                    <div class="color-option active" style="background-color: #7d7d7d;" title="Vapour Grey"></div>
-                    <div class="color-option" style="background-color: #000;" title="Black"></div>
-                    <div class="color-option" style="background-color: #333;" title="Dark Grey"></div>
-                    <div class="color-option" style="background-color: #c0c0c0;" title="Silver"></div>
-                    <div class="color-option" style="background-color: #eaeaea;" title="White"></div>
-                </div>
-                <p class="option-details">Vapour Grey: A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.</p>
-            </div>
-        </div>
+            
         <div id="chatbot-trigger" onclick="initEmbeddedMessaging()">💬 Chat with us</div>
-    </div>
+    </main>
 
     <footer>
-        &copy; This is not a real site. Salesforce Demo - No orders will be processed
+        &copy; This is not a real site. Salesforce Demo - No orders will be processed.
     </footer>
 
     <script>
-        // Image Slideshow Script
         const images = [
             "Images/XC90Ultra1-6.jpeg",
             "Images/XC90Ultra2-6.jpeg",
@@ -147,49 +255,45 @@
 
         updateImage();
 
-    // Function to select an option
-    function selectOption(element, category) {
-        // Get all options within the same category
-        const options = document.querySelectorAll(`.option-group.${category} .option`);
-        
-        // Remove active class from all options
-        options.forEach((option) => {
-            option.classList.remove('active');
-        });
+        function selectOption(element, category) {
+            const options = document.querySelectorAll(`.option-group.${category} .option`);
+            options.forEach((option) => option.classList.remove('active'));
+            element.classList.add('active');
+        }
 
-        // Add active class to the clicked option
-        element.classList.add('active');
+        // Function to toggle option selection
+        function toggleDetails(selectedElement) {
+            const group = selectedElement.parentElement; // Find the parent option group
+            const options = group.querySelectorAll('.option'); // Get all options in the group
 
-        // Optional: Update summary section dynamically
-        const selectedText = element.querySelector('.option-name').textContent;
-        updateSummary(category, selectedText);
-    }
+            // Remove active class from all options
+            options.forEach(option => option.classList.remove('active'));
+
+            // Add active class to the selected option
+            selectedElement.classList.add('active');
+}
 
 
-
-        // Salesforce Chatbot Initialization
         function initEmbeddedMessaging() {
             try {
-                embeddedservice_bootstrap.settings.language = 'en_US'; // Set language
-
+                embeddedservice_bootstrap.settings.language = 'en_US';
                 embeddedservice_bootstrap.init(
                     '00DJ9000000Qsx7',
                     'SDO_Messaging_for_Web',
                     'https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816',
-                    {
-                        scrt2URL: 'https://gov-convo-250109-4-demo.my.salesforce-scrt.com'
-                    }
+                    { scrt2URL: 'https://gov-convo-250109-4-demo.my.salesforce-scrt.com' }
                 );
             } catch (err) {
                 console.error('Error loading Embedded Messaging: ', err);
             }
         }
 
-        // Load Salesforce Chatbot Script
-        const chatbotScript = document.createElement('script');
-        chatbotScript.src = 'https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816/assets/js/bootstrap.min.js';
-        chatbotScript.onload = initEmbeddedMessaging;
-        document.head.appendChild(chatbotScript);
-    </script>    
+        document.addEventListener("DOMContentLoaded", () => {
+            const chatbotScript = document.createElement('script');
+            chatbotScript.src = 'https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816/assets/js/bootstrap.min.js';
+            chatbotScript.onload = initEmbeddedMessaging;
+            document.head.appendChild(chatbotScript);
+        });
+    </script>
 </body>
 </html>
