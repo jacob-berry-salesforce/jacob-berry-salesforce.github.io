@@ -8,6 +8,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     box-sizing: border-box;
+    line-height: 24px;
 }
 
 /* Page Header */
@@ -84,15 +85,16 @@ header img {
 /* Main Layout */
 .main-container {
     display: grid;
-    grid-template-columns: 50% 20% 30%;
-    gap: 20px;
+    grid-template-columns: 50% 20% 30%; /* Define column widths */
+    gap: 20px; /* Space between grid items */
     padding: 20px;
     background-color: white;
 }
 
-/* Sections */
+/* Common styles for sections */
 .middle-section,
-.right-section {
+.right-section,
+.left-section {
     background: #f7f7f7;
     padding: 20px;
     border-radius: 10px;
@@ -102,9 +104,6 @@ header img {
     text-align: center;
 }
 
-.left-section {
-    background: #f7f7f7;
-}
 
 /* Carousel */
 .carousel {
@@ -169,6 +168,7 @@ header img {
 }
 
 /* Option Box */
+
 .option {
     display: flex;
     flex-direction: column;
@@ -180,6 +180,7 @@ header img {
     background-color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .option:hover {
@@ -199,6 +200,38 @@ header img {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+.option-details {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-top: 10px;
+    display: block; /* Ensure details are visible */
+}
+
+.option-details p {
+    margin: 0 0 5px; /* Adjust spacing for labels */
+    font-weight: bold; /* Highlight labels like "Included:" */
+}
+
+.option-details ul {
+    list-style-type: disc; /* Default bullet style */
+    padding-left: 20px; /* Indent the bullets */
+    margin: 0; /* Remove default list margin */
+}
+
+.option-details ul li {
+    margin-bottom: 5px; /* Add space between list items */
+}
+
+
+.option-price {
+    font-weight: lighter;
+}
+
+.option-name {
+    font-weight: bold;
 }
 
 .option-details {
