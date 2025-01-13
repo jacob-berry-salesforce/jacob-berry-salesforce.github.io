@@ -242,109 +242,24 @@
             </div>
         </div>
     </main>
-    <script>
+    <script type='text/javascript'>
         function initEmbeddedMessaging() {
             try {
-                embeddedservice_bootstrap.settings.displayOptions = {
-                    customStyle: `
-                        /* Chat container styling */
-                        .embeddedServiceSidebarLayout {
-                            position: fixed !important;
-                            top: 0 !important;
-                            right: 0 !important;
-                            height: 100vh !important; /* Full height of the viewport */
-                            width: 30% !important; /* Occupy 30% of the screen width */
-                            border-left: 2px solid #ccc !important; /* Add a dividing border */
-                            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow */
-                            border-radius: 0 !important; /* Remove rounded corners */
-                            z-index: 10000 !important; /* Ensure it's above other page elements */
-                        }
-                
-                        /* Header */
-                        .embeddedServiceSidebarLayout .sidebarHeader {
-                            background-color: #003a6d !important; /* Header background color */
-                            color: white !important; /* Header text color */
-                            font-size: 18px !important; /* Header text size */
-                            text-align: center !important;
-                            font-weight: bold !important;
-                            padding: 15px !important;
-                        }
-                
-                        /* Chat messages area */
-                        .embeddedServiceSidebarLayout .messageListContent {
-                            height: calc(100vh - 100px) !important; /* Full height minus header */
-                            overflow-y: auto !important;
-                            padding: 10px !important;
-                            background-color: #f7f7f7 !important; /* Chat background color */
-                        }
-                
-                        /* Chat bubbles */
-                        .embeddedServiceSidebarLayout .customerMessage {
-                            background-color: #e0f7fa !important; /* Customer message bubble */
-                            color: #333 !important;
-                            border-radius: 10px !important;
-                            padding: 10px !important;
-                            margin: 5px 0 !important;
-                        }
-                
-                        .embeddedServiceSidebarLayout .agentMessage {
-                            background-color: #e6e6e6 !important; /* Agent message bubble */
-                            color: #333 !important;
-                            border-radius: 10px !important;
-                            padding: 10px !important;
-                            margin: 5px 0 !important;
-                        }
-                
-                        /* Input box */
-                        .embeddedServiceSidebarLayout .inputContainer {
-                            position: absolute !important;
-                            bottom: 0 !important;
-                            width: 100% !important;
-                            padding: 10px !important;
-                            background-color: white !important;
-                            border-top: 1px solid #ccc !important;
-                        }
-                
-                        /* Input field */
-                        .embeddedServiceSidebarLayout .messageInput {
-                            width: 80% !important;
-                            padding: 10px !important;
-                            border-radius: 5px !important;
-                            border: 1px solid #ccc !important;
-                            font-size: 14px !important;
-                        }
-                
-                        /* Send button */
-                        .embeddedServiceSidebarLayout .sendButton {
-                            width: 15% !important;
-                            margin-left: 5% !important;
-                            padding: 10px !important;
-                            background-color: #0057a3 !important; /* Send button background */
-                            color: white !important;
-                            border: none !important;
-                            border-radius: 5px !important;
-                            font-size: 14px !important;
-                            cursor: pointer !important;
-                        }
-                
-                        .embeddedServiceSidebarLayout .sendButton:hover {
-                            background-color: #004080 !important; /* Hover color for the button */
-                        }
-                    `
-                };
-                
+                embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
     
                 embeddedservice_bootstrap.init(
-                    '00DHu00000GKyNZ', // Replace with your Org ID
-                    'Github_Site', // Your deployment name
-                    'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com' // Salesforce domain
+                    '00DHu00000GKyNZ',
+                    'Github_Site',
+                    'https://storm-c67b8b7b3bfc6d.my.site.com/ESWGithubSite1736801188865',
+                    {
+                        scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com'
+                    }
                 );
             } catch (err) {
-                console.error('Error initializing Embedded Messaging:', err);
+                console.error('Error loading Embedded Messaging: ', err);
             }
         };
     </script>
-    
     <script type='text/javascript' src='https://storm-c67b8b7b3bfc6d.my.site.com/ESWGithubSite1736801188865/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>    
     
     <script>
