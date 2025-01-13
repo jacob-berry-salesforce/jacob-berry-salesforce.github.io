@@ -242,7 +242,26 @@
             </div>
         </div>
     </main>
-
+    <script type='text/javascript'>
+        function initEmbeddedMessaging() {
+            try {
+                embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+    
+                embeddedservice_bootstrap.init(
+                    '00DHu00000GKyNZ',
+                    'Github_Site',
+                    'https://storm-c67b8b7b3bfc6d.my.site.com/ESWGithubSite1736801188865',
+                    {
+                        scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com'
+                    }
+                );
+            } catch (err) {
+                console.error('Error loading Embedded Messaging: ', err);
+            }
+        };
+    </script>
+    <script type='text/javascript' src='https://storm-c67b8b7b3bfc6d.my.site.com/ESWGithubSite1736801188865/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>    
+    
     <script>
 // =======================
 // Carousel Functionality
@@ -385,24 +404,5 @@ function selectWheel(element) {
 }
 
     </script>
-    <script type='text/javascript'>
-        function initEmbeddedMessaging() {
-            try {
-                embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
-    
-                embeddedservice_bootstrap.init(
-                    '00DHu00000GKyNZ',
-                    'SDO_Messaging_for_Web',
-                    'https://storm-c67b8b7b3bfc6d.my.site.com/ESWSDOMessagingforWeb1736771892897',
-                    {
-                        scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com'
-                    }
-                );
-            } catch (err) {
-                console.error('Error loading Embedded Messaging: ', err);
-            }
-        };
-    </script>
-    <script type='text/javascript' src='https://storm-c67b8b7b3bfc6d.my.site.com/ESWSDOMessagingforWeb1736771892897/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>    
 </body>
 </html>
