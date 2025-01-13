@@ -158,31 +158,23 @@
                 </div>
             </div>
         
-            <!-- Wheels -->
-            <div class="option-group">
-                <h2>Choose your wheels</h2>
-                <div class="option active" onclick="toggleDetails(this)">
-                    <img src="Images/Wheel21.jpeg" alt="21″ 5-multi spoke black diamond cut" class="wheel-icon">
-                    <span class="option-name">21″ 5-multi spoke black diamond cut</span>
-                    <p class="option-details">
-                        Included:<br>
-                        - Sleek design<br>
-                        - Optimized for performance and efficiency<br>
-                        - Standard finish
-                    </p>
+            <div class="wheel-options">
+                <!-- First Wheel Option (Selected by Default) -->
+                <div class="wheel-option active" data-wheel="21″ 5-multi spoke black diamond cut" onclick="selectWheel(this)">
+                    <img src="Images/Wheel21.jpeg" alt="21″ 5-multi spoke black diamond cut">
                 </div>
-                <div class="option" onclick="toggleDetails(this)">
-                    <img src="Images/Wheel22.jpeg" alt="22″ 7-double spoke black diamond cut" class="wheel-icon">
-                    <span class="option-name">22″ 7-double spoke black diamond cut</span>
-                    <span class="option-price">£795</span>
-                    <p class="option-details">
-                        Features:<br>
-                        - Larger wheel size for added aesthetic<br>
-                        - Enhanced grip and road feel<br>
-                        - Premium black diamond cut finish
-                    </p>
+                <!-- Second Wheel Option -->
+                <div class="wheel-option" data-wheel="22″ 7-double spoke black diamond cut" onclick="selectWheel(this)">
+                    <img src="Images/Wheel22.jpeg" alt="22″ 7-double spoke black diamond cut">
                 </div>
             </div>
+            
+            <!-- Wheel Details Section -->
+            <div class="wheel-details">
+                <h3>21″ 5-multi spoke black diamond cut</h3>
+                <p>Standard</p>
+            </div>
+            
         
             <!-- Interior -->
             <div class="option-group">
@@ -318,28 +310,73 @@ function toggleDetails(element) {
     }
 }
 
+// Function to select a colour
+function selectColor(element) {
+    // Remove 'active' class from all color options
+    document.querySelectorAll('.color-option').forEach(option => {
+        option.classList.remove('active');
+    });
+
+    // Add 'active' class to the selected color
+    element.classList.add('active');
+
+    // Update the details section
+    const selectedColor = element.getAttribute('title');
+    const colorDetails = document.querySelector('.color-details');
+    if (colorDetails) {
+        colorDetails.querySelector('h3').innerText = selectedColor;
+        colorDetails.querySelector('p').innerText =
+            `You have selected ${selectedColor}. This colour is inspired by our premium Scandinavian design aesthetics.`;
+    }
+}
+
+function selectWheel(element) {
+    // Remove 'active' class from all wheel options
+    document.querySelectorAll('.wheel-option').forEach(option => {
+        option.classList.remove('active');
+    });
+
+    // Add 'active' class to the selected wheel
+    element.classList.add('active');
+
+    // Update the details section
+    const selectedWheel = element.getAttribute('data-wheel');
+    const wheelDetails = document.querySelector('.wheel-details');
+
+    if (wheelDetails) {
+        // Update the wheel name
+        wheelDetails.querySelector('h3').innerText = selectedWheel;
+
+        // Update the details based on the selected wheel
+        if (selectedWheel === "21″ 5-multi spoke black diamond cut") {
+            wheelDetails.querySelector('p').innerText = "Standard";
+        } else if (selectedWheel === "22″ 7-double spoke black diamond cut") {
+            wheelDetails.querySelector('p').innerText = "£795";
+        }
+    }
+}
 
 
+
+    </script>
+    <script type='text/javascript'>
         function initEmbeddedMessaging() {
             try {
-                embeddedservice_bootstrap.settings.language = 'en_US';
+                embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+    
                 embeddedservice_bootstrap.init(
-                    '00DJ9000000Qsx7',
+                    '00DHu00000GKyNZ',
                     'SDO_Messaging_for_Web',
-                    'https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816',
-                    { scrt2URL: 'https://gov-convo-250109-4-demo.my.salesforce-scrt.com' }
+                    'https://storm-c67b8b7b3bfc6d.my.site.com/ESWSDOMessagingforWeb1736771892897',
+                    {
+                        scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com'
+                    }
                 );
             } catch (err) {
                 console.error('Error loading Embedded Messaging: ', err);
             }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const chatbotScript = document.createElement('script');
-            chatbotScript.src = 'https://gov-convo-250109-4-demo.my.site.com/ESWSDOMessagingforWeb1736440962816/assets/js/bootstrap.min.js';
-            chatbotScript.onload = initEmbeddedMessaging;
-            document.head.appendChild(chatbotScript);
-        });
+        };
     </script>
+    <script type='text/javascript' src='https://storm-c67b8b7b3bfc6d.my.site.com/ESWSDOMessagingforWeb1736771892897/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>    
 </body>
 </html>
