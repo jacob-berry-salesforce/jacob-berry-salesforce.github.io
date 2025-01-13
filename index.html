@@ -139,42 +139,58 @@
                     </p>
                 </div>
             </div>
-        
+            
             <!-- Color -->
-            <div class="option-group">
+             <div class="option-group">
                 <h2>Choose your colour</h2>
                 <div class="color-options">
-                    <div class="color-option" style="background-color: #ffffff;" title="Crystal White"></div>
-                    <div class="color-option" style="background-color: #000000;" title="Onyx Black"></div>
-                    <div class="color-option" style="background-color: #4a6785;" title="Denim Blue"></div>
-                    <div class="color-option" style="background-color: #c3c3c3;" title="Silver Dawn"></div>
-                    <div class="color-option" style="background-color: #d9b8a0;" title="Bright Dusk"></div>
-                    <div class="color-option" style="background-color: #5b2a2f;" title="Mulberry Red"></div>
-                    <div class="color-option" style="background-color: #7a7a7a;" title="Vapour Grey"></div>
+                    <div class="color-option" style="background-color: #ffffff;" title="Crystal White" 
+                        onclick="selectColor(this, 'Crystal White', '£795', 'Shimmering white pearl colour with a soft, deep pearlescent effect for a silky appearance.')">
+                    </div>
+                    <div class="color-option" style="background-color: #000000;" title="Onyx Black" 
+                        onclick="selectColor(this, 'Onyx Black', '£795', 'Elegant, deep black metallic with a brilliant sparkle in strong daylight and a solid darkness in reduced light.')">
+                    </div>
+                    <div class="color-option" style="background-color: #4a6785;" title="Denim Blue" 
+                        onclick="selectColor(this, 'Denim Blue', '£795', 'A rich, smokey blue metallic with plenty of depth and a fluid, silky finish.')">
+                    </div>
+                    <div class="color-option" style="background-color: #c3c3c3;" title="Silver Dawn" 
+                        onclick="selectColor(this, 'Silver Dawn', '£795', 'A modern silver metallic that shimmers from warm yellow to cold, more solid blue.')">
+                    </div>
+                    <div class="color-option" style="background-color: #d9b8a0;" title="Bright Dusk" 
+                        onclick="selectColor(this, 'Bright Dusk', '£795', 'A warm silver high-metallic with light rosé tones that distinguishes the car\'s shapes and gives an anodized metal look in direct sunlight.')">
+                    </div>
+                    <div class="color-option" style="background-color: #5b2a2f;" title="Mulberry Red" 
+                        onclick="selectColor(this, 'Mulberry Red', '£795', 'A dark, elegant blackish red that sparkles up in sunlight for a colourful expression with prominent shades of red.')">
+                    </div>
+                    <div class="color-option active" style="background-color: #7a7a7a;" title="Vapour Grey" 
+                        onclick="selectColor(this, 'Vapour Grey', 'Standard', 'A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.')">
+                    </div>
                 </div>
                 <div class="color-details">
                     <h3>Vapour Grey</h3>
-                    <p>A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.</p>
-                </div>
-            </div>
-        
-            <div class="wheel-options">
-                <!-- First Wheel Option (Selected by Default) -->
-                <div class="wheel-option active" data-wheel="21″ 5-multi spoke black diamond cut" onclick="selectWheel(this)">
-                    <img src="Images/Wheel21.jpeg" alt="21″ 5-multi spoke black diamond cut">
-                </div>
-                <!-- Second Wheel Option -->
-                <div class="wheel-option" data-wheel="22″ 7-double spoke black diamond cut" onclick="selectWheel(this)">
-                    <img src="Images/Wheel22.jpeg" alt="22″ 7-double spoke black diamond cut">
+                    <p class="color-price">Standard</p>
+                    <p class="color-description">
+                        A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.
+                    </p>
                 </div>
             </div>
             
-            <!-- Wheel Details Section -->
-            <div class="wheel-details">
-                <h3>21″ 5-multi spoke black diamond cut</h3>
-                <p>Standard</p>
+            <!-- Wheels -->
+             <div class="option-group">
+                <h2>Choose your wheels</h2>
+                <div class="wheel-options">
+                    <div class="wheel-option active" data-wheel="21″ 5-multi spoke black diamond cut" onclick="selectWheel(this)">
+                        <img src="Images/Wheel21.jpeg" alt="21″ 5-multi spoke black diamond cut">
+                    </div>
+                    <div class="wheel-option" data-wheel="22″ 7-double spoke black diamond cut" onclick="selectWheel(this)">
+                        <img src="Images/Wheel22.jpeg" alt="22″ 7-double spoke black diamond cut">
+                    </div>
+                </div>
+                <div class="wheel-details">
+                    <h3>21″ 5-multi spoke black diamond cut</h3>
+                    <p>Standard</p>
+                </div>
             </div>
-            
         
             <!-- Interior -->
             <div class="option-group">
@@ -228,7 +244,11 @@
     </main>
 
     <script>
-        // Images for carousels
+// =======================
+// Carousel Functionality
+// =======================
+
+// Carousel Images
 const carouselImages = {
     carousel1: [
         "Images/XC90Ultra1-6.jpeg",
@@ -252,7 +272,7 @@ const carouselImages = {
         "Images/XC90UltraInterior6-8.jpeg",
         "Images/XC90UltraInterior7-8.jpeg",
         "Images/XC90UltraInterior8-8.jpeg"
-]
+    ]
 };
 
 // Current indexes for carousels
@@ -262,13 +282,13 @@ const carouselIndexes = {
     carousel3: 0
 };
 
-// Update image for a carousel
+// Update image for a specific carousel
 function updateImage(carouselId, images) {
     const imgElement = document.getElementById(carouselId);
     imgElement.src = images[carouselIndexes[carouselId]];
 }
 
-// Navigate to the previous image
+// Navigate to the previous image in the carousel
 function prevImage(carouselId, carouselNumber) {
     const images = carouselImages[`carousel${carouselNumber}`];
     carouselIndexes[carouselId] =
@@ -276,7 +296,7 @@ function prevImage(carouselId, carouselNumber) {
     updateImage(carouselId, images);
 }
 
-// Navigate to the next image
+// Navigate to the next image in the carousel
 function nextImage(carouselId, carouselNumber) {
     const images = carouselImages[`carousel${carouselNumber}`];
     carouselIndexes[carouselId] =
@@ -284,7 +304,11 @@ function nextImage(carouselId, carouselNumber) {
     updateImage(carouselId, images);
 }
 
-// Select an option and toggle its active state
+// ========================
+// Option Selection Handlers
+// ========================
+
+// Select an option (e.g., trim level, theme) and set it as active
 function selectOption(element, groupName) {
     // Find the parent group of the clicked option
     const group = document.querySelector(`.option-group:has([onclick="selectOption(this, '${groupName}')"])`);
@@ -296,7 +320,7 @@ function selectOption(element, groupName) {
     }
 }
 
-// Toggle visibility of details for the clicked option
+// Toggle visibility of option details
 function toggleDetails(element) {
     // If the clicked option is already active, collapse it
     if (element.classList.contains('active')) {
@@ -310,37 +334,41 @@ function toggleDetails(element) {
     }
 }
 
-// Function to select a colour
-function selectColor(element) {
+// ===================
+// Color Selection
+// ===================
+
+// Handle color selection and update details dynamically
+function selectColor(element, colorName, colorPrice, colorDescription) {
     // Remove 'active' class from all color options
-    document.querySelectorAll('.color-option').forEach(option => {
-        option.classList.remove('active');
-    });
+    document.querySelectorAll('.color-option').forEach(option => option.classList.remove('active'));
 
     // Add 'active' class to the selected color
     element.classList.add('active');
 
-    // Update the details section
-    const selectedColor = element.getAttribute('title');
+    // Update the color details section
     const colorDetails = document.querySelector('.color-details');
     if (colorDetails) {
-        colorDetails.querySelector('h3').innerText = selectedColor;
-        colorDetails.querySelector('p').innerText =
-            `You have selected ${selectedColor}. This colour is inspired by our premium Scandinavian design aesthetics.`;
+        colorDetails.querySelector('h3').innerText = colorName; // Update color name
+        colorDetails.querySelector('.color-price').innerText = colorPrice; // Update price
+        colorDetails.querySelector('.color-description').innerText = colorDescription; // Update description
     }
 }
 
+// ===================
+// Wheel Selection
+// ===================
+
+// Handle wheel selection and update details dynamically
 function selectWheel(element) {
     // Remove 'active' class from all wheel options
-    document.querySelectorAll('.wheel-option').forEach(option => {
-        option.classList.remove('active');
-    });
+    document.querySelectorAll('.wheel-option').forEach(option => option.classList.remove('active'));
 
     // Add 'active' class to the selected wheel
     element.classList.add('active');
 
-    // Update the details section
-    const selectedWheel = element.getAttribute('data-wheel');
+    // Update the wheel details section
+    const selectedWheel = element.getAttribute('data-wheel'); // Get wheel name from the attribute
     const wheelDetails = document.querySelector('.wheel-details');
 
     if (wheelDetails) {
@@ -355,8 +383,6 @@ function selectWheel(element) {
         }
     }
 }
-
-
 
     </script>
     <script type='text/javascript'>
