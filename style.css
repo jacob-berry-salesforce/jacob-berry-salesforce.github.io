@@ -7,6 +7,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Responsive Layout */
@@ -20,6 +21,13 @@ body {
         flex: 1;
         margin-bottom: 20px;
     }
+    .color-options {
+        flex-wrap: wrap;
+    }
+    .option {
+        flex: 1 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
 }
 
 /* Page Header */
@@ -29,16 +37,13 @@ body {
     background-color: #f7f7f7;
     border-bottom: 1px solid #ddd;
 }
-
 .page-title h1 {
     margin: 0;
     font-size: 28px;
     font-weight: bold;
-    color: #333;
 }
-
 .page-title p {
-    margin: 10px 0 0 0;
+    margin: 10px 0 0;
     font-size: 16px;
     color: #666;
 }
@@ -51,39 +56,31 @@ header {
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #ddd;
-    width: 100%;
     box-sizing: border-box;
 }
-
 header img {
     height: 40px;
 }
-
 .header-center {
     display: flex;
-    flex: 1;
     justify-content: center;
     gap: 20px;
 }
-
 .header-center a {
     text-decoration: none;
-    color: #333;
+    color: black;
     font-size: 14px;
     font-weight: bold;
 }
-
 .header-right {
     display: flex;
     align-items: center;
     gap: 15px;
 }
-
 .header-right img {
     height: 24px;
     cursor: pointer;
 }
-
 .header-right .profile-icon {
     width: 32px;
     height: 32px;
@@ -99,86 +96,102 @@ header img {
 
 /* Main Layout */
 .main-container {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 50% 25% 25%;
+    gap: 20px;
     padding: 20px;
-    flex: 1;
-    margin-right: 25%; /* Reserve space for chat window */
+    background-color: white;
 }
 
-.configurator-section {
-    flex: 3;
-    background-color: #f2f2f2;
+/* Sections */
+.middle-section,
+.right-section {
+    background: #f7f7f7;
     padding: 20px;
     border-radius: 10px;
 }
+.right-section {
+    text-align: center;
+}
+.left-section {
+    background: #f7f7f7;
+}
+    
 
-.configurator-image {
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Carousel */
+.carousel {
     position: relative;
+    margin-bottom: 300px;
 }
-
-.configurator-image img {
-    width: auto;
-    height: 100%;
-    max-width: 100%;
+.carousel img {
+    width: 100%;
 }
-
-.image-nav button {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+    
+}
+.nav-arrow {
+    pointer-events: all;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    font-size: 18px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-arrow:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* Options Section */
 .options-section {
-    flex: 1.5;
-    padding-left: 20px;
+    padding: 0; /* Remove padding for the whole section */
+    background-color: transparent; /* Ensure the entire section background is clear */
     display: flex;
     flex-direction: column;
+    gap: 20px;
 }
-
 .option-group {
-    margin-bottom: 20px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px; /* Space between groups */
+    padding: 0; /* Remove inner padding */
+    background-color: transparent; /* Remove background color */
+    border: none; /* Remove border */
+    box-shadow: none; /* Remove shadow */
 }
-
 .option-group h2 {
-    margin: 0 0 15px 0;
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    margin-bottom: 15px;
+    color: #333; /* Retain clear and readable headings */
 }
 
 /* Option Box */
 .option {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    border: 1px solid #ccc; /* Retain border for individual options */
     border-radius: 8px;
-    transition: all 0.3s ease;
-    background-color: #fff;
+    background-color: #fff; /* Background for individual options */
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .option:hover {
     border-color: #0057a3;
-    box-shadow: 0 0 8px rgba(0, 87, 163, 0.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .option.active {
@@ -187,70 +200,108 @@ header img {
     box-shadow: 0 0 8px rgba(0, 87, 163, 0.5);
 }
 
-/* Option Header (Name and Price Inline) */
+/* Option Header */
 .option-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
     margin-bottom: 10px;
-    color: #333;
 }
 
+/* Option Details */
 .option-details {
     font-size: 14px;
     color: #666;
-    margin-top: 5px;
     line-height: 1.5;
+    margin-top: 10px;
     display: none; /* Hidden by default */
 }
 
 .option.active .option-details {
-    display: block; /* Shown only for active option */
+    display: block;
 }
 
-/* Links: View All Features and Compare */
+/* Learn More Links */
 .learn-more {
-    display: none; /* Hidden by default */
-    color: #0057a3;
-    text-decoration: none;
+    display: none;
     font-size: 14px;
-    margin-top: 10px;
+    text-decoration: none;
+    color: #0057a3;
 }
-
 .option.active .learn-more {
-    display: inline-block; /* Shown only for active option */
+    display: inline-block;
 }
-
 .learn-more:hover {
     text-decoration: underline;
 }
 
-.compare-link {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #0057a3;
-    text-decoration: none;
+/* Color Options */
+.color-options {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
 }
-
-.compare-link:hover {
-    text-decoration: underline;
-}
-
-/* Chatbot Trigger */
-#chatbot-trigger {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    background-color: #0057a3;
-    color: white;
-    font-size: 24px;
-    text-align: center;
-    line-height: 60px;
+.color-option {
+    width: 50px;
+    height: 35px;
     border-radius: 50%;
+    border: 2px solid transparent;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+.color-option:hover {
+    border-color: #0057a3;
+}
+.color-option.active {
+    border-color: #0057a3;
+}
+
+/* Color Details */
+.color-details {
+    text-align: center;
+    margin-top: 15px;
+}
+.color-details h3 {
+    font-size: 16px;
+    font-weight: bold;
+}
+.color-details p {
+    font-size: 14px;
+    color: #666;
+}
+
+.wheel-icon {
+    width: 80px; /* Set a fixed width */
+    height: 80px; /* Set a fixed height to make it a square */
+    border-radius: 50%; /* Make it a circle */
+    object-fit: cover; /* Ensure the image fits nicely within the circle */
+    border: 2px solid #ccc; /* Optional: Add a border for styling */
+    display: block; /* Ensure proper rendering as a block-level element */
+    margin: 0 auto; /* Center the wheel icon within its container */
+    transition: all 0.3s ease; /* Add a transition for hover effects */
+}
+
+.wheel-icon:hover {
+    border-color: #0057a3; /* Highlight the border on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a slight shadow for hover effect */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .option {
+        margin-bottom: 10px;
+    }
+    .option-header {
+        font-size: 14px;
+    }
+    .option-details {
+        font-size: 12px;
+    }
+    .color-option {
+        width: 30px;
+        height: 30px;
+    }
 }
