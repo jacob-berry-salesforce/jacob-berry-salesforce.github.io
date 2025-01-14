@@ -404,12 +404,15 @@ header img {
 }
 
 .embeddedMessagingFrame {
-    position: fixed;       /* Fix the position to the right side of the screen */
+    position: fixed;       /* Fix the position so it stays in place */
     top: 0;                /* Align to the top of the viewport */
     right: 0;              /* Align to the right side of the viewport */
-    height: 100% !important; /* Full height from top to bottom */
-    width: 25% !important;  /* 25% of the screen width */
+    height: calc(100vh - 20px) !important; /* Full height minus a small gap */
+    width: calc(33.33% - 10px) !important;  /* Right third of the screen with a small gap */
     z-index: 9999;         /* Ensure it's above other content */
     margin: 0;             /* Remove margin */
     padding: 0;            /* Remove padding */
+    background-color: #f9f9f9; /* Optional: Set background color */
+    box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2); /* Optional: Add shadow on the left edge */
 }
+
