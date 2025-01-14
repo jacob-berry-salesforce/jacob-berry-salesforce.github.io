@@ -250,16 +250,10 @@
                 // Set language (optional, can be adjusted)
                 embeddedservice_bootstrap.settings.language = 'en_US';
     
-                // Set the chat window size and font size
-                embeddedservice_bootstrap.settings.widgetWidth = "100%";   // Full width of the container (33.33% width will be controlled by CSS)
-                embeddedservice_bootstrap.settings.widgetHeight = "100%";  // Full height of the container
-                embeddedservice_bootstrap.settings.widgetFontSize = "14px"; // Font size for the chat window
-    
-                // Set custom images for the chat window (optional, replace with actual image URLs)
-                embeddedservice_bootstrap.settings.prechatBackgroundImgURL = "https://yourdomain.com/path/to/background-image.jpg";  // Pre-chat background
-                embeddedservice_bootstrap.settings.smallCompanyLogoImgURL = "https://yourdomain.com/path/to/logo.png";  // Company logo
-                embeddedservice_bootstrap.settings.waitingStateBackgroundImgURL = "https://yourdomain.com/path/to/waiting-state-image.jpg"; // Waiting state image
-                embeddedservice_bootstrap.settings.avatarImgURL = "https://yourdomain.com/path/to/avatar-image.png"; // Agent's avatar image
+                // Set the width, height, and base font size for the chat window
+                embeddedservice_bootstrap.settings.widgetWidth = "33.33%";  // Occupy one-third of the screen width
+                embeddedservice_bootstrap.settings.widgetHeight = "100vh";  // Full height, from top to bottom
+                embeddedservice_bootstrap.settings.widgetFontSize = "14px"; // Font size for chat window
     
                 // Customize the text that appears in different chat states
                 embeddedservice_bootstrap.settings.defaultMinimizedText = "Need help?";  // Minimized button text
@@ -288,7 +282,8 @@
             script.onload = initEmbeddedMessaging;
             document.head.appendChild(script);
         };
-    </script>              
+    </script>
+                 
     <script>
 // =======================
 // Carousel Functionality
