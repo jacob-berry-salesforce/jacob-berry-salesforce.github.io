@@ -405,7 +405,7 @@ header img {
 
 .embeddedMessagingFrame {
     position: fixed !important;       /* Fix the position to the right side of the screen */
-    top: 0 !important;                /* Align to the top of the viewport */
+    bottom: 0 !important;                /* Align to the top of the viewport */
     right: 0 !important;              /* Align to the right side of the viewport */
     height: calc(100vh - 20px) !important; /* Full height minus a small gap */
     width: calc(33.33% - 10px) !important;  /* Right third of the screen with a small gap */
