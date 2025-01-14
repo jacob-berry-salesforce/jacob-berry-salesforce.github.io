@@ -405,10 +405,10 @@ header img {
 
 .embeddedMessagingFrame {
     position: fixed !important;          /* Fix the position to the right side of the screen */
-    top: 80px !important;                /* Move the chat window down, below the header */
+    bottom: 0px !important;                /* Move the chat window down, below the header */
     right: 0 !important;                 /* Align to the right side of the viewport */
     height: calc(100vh - 80px) !important; /* Full height minus space for the header */
-    width: calc(20% - 10px) !important;  /* Narrower width (20% of the screen with a small gap) */
+    width: calc(25% - 10px) !important;  /* Narrower width (20% of the screen with a small gap) */
     z-index: 9999 !important;            /* Ensure it's above other content */
     margin: 0 !important;                /* Remove margin */
     padding: 0 !important;               /* Remove padding */
