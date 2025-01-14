@@ -407,13 +407,12 @@ header img {
 
 #chat-container {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 400px;
-    height: 500px;
+    right: 0px;
+    bottom: 0px;
+    width: 28%;
+    height: 92.3%;
     z-index: 9999;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    background-color: #333;
 }
 
 #chat-container iframe {
