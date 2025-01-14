@@ -402,3 +402,8 @@ header img {
         height: 30px;
     }
 }
+
+.embeddedMessagingFrame {
+    height: 100% !important;
+    width: 100% !important;
+}
