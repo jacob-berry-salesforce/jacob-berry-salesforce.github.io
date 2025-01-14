@@ -242,24 +242,39 @@
             </div>
         </div>
     </main>
-    <script type='text/javascript'>
+    <script type="text/javascript">
         function initEmbeddedMessaging() {
             try {
-                embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+                embeddedservice_bootstrap.settings.language = 'en_US'; // Set the language
     
+                // Initialize the embedded chat window
                 embeddedservice_bootstrap.init(
-                    '00DHu00000GKyNZ',
-                    'Volta',
-                    'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941',
+                    '00DHu00000GKyNZ',  // Replace with your Salesforce instance ID
+                    'Volta',             // Bot site name
+                    'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941',  // Your Salesforce site URL
                     {
-                        scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com'
+                        scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com',  // Secure URL for encrypted communications
+                        position: 'bottom-right',  // Set position: bottom-right
+                        size: 'large',  // Set size: large
+                        theme: {
+                            backgroundColor: '#f1f1f1',  // Set background color
+                            textColor: '#333'  // Set text color
+                        }
                     }
                 );
             } catch (err) {
-                console.error('Error loading Embedded Messaging: ', err);
+                console.error('Error initializing Embedded Messaging:', err);
             }
+        }
+    
+        // Dynamically load the Embedded Messaging script
+        window.onload = function() {
+            const script = document.createElement('script');
+            script.src = 'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941/assets/js/bootstrap.min.js';
+            script.onload = initEmbeddedMessaging;
+            document.head.appendChild(script);
         };
-    </script>
+    </script>    
     <script type='text/javascript' src='https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>        
     
     <script>
