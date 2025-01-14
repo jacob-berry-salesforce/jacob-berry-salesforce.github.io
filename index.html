@@ -241,15 +241,31 @@
                 <p>Explore a catalogue of add-ons in different categories to enhance your experience.</p>
             </div>
         </div>
+        <!-- Chat container (optional, for custom styling) -->
+        <div id="chat-container"></div>
     </main>
     <script type="text/javascript">
         function initEmbeddedMessaging() {
             try {
-                embeddedservice_bootstrap.settings.language = 'en_US'; // Set the language
+                // Set language (optional, can be adjusted)
+                embeddedservice_bootstrap.settings.language = 'en_US';
+    
                 // Set the chat window size and font size
-                embeddedservice_bootstrap.settings.widgetWidth = "4000px";
-                embeddedservice_bootstrap.settings.widgetHeight = "5000px";
-                embeddedservice_bootstrap.settings.widgetFontSize = "14px";
+                embeddedservice_bootstrap.settings.widgetWidth = "100%";   // Full width of the container (33.33% width will be controlled by CSS)
+                embeddedservice_bootstrap.settings.widgetHeight = "100%";  // Full height of the container
+                embeddedservice_bootstrap.settings.widgetFontSize = "14px"; // Font size for the chat window
+    
+                // Set custom images for the chat window (optional, replace with actual image URLs)
+                embeddedservice_bootstrap.settings.prechatBackgroundImgURL = "https://yourdomain.com/path/to/background-image.jpg";  // Pre-chat background
+                embeddedservice_bootstrap.settings.smallCompanyLogoImgURL = "https://yourdomain.com/path/to/logo.png";  // Company logo
+                embeddedservice_bootstrap.settings.waitingStateBackgroundImgURL = "https://yourdomain.com/path/to/waiting-state-image.jpg"; // Waiting state image
+                embeddedservice_bootstrap.settings.avatarImgURL = "https://yourdomain.com/path/to/avatar-image.png"; // Agent's avatar image
+    
+                // Customize the text that appears in different chat states
+                embeddedservice_bootstrap.settings.defaultMinimizedText = "Need help?";  // Minimized button text
+                embeddedservice_bootstrap.settings.disabledMinimizedText = "Chat is unavailable";  // When chat is disabled
+                embeddedservice_bootstrap.settings.offlineSupportMinimizedText = "Offline, leave a message";  // When offline
+                embeddedservice_bootstrap.settings.loadingText = "Connecting...";  // When loading the chat
     
                 // Initialize the embedded chat window
                 embeddedservice_bootstrap.init(
@@ -258,11 +274,6 @@
                     'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941',  // Your Salesforce site URL
                     {
                         scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com',  // Secure URL for encrypted communications
-                        position: 'bottom-right',  // Set position: bottom-right
-                        theme: {
-                            backgroundColor: '#f1f1f1',  // Set background color
-                            textColor: '#333'  // Set text color
-                        }
                     }
                 );
             } catch (err) {
@@ -277,9 +288,7 @@
             script.onload = initEmbeddedMessaging;
             document.head.appendChild(script);
         };
-    </script>    
-    <script type='text/javascript' src='https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>        
-    
+    </script>              
     <script>
 // =======================
 // Carousel Functionality
