@@ -403,8 +403,8 @@ header img {
     }
 }
 
-.embeddedMessagingFrame {          /* Align to the right side of the viewport */
-    width: 33.33% !important;  /* Occupy the right third of the screen */
+.embeddedMessagingFrame {
+    width: 300px !important;  /* Occupy the right third of the screen */
     height: 500px !important;  /* Full height, from top to bottom */
     z-index: 9999;         /* Ensure it's on top of other elements */
     padding: 0;            /* Remove padding */
