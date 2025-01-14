@@ -248,6 +248,10 @@
         function initEmbeddedMessaging() {
             try {
                 embeddedservice_bootstrap.settings.language = 'en_US'; // Set the language
+                // Set the chat window size and font size
+                embeddedservice_bootstrap.settings.widgetWidth = "4000px";
+                embeddedservice_bootstrap.settings.widgetHeight = "5000px";
+                embeddedservice_bootstrap.settings.widgetFontSize = "14px";
     
                 // Initialize the embedded chat window
                 embeddedservice_bootstrap.init(
