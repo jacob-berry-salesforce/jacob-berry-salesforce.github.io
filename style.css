@@ -404,14 +404,14 @@ header img {
 }
 
 .embeddedMessagingFrame {
-    position: fixed !important;       /* Fix the position to the right side of the screen */
-    bottom: 0 !important;                /* Align to the top of the viewport */
-    right: 0 !important;              /* Align to the right side of the viewport */
-    height: calc(100vh - 20px) !important; /* Full height minus a small gap */
-    width: calc(33.33% - 10px) !important;  /* Right third of the screen with a small gap */
-    z-index: 9999 !important;         /* Ensure it's above other content */
-    margin: 0 !important;             /* Remove margin */
-    padding: 0 !important;            /* Remove padding */
-    background-color: #f9f9f9;        /* Optional: Set background color */
+    position: fixed !important;          /* Fix the position to the right side of the screen */
+    top: 80px !important;                /* Move the chat window down, below the header */
+    right: 0 !important;                 /* Align to the right side of the viewport */
+    height: calc(100vh - 80px) !important; /* Full height minus space for the header */
+    width: calc(20% - 10px) !important;  /* Narrower width (20% of the screen with a small gap) */
+    z-index: 9999 !important;            /* Ensure it's above other content */
+    margin: 0 !important;                /* Remove margin */
+    padding: 0 !important;               /* Remove padding */
+    background-color: #f9f9f9;           /* Optional: Set background color */
     box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2) !important; /* Optional: Add shadow */
 }
