@@ -42,7 +42,7 @@ function updateImage(carouselId, images) {
     imgElement.src = images[carouselIndexes[carouselId]];
 }
 
-// Navigate to the previous image in the carousel
+// Navigate carousel images
 function prevImage(carouselId, carouselNumber) {
     const images = carouselImages[`carousel${carouselNumber}`];
     carouselIndexes[carouselId] =
@@ -50,7 +50,6 @@ function prevImage(carouselId, carouselNumber) {
     updateImage(carouselId, images);
 }
 
-// Navigate to the next image in the carousel
 function nextImage(carouselId, carouselNumber) {
     const images = carouselImages[`carousel${carouselNumber}`];
     carouselIndexes[carouselId] =
@@ -62,16 +61,14 @@ function nextImage(carouselId, carouselNumber) {
 // Option Selection Handlers
 // ========================
 
-// Select an option (e.g., trim level, theme) and set it as active
 function selectOption(element, groupName) {
-    const group = document.querySelector(`.option-group:has([onclick="selectOption(this, '${groupName}')"])`);
+    const group = document.querySelector(`.option-group[data-group="${groupName}"]`);
     if (group) {
         group.querySelectorAll('.option').forEach(option => option.classList.remove('active'));
         element.classList.add('active');
     }
 }
 
-// Toggle visibility of option details
 function toggleDetails(element) {
     if (element.classList.contains('active')) {
         element.classList.remove('active');
@@ -82,24 +79,14 @@ function toggleDetails(element) {
     }
 }
 
-// ===================
-// Color Selection
-// ===================
-
-function selectColor(element, colorName, colorPrice, colorDescription) {
+function selectColor(element, colorName) {
     document.querySelectorAll('.color-option').forEach(option => option.classList.remove('active'));
     element.classList.add('active');
     const colorDetails = document.querySelector('.color-details');
     if (colorDetails) {
         colorDetails.querySelector('h3').innerText = colorName;
-        colorDetails.querySelector('.color-price').innerText = colorPrice;
-        colorDetails.querySelector('.color-description').innerText = colorDescription;
     }
 }
-
-// ===================
-// Wheel Selection
-// ===================
 
 function selectWheel(element) {
     document.querySelectorAll('.wheel-option').forEach(option => option.classList.remove('active'));
@@ -108,8 +95,6 @@ function selectWheel(element) {
     const wheelDetails = document.querySelector('.wheel-details');
     if (wheelDetails) {
         wheelDetails.querySelector('h3').innerText = selectedWheel;
-        wheelDetails.querySelector('p').innerText =
-            selectedWheel === "21″ 5-multi spoke black diamond cut" ? "Standard" : "£795";
     }
 }
 
@@ -117,93 +102,84 @@ function selectWheel(element) {
 // Apply Configuration from JSON
 // ===================
 
-function applyConfigFromJSON(json) {
-    try {
-        const config = typeof json === "string" ? JSON.parse(json) : json;
+function applyConfigFromJSON(config) {
+    console.log('Applying Config:', config);
 
-        // Update Level (Trim)
-        if (config.level) {
-            const levelElement = document.querySelector(`.option-group:nth-child(1) .option:has(.option-name:contains('${config.level}'))`);
-            if (levelElement) selectOption(levelElement, 'level');
+    // Update Level
+    document.querySelectorAll('.option-group[data-group="level"] .option').forEach(option => {
+        if (option.querySelector('.option-name').innerText === config.level) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
         }
+    });
 
-        // Update Theme
-        if (config.theme) {
-            const themeElement = document.querySelector(`.option-group:nth-child(2) .option:has(.option-name:contains('${config.theme}'))`);
-            if (themeElement) toggleDetails(themeElement);
+    // Update Theme
+    document.querySelectorAll('.option-group[data-group="theme"] .option').forEach(option => {
+        if (option.querySelector('.option-name').innerText === config.theme) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
         }
+    });
 
-        // Update Color
-        if (config.color) {
-            const colorElement = document.querySelector(`.color-option[title="${config.color}"]`);
-            if (colorElement) {
-                selectColor(colorElement, config.color, "Standard", "Color updated.");
-            }
+    // Update Color
+    document.querySelectorAll('.color-option').forEach(option => {
+        if (option.getAttribute('title') === config.color) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
         }
+    });
 
-        // Update Wheels
-        if (config.wheels) {
-            const wheelsElement = document.querySelector(`.wheel-option[data-wheel="${config.wheels}"]`);
-            if (wheelsElement) selectWheel(wheelsElement);
+    // Update Wheels
+    document.querySelectorAll('.wheel-option').forEach(option => {
+        if (option.getAttribute('data-wheel') === config.wheels) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
         }
+    });
 
-        // Update Interior
-        if (config.interior) {
-            const interiorElement = document.querySelector(`.option-group:nth-child(6) .option:has(.option-name:contains('${config.interior}'))`);
-            if (interiorElement) toggleDetails(interiorElement);
+    // Update Interior
+    document.querySelectorAll('.option-group[data-group="interior"] .option').forEach(option => {
+        if (option.querySelector('.option-name').innerText === config.interior) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
         }
+    });
 
-        // Update Optional Equipment
-        if (config.optionalEquipment) {
-            document.querySelectorAll('.equipment-checkbox').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            config.optionalEquipment.forEach(equipment => {
-                const checkbox = document.querySelector(`.equipment-checkbox[value="${equipment}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-
-        console.log("Configuration applied successfully!", config);
-    } catch (error) {
-        console.error("Error parsing JSON or applying config:", error);
-        alert("Invalid JSON format. Please check your input.");
-    }
+    // Update Optional Equipment
+    document.querySelectorAll('.option-group[data-group="optional-equipment"] input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = config.optionalEquipment.includes(checkbox.value);
+    });
 }
 
-// Enable Pusher logging for debugging
+// ===================
+// Pusher Setup
+// ===================
+
 Pusher.logToConsole = true;
 
-// Initialize Pusher
 const pusher = new Pusher('4e6d9761c08398dd9b26', {
     cluster: 'eu',
-    forceTLS: true, // Ensure secure connection
+    forceTLS: true,
 });
 
-// Subscribe to the channel
+// Subscribe to channel
 const channel = pusher.subscribe('config-channel');
 
-// Listen for the 'update-config' event
+// Listen for updates
 channel.bind('update-config', function (data) {
-    console.log('Received Config:', data); // Log the received config
-    applyConfigFromJSON(data); // Update the UI (ensure this function exists)
+    console.log('Received Config:', data);
+    applyConfigFromJSON(data);
 });
 
-// Handle connection issues
-pusher.connection.bind('error', function (err) {
-    console.error('Pusher connection error:', err);
-});
+// ===================
+// Fetch and Send Configurations
+// ===================
 
-pusher.connection.bind('connected', function () {
-    console.log('Pusher connected successfully.');
-});
-
-pusher.connection.bind('disconnected', function () {
-    console.warn('Pusher disconnected.');
-});
-
-
-// Send configuration to the API
 function sendConfigToAPI(config) {
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
         method: 'POST',
@@ -212,24 +188,26 @@ function sendConfigToAPI(config) {
         },
         body: JSON.stringify(config),
     })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log('Configuration sent successfully:', data);
-        })
-        .catch((error) => {
-            console.error('Error sending configuration:', error);
-        });
+        .then(response => response.json())
+        .then(data => console.log('Configuration sent:', data))
+        .catch(error => console.error('Error sending configuration:', error));
 }
 
-// Fetch default configuration from the API
 function fetchDefaultConfig() {
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api')
-        .then((response) => response.json())
-        .then((data) => {
-            console.log('Default configuration fetched:', data);
-            applyConfigFromJSON(data.data); // Apply the configuration to your UI
+        .then(response => response.json())
+        .then(data => {
+            console.log('Default Config:', data);
+            applyConfigFromJSON(data.data);
         })
-        .catch((error) => {
-            console.error('Error fetching configuration:', error);
-        });
+        .catch(error => console.error('Error fetching default configuration:', error));
 }
+
+// ===================
+// Initialize UI with Default Config
+// ===================
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Fetching default configuration...');
+    fetchDefaultConfig();
+});
