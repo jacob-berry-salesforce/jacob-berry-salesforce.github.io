@@ -1,13 +1,15 @@
+require('dotenv').config();
+
 const Pusher = require('pusher');
 
-// Initialize Pusher
 const pusher = new Pusher({
-    appId: '1926156', // Your Pusher App ID
-    key: '4e6d9761c08398dd9b26', // Your Pusher Key
-    secret: 'bf0060b24b718c39e42f', // Your Pusher Secret
-    cluster: 'eu', // Your Pusher Cluster
-    useTLS: true, // Ensure secure communication
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    cluster: process.env.PUSHER_CLUSTER,
+    useTLS: true,
 });
+
 
 exports.handler = async (event, context) => {
     if (event.httpMethod === 'POST') {
