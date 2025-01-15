@@ -170,3 +170,50 @@ function applyConfigFromJSON(json) {
         alert("Invalid JSON format. Please check your input.");
     }
 }
+
+// Initialize Pusher
+const pusher = new Pusher('4e6d9761c08398dd9b26', {
+    cluster: 'eu',
+});
+
+// Subscribe to the channel
+const channel = pusher.subscribe('config-channel');
+
+// Listen for the 'update-config' event
+channel.bind('update-config', function (config) {
+    console.log('Received Config:', config);
+
+    // Apply the configuration to the frontend
+    applyConfigFromJSON(config); // Update the UI with the new configuration
+});
+
+// Send configuration to the API
+function sendConfigToAPI(config) {
+    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(config),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Configuration sent successfully:', data);
+        })
+        .catch((error) => {
+            console.error('Error sending configuration:', error);
+        });
+}
+
+// Fetch default configuration from the API
+function fetchDefaultConfig() {
+    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api')
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Default configuration fetched:', data);
+            applyConfigFromJSON(data.data); // Apply the configuration to your UI
+        })
+        .catch((error) => {
+            console.error('Error fetching configuration:', error);
+        });
+}

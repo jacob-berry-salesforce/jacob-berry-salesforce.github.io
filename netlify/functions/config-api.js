@@ -1,23 +1,40 @@
+const Pusher = require('pusher');
+
+// Initialize Pusher
+const pusher = new Pusher({
+    appId: '1926156', // Your Pusher App ID
+    key: '4e6d9761c08398dd9b26', // Your Pusher Key
+    secret: 'bf0060b24b718c39e42f', // Your Pusher Secret
+    cluster: 'eu', // Your Pusher Cluster
+    useTLS: true, // Ensure secure communication
+});
+
 exports.handler = async (event, context) => {
     if (event.httpMethod === 'POST') {
-        // Parse the JSON data from the request body
         try {
+            // Parse the incoming JSON payload
             const config = JSON.parse(event.body);
-            console.log('Received Config:', config); // Log the received configuration
+            console.log('Received Config:', config);
 
+            // Trigger a Pusher event to send the config to the frontend
+            await pusher.trigger('config-channel', 'update-config', config);
+
+            // Respond with success
             return {
                 statusCode: 200,
                 body: JSON.stringify({
-                    message: 'Configuration received successfully',
-                    data: config, // Echo back the received config
+                    message: 'Configuration sent to frontend successfully',
+                    data: config,
                 }),
             };
         } catch (error) {
-            console.error('Error parsing JSON:', error);
+            console.error('Error processing the request:', error);
+
+            // Respond with an error
             return {
-                statusCode: 400,
+                statusCode: 500,
                 body: JSON.stringify({
-                    message: 'Invalid JSON format',
+                    message: 'Failed to process the configuration',
                     error: error.message,
                 }),
             };
@@ -25,7 +42,7 @@ exports.handler = async (event, context) => {
     }
 
     if (event.httpMethod === 'GET') {
-        // Respond with the default configuration
+        // Return a default configuration for testing
         return {
             statusCode: 200,
             body: JSON.stringify({
@@ -42,11 +59,9 @@ exports.handler = async (event, context) => {
         };
     }
 
-    // Handle unsupported HTTP methods
+    // Respond with 405 Method Not Allowed for unsupported methods
     return {
         statusCode: 405,
-        body: JSON.stringify({
-            message: 'Method not allowed',
-        }),
+        body: JSON.stringify({ message: 'Method not allowed' }),
     };
 };
