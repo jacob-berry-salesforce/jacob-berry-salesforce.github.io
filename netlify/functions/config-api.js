@@ -55,14 +55,18 @@ exports.handler = async (event, context) => {
             const config = JSON.parse(event.body);
             console.log('Received Config from POST:', config);
 
-            if (!config.level || !config.theme || !config.color || !config.wheels || !config.interior) {
+            // Validate required fields
+            const requiredFields = ['level', 'powertrain', 'theme', 'color', 'wheels', 'interior'];
+            const missingFields = requiredFields.filter(field => !config[field]);
+            if (missingFields.length > 0) {
                 console.error('Invalid configuration payload:', config);
                 return response(400, {
                     message: 'Invalid payload: Missing required fields',
-                    requiredFields: ['level', 'theme', 'color', 'wheels', 'interior'],
+                    missingFields,
                 });
             }
 
+            // Trigger Pusher event
             await pusher.trigger('config-channel', 'update-config', config);
             console.log('Pusher event triggered successfully:', config);
 
@@ -86,10 +90,11 @@ exports.handler = async (event, context) => {
                 message: 'Default configuration',
                 data: {
                     level: 'Core',
-                    color: 'Vapour Grey',
+                    powertrain: 'T8 AWD Plug-in Hybrid',
                     theme: 'Bright',
-                    wheels: '21″ 5-multi spoke black diamond cut',
-                    interior: 'Charcoal Ventilated nappa leather in Charcoal interior',
+                    color: 'Vapour Grey',
+                    wheels: '20″ 5-Multi Spoke Black Diamond Cut',
+                    interior: 'Charcoal Quilted Nordico in Charcoal interior',
                     optionalEquipment: [],
                 },
             });

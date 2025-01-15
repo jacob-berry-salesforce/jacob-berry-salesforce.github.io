@@ -287,95 +287,162 @@ header img {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 
-        0 0 0 4px #fff,
-        0 0 0 6px #ccc;
+        0 0 0 4px #fff, /* First outline */
+        0 0 0 6px #ccc; /* Second outline (grey outer circle) */
 }
 
-.color-option:hover {
-    border-color: #0057a3;
-    box-shadow: 
-        0 0 0 4px #fff,
-        0 0 0 6px #999;
+.color-option::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the outer circle */
+    width: 60px; /* Outer ring size */
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #ccc; /* Grey outer circle */
+    transition: all 0.3s ease;
+}
+
+.color-option:hover::before {
+    border-color: #999; /* Subtle highlight on hover */
+}
+
+.color-option.active::before {
+    border-color: #0057a3; /* Blue for the outer circle when active */
+    box-shadow: 0 0 4px rgba(0, 87, 163, 0.5); /* Glow effect */
 }
 
 .color-option.active {
-    border-color: #0057a3;
     box-shadow: 
-        0 0 0 4px #fff,
-        0 0 0 6px #0057a3;
+        inset 0 0 0 2px rgba(0, 0, 0, 0.1); /* Keep inner circle original outline */
+}
+
+/* Dynamically adjust the inner circle color for contrast */
+.color-option[style*="background-color: #ffffff;"] {
+    background-color: #f0f0f0; /* Slightly darker for white */
+}
+
+.color-option[style*="background-color: #000000;"] {
+    background-color: #1a1a1a; /* Slightly lighter for black */
+}
+
+.color-option[style*="background-color: #4a6785;"] {
+    background-color: #5b7897; /* Slightly lighter for Denim Blue */
+}
+
+.color-option[style*="background-color: #c3c3c3;"] {
+    background-color: #d2d2d2; /* Slightly lighter for Silver Dawn */
+}
+
+.color-option[style*="background-color: #d9b8a0;"] {
+    background-color: #eac7b3; /* Slightly lighter for Bright Dusk */
+}
+
+.color-option[style*="background-color: #5b2a2f;"] {
+    background-color: #6a3a3f; /* Slightly lighter for Mulberry Red */
+}
+
+.color-option[style*="background-color: #7a7a7a;"] {
+    background-color: #8a8a8a; /* Slightly lighter for Vapour Grey */
 }
 
 /* Color Details */
 .color-details {
-    text-align: left; /* Align text to the left */
-    margin-top: 10px;
-    padding: 10px 0;
+    margin-top: 20px;
+    text-align: left;
 }
 
 .color-details h3 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .color-details .color-price {
     font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-weight: normal;
+    color: #888;
+    margin-bottom: 5px;
 }
 
-.color-details p {
+.color-details .color-description {
     font-size: 14px;
     color: #666;
-    margin: 5px 0;
 }
 
 
 /* Wheel Options */
 .wheel-options {
     display: flex;
-    flex-wrap: nowrap;
-    gap: 15px;
+    flex-wrap: wrap; /* Allow multiple rows if needed */
+    gap: 30px; /* Increase gap between wheel options */
     align-items: center;
+    justify-content: flex-start; /* Align options to the left */
     margin-bottom: 20px;
+    padding: 0;
 }
 
 .wheel-option {
-    width: 100px;
-    height: 100px;
+    width: 80px; /* Inner wheel size */
+    height: 80px;
+    position: relative;
     border-radius: 50%;
-    border: 2px solid transparent;
     cursor: pointer;
-    background-color: #fff;
-    object-fit: cover;
+    overflow: hidden; /* Ensure image stays inside the circle */
+    box-sizing: border-box; /* Prevent layout shifting */
     transition: all 0.3s ease;
 }
 
 .wheel-option img {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
-.wheel-option:hover {
-    border-color: #0057a3;
+/* Outer Circle */
+.wheel-option::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px; /* Outer ring size */
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #ccc; /* Default grey outer circle */
+    pointer-events: none; /* Ensure clicks register on the wheel */
+    box-sizing: border-box; /* Prevent layout changes when adding borders */
+    transition: all 0.3s ease;
 }
 
-.wheel-option.active {
-    border-color: #0057a3;
-    box-shadow: 0 2px 6px rgba(0, 87, 163, 0.3);
+.wheel-option:hover::before {
+    border-color: #999; /* Highlight on hover */
 }
 
+.wheel-option.active::before {
+    border-color: #0057a3; /* Blue border when selected */
+    box-shadow: 0 0 8px rgba(0, 87, 163, 0.5); /* Add glow effect */
+}
+
+.wheel-option.active img {
+    box-shadow: 0 0 0 2px transparent; /* Avoid layout shift on selection */
+}
+
+/* Wheel Details */
 .wheel-details {
+    margin-top: 20px;
     text-align: left;
-    margin-top: 15px;
 }
 
 .wheel-details h3 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .wheel-details p {
@@ -383,8 +450,258 @@ header img {
     color: #666;
 }
 
+/* Interior Options */
+.interior-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.interior-row {
+    display: flex;
+    flex-direction: column; /* Stack label above the options */
+    align-items: flex-start; /* Align label and options to the left */
+    gap: 10px; /* Add spacing between the label and the options */
+}
+
+.row-label {
+    font-size: 12px;
+    font-weight: normal;
+    color: #666;
+    margin: 0; /* Remove any unnecessary margins */
+    white-space: nowrap; /* Prevent the label from breaking into multiple lines */
+}
+
+.interior-options-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.interior-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        inset 0 0 0 2px rgba(0, 0, 0, 0.1), 
+        0 0 0 6px #ccc; /* Outer circle effect */
+}
+
+.interior-option:hover {
+    box-shadow: 
+        inset 0 0 0 2px rgba(0, 0, 0, 0.3), 
+        0 0 0 6px #999; /* Subtle hover effect */
+}
+
+.interior-option.active {
+    box-shadow: 
+        inset 0 0 0 2px rgba(0, 87, 163, 0.5), 
+        0 0 0 6px #0057a3; /* Active state */
+}
+
+/* Interior Details */
+.interior-details {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.interior-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.interior-details .interior-price {
+    font-size: 14px;
+    font-weight: normal;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.interior-details .interior-description {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Optional Equipment Section */
+.optional-category,
+.equipment-category {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.optional-equipment-section {
+    margin-top: 40px; /* Space between main content and this section */
+    padding: 20px;
+    background-color: white;
+    border-top: 1px solid #ddd;
+}
+
+.optional-equipment-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: left; /* Align heading to the left */
+}
+
+.collapsible {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    padding: 10px 0;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collapsible:hover {
+    color: #0057a3;
+}
+
+.collapsible:after {
+    content: "\25bc"; /* Down arrow */
+    font-size: 12px;
+    color: #666;
+    margin-left: 10px;
+    transform: rotate(0);
+    transition: transform 0.3s ease;
+}
+
+.collapsible.active:after {
+    transform: rotate(180deg); /* Rotate arrow */
+}
+
+.optional-equipment,
+.equipment-options {
+    display: none;
+    padding: 10px 0;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 200px)); /* Ensure narrow and consistent sizing */
+    gap: 20px;
+}
+
+.optional-equipment.active,
+.equipment-options.active {
+    display: grid;
+}
+
+/* Equipment Option Box */
+.equipment-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 100%; /* Full width within the grid space */
+    max-width: 200px; /* Prevent options from becoming too wide */
+    min-width: 150px; /* Prevent options from becoming too narrow */
+}
+
+.equipment-option img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+.equipment-option label {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.equipment-option .equipment-name {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.equipment-option .equipment-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.equipment-option .equipment-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Add Button Styling */
+.equipment-option .add-btn {
+    background-color: white;
+    color: black;
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.equipment-option .add-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.equipment-option .add-btn.added {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+.equipment-option .add-btn.added:hover {
+    background-color: #333;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+    .optional-equipment,
+    .equipment-options {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .equipment-option {
+        max-width: 150px; /* Prevent excessively wide options on smaller screens */
+    }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .optional-equipment-section {
+        padding: 15px;
+    }
+
+    .equipment-options {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .interior-options-row {
+        flex-wrap: wrap;
+    }
+
+    .vertical-line {
+        display: none;
+    }
+
     .option {
         margin-bottom: 10px;
     }
@@ -402,6 +719,7 @@ header img {
         height: 30px;
     }
 }
+
 
 .embeddedMessagingFrame {
     position: fixed !important;          /* Fix the position to the right side of the screen */
