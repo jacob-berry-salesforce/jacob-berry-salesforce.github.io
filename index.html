@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
@@ -9,6 +10,7 @@
     <link rel="icon" type="image/x-icon" href="/Images/favicon2.png">
     <meta name="description" content="Configure your Volvo XC90 and explore various options to personalize your car.">
 </head>
+
 <body>
     <header>
         <img src="Images/VolvoLogo.png" alt="Volvo Logo">
@@ -56,10 +58,13 @@
             </div>
         </div>
         <div class="options-section">
+
             <!-- Level -->
             <div class="option-group" data-group="level">
                 <h2>Choose Your Level</h2>
-                <div class="option" data-trim="Core" onclick="selectOption(this, 'level')">
+
+                <!-- Core (Default) -->
+                <div class="option active" data-trim="Core" onclick="selectOption(this, 'level')">
                     <div class="option-header">
                         <span class="option-name">Core</span>
                         <span class="option-price">£72,650</span>
@@ -73,6 +78,8 @@
                         and more.
                     </p>
                 </div>
+
+                <!-- Plus -->
                 <div class="option" data-trim="Plus" onclick="selectOption(this, 'level')">
                     <div class="option-header">
                         <span class="option-name">Plus</span>
@@ -86,6 +93,8 @@
                         and more.
                     </p>
                 </div>
+
+                <!-- Ultra -->
                 <div class="option" data-trim="Ultra" onclick="selectOption(this, 'level')">
                     <div class="option-header">
                         <span class="option-name">Ultra</span>
@@ -100,6 +109,7 @@
                     </p>
                 </div>
             </div>
+
             <!-- Powertrain -->
             <div class="option-group" data-group="powertrain">
                 <h2>Your Powertrain</h2>
@@ -114,15 +124,18 @@
                     </p>
                 </div>
             </div>
+
             <!-- Theme -->
             <div class="option-group" data-group="theme">
                 <h2>Choose Your Theme</h2>
-                <div class="option" onclick="selectOption(this, 'theme')">
+                <!-- Bright Theme (Default) -->
+                <div class="option active" onclick="selectOption(this, 'theme')">
                     <span class="option-name">Bright</span>
                     <p class="option-details">
                         A bright, sophisticated Scandinavian exterior design expression with chrome detailing.
                     </p>
                 </div>
+                <!-- Dark Theme -->
                 <div class="option" onclick="selectOption(this, 'theme')">
                     <span class="option-name">Dark</span>
                     <p class="option-details">
@@ -130,6 +143,7 @@
                     </p>
                 </div>
             </div>
+
             <!-- Colour -->
             <div class="option-group" data-group="color">
                 <h2>Choose Your Colour</h2>
@@ -175,8 +189,8 @@
             <div class="option-group" data-group="wheels">
                 <h2>Choose Your Wheels</h2>
                 <div class="wheel-options">
-                    <div class="wheel-option" data-wheel="20″ 5-Multi Spoke Black Diamond Cut" data-price="Standard"
-                        onclick="selectWheel(this)">
+                    <div class="wheel-option active" data-wheel="20″ 5-Multi Spoke Black Diamond Cut"
+                        data-price="Standard" onclick="selectWheel(this)">
                         <img src="Images/Wheel20.jpeg" alt="20″ 5-Multi Spoke Black Diamond Cut">
                     </div>
                     <div class="wheel-option" data-wheel="21″ 5-Multi Spoke Black Diamond Cut" data-price="£795"
@@ -199,8 +213,8 @@
                 <div class="interior-row">
                     <div class="row-label">Nordico</div>
                     <div class="interior-options-group">
-                        <div class="interior-option" data-interior="Charcoal Quilted Nordico in Charcoal Interior"
-                            data-price="Standard"
+                        <div class="interior-option active"
+                            data-interior="Charcoal Quilted Nordico in Charcoal Interior" data-price="Standard"
                             data-description="Sustainable Nordico material with a quilted pattern for a sleek and durable look."
                             style="background-color: #2E2E2E;" onclick="selectInterior(this)">
                         </div>
@@ -268,7 +282,7 @@
                         <label>
                             <span class="equipment-name">Front Seat Massage</span>
                             <p class="equipment-price">Included</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <!-- Nubuck Textile Headlining -->
@@ -277,7 +291,7 @@
                         <label>
                             <span class="equipment-name">Nubuck Textile Headlining</span>
                             <p class="equipment-price">£1,495</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                 </div>
@@ -291,7 +305,7 @@
                         <label>
                             <span class="equipment-name">Panoramic Roof</span>
                             <p class="equipment-price">£1,495</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -299,7 +313,7 @@
                         <label>
                             <span class="equipment-name">Tinted Rear Windows</span>
                             <p class="equipment-price">£545</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -307,7 +321,7 @@
                         <label>
                             <span class="equipment-name">Mud Flaps (Front)</span>
                             <p class="equipment-price">£128</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -315,7 +329,7 @@
                         <label>
                             <span class="equipment-name">Mud Flaps (Rear)</span>
                             <p class="equipment-price">£128</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -323,7 +337,7 @@
                         <label>
                             <span class="equipment-name">Running Boards (Integrated)</span>
                             <p class="equipment-price">£1,418</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                 </div>
@@ -337,7 +351,7 @@
                         <label>
                             <span class="equipment-name">360° Camera</span>
                             <p class="equipment-price">£695</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                 </div>
@@ -351,7 +365,7 @@
                         <label>
                             <span class="equipment-name">Rear Door Sun Curtains</span>
                             <p class="equipment-price">£195</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -359,12 +373,12 @@
                         <label>
                             <span class="equipment-name">Heated Windscreen</span>
                             <p class="equipment-price">No additional cost</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Pack & Load -->
             <div class="equipment-category">
                 <button class="collapsible" onclick="toggleCategory(this)">Pack & Load (1)</button>
@@ -374,7 +388,7 @@
                         <label>
                             <span class="equipment-name">Towbar (Foldable)</span>
                             <p class="equipment-price">£1,400</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                 </div>
@@ -388,7 +402,7 @@
                         <label>
                             <span class="equipment-name">Dashcams (Front and Rear)</span>
                             <p class="equipment-price">£537</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -396,7 +410,7 @@
                         <label>
                             <span class="equipment-name">Extendable and Reversible Load Compartment Mat</span>
                             <p class="equipment-price">£179</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -404,7 +418,7 @@
                         <label>
                             <span class="equipment-name">Spectacle Holder</span>
                             <p class="equipment-price">£51</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -412,7 +426,7 @@
                         <label>
                             <span class="equipment-name">Protective Grille (Steel)</span>
                             <p class="equipment-price">£265</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -420,7 +434,7 @@
                         <label>
                             <span class="equipment-name">All-Weather Interior Cabin Floor Mats (Third Row)</span>
                             <p class="equipment-price">£51</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -428,7 +442,7 @@
                         <label>
                             <span class="equipment-name">All-Weather Load Compartment Mat</span>
                             <p class="equipment-price">£230</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -436,7 +450,7 @@
                         <label>
                             <span class="equipment-name">Volvo Car Protect (Leather and Leather Alternative)</span>
                             <p class="equipment-price">£455</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -444,7 +458,7 @@
                         <label>
                             <span class="equipment-name">Charging Cable Bag</span>
                             <p class="equipment-price">£41</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -452,7 +466,7 @@
                         <label>
                             <span class="equipment-name">Luggage Net</span>
                             <p class="equipment-price">£92</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -460,7 +474,7 @@
                         <label>
                             <span class="equipment-name">Bumper Cover</span>
                             <p class="equipment-price">£128</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -468,7 +482,7 @@
                         <label>
                             <span class="equipment-name">Dashcam (Front)</span>
                             <p class="equipment-price">£335</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -476,7 +490,7 @@
                         <label>
                             <span class="equipment-name">All-Weather Interior Cabin Floor Mats</span>
                             <p class="equipment-price">£128</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -484,7 +498,7 @@
                         <label>
                             <span class="equipment-name">Volvo Car Protect (Textile)</span>
                             <p class="equipment-price">£405</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -492,7 +506,7 @@
                         <label>
                             <span class="equipment-name">Black Load Carriers (Wing Profile for Rails)</span>
                             <p class="equipment-price">£275</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                     <div class="equipment-option">
@@ -500,7 +514,7 @@
                         <label>
                             <span class="equipment-name">Tracker (Vodafone Automotive VTS S5)</span>
                             <p class="equipment-price">£629</p>
-                            <button class="add-btn" onclick="toggleAdd(this)">Add</button>
+                            <button class="add-btn">Add</button>
                         </label>
                     </div>
                 </div>
@@ -542,4 +556,5 @@
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

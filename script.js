@@ -1,191 +1,187 @@
-// =======================
-// Carousel Functionality
-// =======================
-
-// Carousel Images
-const carouselImages = {
-    carousel1: [
-        "Images/XC90Ultra1-6.jpeg",
-        "Images/XC90Ultra2-6.jpeg",
-        "Images/XC90Ultra3-6.jpeg",
-        "Images/XC90Ultra4-6.jpeg",
-        "Images/XC90Ultra5-6.jpeg",
-        "Images/XC90Ultra6-6.jpeg"
-    ],
-    carousel2: [
-        "Images/XC90UltraWheel1-3.jpeg",
-        "Images/XC90UltraWheel2-3.jpeg",
-        "Images/XC90UltraWheel3-3.jpeg"
-    ],
-    carousel3: [
-        "Images/XC90UltraInterior1-8.jpeg",
-        "Images/XC90UltraInterior2-8.jpeg",
-        "Images/XC90UltraInterior3-8.jpeg",
-        "Images/XC90UltraInterior4-8.jpeg",
-        "Images/XC90UltraInterior5-8.jpeg",
-        "Images/XC90UltraInterior6-8.jpeg",
-        "Images/XC90UltraInterior7-8.jpeg",
-        "Images/XC90UltraInterior8-8.jpeg"
-    ]
+let currentConfig = {
+    level: "Core",
+    powertrain: "T8 AWD Plug-in Hybrid",
+    theme: "Bright",
+    color: "Vapour Grey",
+    wheels: "20″ 5-Multi Spoke Black Diamond Cut",
+    interior: "Charcoal Quilted Nordico in Charcoal interior",
+    optionalEquipment: [] // Initially empty
 };
 
-// Current indexes for carousels
-const carouselIndexes = {
-    carousel1: 0,
-    carousel2: 0,
-    carousel3: 0
-};
+// Set default in the UI
+document.addEventListener("DOMContentLoaded", () => {
+    const defaults = {
+        level: "Core",
+        powertrain: "T8 AWD Plug-in Hybrid",
+        theme: "Bright",
+        color: "Vapour Grey",
+        wheels: "20″ 5-Multi Spoke Black Diamond Cut",
+        interior: "Charcoal Quilted Nordico in Charcoal interior",
+        optionalEquipment: [] // Defaults to no optional equipment
+    };
 
-// Update image for a specific carousel
-function updateImage(carouselId, images) {
-    const imgElement = document.getElementById(carouselId);
-    imgElement.src = images[carouselIndexes[carouselId]];
+    // Set Level
+    const defaultLevel = document.querySelector(`.option-group[data-group="level"] .option[data-trim="${defaults.level}"]`);
+    if (defaultLevel) defaultLevel.classList.add("active");
+
+    // Set Powertrain
+    const defaultPowertrain = document.querySelector(`.option-group[data-group="powertrain"] .option`);
+    if (defaultPowertrain) defaultPowertrain.classList.add("active");
+
+    // Set Theme
+    const defaultTheme = document.querySelector(`.option-group[data-group="theme"] .option[data-theme="${defaults.theme}"]`);
+    if (defaultTheme) defaultTheme.classList.add("active");
+
+    // Set Color
+    const defaultColor = document.querySelector(`.color-option[data-color="${defaults.color}"]`);
+    if (defaultColor) defaultColor.classList.add("active");
+    const colorDetails = document.querySelector(".color-details");
+    if (colorDetails) {
+        colorDetails.querySelector("h3").innerText = defaults.color;
+        colorDetails.querySelector(".color-price").innerText = "Standard";
+        colorDetails.querySelector(".color-description").innerText = "A subtle and classic grey.";
+    }
+
+    // Set Wheels
+    const defaultWheels = document.querySelector(`.wheel-option[data-wheel="${defaults.wheels}"]`);
+    if (defaultWheels) defaultWheels.classList.add("active");
+    const wheelDetails = document.querySelector(".wheel-details");
+    if (wheelDetails) {
+        wheelDetails.querySelector("h3").innerText = defaults.wheels;
+        wheelDetails.querySelector("p").innerText = "Standard";
+    }
+
+    // Set Interior
+    const defaultInterior = document.querySelector(`.interior-option[data-interior="${defaults.interior}"]`);
+    if (defaultInterior) defaultInterior.classList.add("active");
+    const interiorDetails = document.querySelector(".interior-details");
+    if (interiorDetails) {
+        interiorDetails.querySelector("h3").innerText = defaults.interior;
+        interiorDetails.querySelector(".interior-price").innerText = "Standard";
+        interiorDetails.querySelector(".interior-description").innerText = "A sustainable and comfortable interior.";
+    }
+
+    // Attach event listeners for optional equipment buttons
+    const parent = document.querySelector(".optional-equipment-section");
+    if (parent) {
+        parent.addEventListener("click", (event) => {
+            if (event.target.classList.contains("add-btn")) {
+                toggleAdd(event.target);
+            }
+        });
+    }
+
+    console.log("Defaults initialized in the UI");
+});
+
+// ==============================
+// Option Selection Handlers
+// ==============================
+
+function selectOption(element, groupName) {
+    const group = document.querySelector(`.option-group[data-group="${groupName}"]`);
+    if (group) {
+        group.querySelectorAll(".option").forEach((option) => option.classList.remove("active"));
+        element.classList.add("active");
+    }
+
+    // Update the configuration
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
 }
 
-// Navigate carousel images
-function prevImage(carouselId, carouselNumber) {
-    const images = carouselImages[`carousel${carouselNumber}`];
-    carouselIndexes[carouselId] =
-        (carouselIndexes[carouselId] - 1 + images.length) % images.length;
-    updateImage(carouselId, images);
+function selectColor(element) {
+    document.querySelectorAll(".color-option").forEach((option) => option.classList.remove("active"));
+    element.classList.add("active");
+    const colorDetails = document.querySelector(".color-details");
+    if (colorDetails) {
+        const colorName = element.getAttribute("data-color");
+        const colorPrice = element.getAttribute("data-price");
+        const colorDescription = element.getAttribute("data-description");
+        colorDetails.querySelector("h3").innerText = colorName;
+        colorDetails.querySelector(".color-price").innerText = colorPrice;
+        colorDetails.querySelector(".color-description").innerText = colorDescription;
+    }
+
+    // Update the configuration
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
 }
 
-function nextImage(carouselId, carouselNumber) {
-    const images = carouselImages[`carousel${carouselNumber}`];
-    carouselIndexes[carouselId] =
-        (carouselIndexes[carouselId] + 1) % images.length;
-    updateImage(carouselId, images);
+function selectWheel(element) {
+    document.querySelectorAll(".wheel-option").forEach((option) => option.classList.remove("active"));
+    element.classList.add("active");
+    const wheelDetails = document.querySelector(".wheel-details");
+    if (wheelDetails) {
+        const wheelName = element.getAttribute("data-wheel");
+        const wheelPrice = element.getAttribute("data-price");
+        wheelDetails.querySelector("h3").innerText = wheelName;
+        wheelDetails.querySelector("p").innerText = wheelPrice;
+    }
+
+    // Update the configuration
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
+}
+
+function selectInterior(element) {
+    document.querySelectorAll(".interior-option").forEach((option) => option.classList.remove("active"));
+    element.classList.add("active");
+    const interiorDetails = document.querySelector(".interior-details");
+    if (interiorDetails) {
+        const interiorName = element.getAttribute("data-interior");
+        const interiorPrice = element.getAttribute("data-price");
+        const interiorDescription = element.getAttribute("data-description");
+        interiorDetails.querySelector("h3").innerText = interiorName;
+        interiorDetails.querySelector(".interior-price").innerText = interiorPrice;
+        interiorDetails.querySelector(".interior-description").innerText = interiorDescription;
+    }
+
+    // Update the configuration
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
+}
+
+// ==============================
+// Toggle Category Functionality
+// ==============================
+
+function toggleCategory(button) {
+    const category = button.nextElementSibling;
+    if (category) {
+        category.classList.toggle("active");
+        button.classList.toggle("active");
+    }
 }
 
 // ==============================
 // Optional Equipment Functionality
 // ==============================
 
-function toggleCategory(button) {
-    const parent = button.parentElement;
-    const content = parent.querySelector('.optional-equipment, .equipment-options');
-    const isActive = content.classList.toggle('active');
-
-    button.classList.toggle('active', isActive);
-}
-
 function toggleAdd(button) {
-    const isAdded = button.classList.contains("added");
+    const equipmentName = button.closest(".equipment-option").querySelector(".equipment-name").innerText;
 
-    if (isAdded) {
-        // Change back to "Add" state
+    if (button.classList.contains("added")) {
+        // Remove equipment from config
         button.classList.remove("added");
-        button.textContent = "Add";
+        button.innerText = "Add";
+
+        // Update optionalEquipment array
+        const index = currentConfig.optionalEquipment.indexOf(equipmentName);
+        if (index > -1) {
+            currentConfig.optionalEquipment.splice(index, 1);
+        }
     } else {
-        // Change to "Added" state
+        // Add equipment to config
         button.classList.add("added");
-        button.textContent = "Added";
-    }
-}
+        button.innerText = "Added";
 
-
-// ========================
-// Option Selection Handlers
-// ========================
-
-function selectOption(element, groupName) {
-    const group = document.querySelector(`.option-group[data-group="${groupName}"]`);
-    if (group) {
-        group.querySelectorAll('.option').forEach(option => option.classList.remove('active'));
-        element.classList.add('active');
+        // Update optionalEquipment array
+        currentConfig.optionalEquipment.push(equipmentName);
     }
 
     // Sync the updated config to the backend
-    const updatedConfig = getCurrentConfigFromUI();
-    updateConfigInBackend(updatedConfig);
-}
-
-function toggleDetails(element) {
-    if (element.classList.contains('active')) {
-        element.classList.remove('active');
-    } else {
-        const group = element.closest('.option-group');
-        group.querySelectorAll('.option').forEach(option => option.classList.remove('active'));
-        element.classList.add('active');
-    }
-
-    // Sync the updated config to the backend
-    const updatedConfig = getCurrentConfigFromUI();
-    updateConfigInBackend(updatedConfig);
-}
-
-function selectColor(element) {
-    document.querySelectorAll('.color-option').forEach(option => option.classList.remove('active'));
-    element.classList.add('active');
-    const colorDetails = document.querySelector('.color-details');
-    if (colorDetails) {
-        const colorName = element.getAttribute('data-color');
-        const colorPrice = element.getAttribute('data-price');
-        const colorDescription = element.getAttribute('data-description');
-        colorDetails.querySelector('h3').innerText = colorName;
-        colorDetails.querySelector('.color-price').innerText = colorPrice;
-        colorDetails.querySelector('.color-description').innerText = colorDescription;
-    }
-
-    // Sync the updated config to the backend
-    const updatedConfig = getCurrentConfigFromUI();
-    updateConfigInBackend(updatedConfig);
-}
-
-function selectWheel(element) {
-    document.querySelectorAll('.wheel-option').forEach(option => option.classList.remove('active'));
-    element.classList.add('active');
-    const selectedWheel = element.getAttribute('data-wheel');
-    const wheelPrice = element.getAttribute('data-price');
-    const wheelDetails = document.querySelector('.wheel-details');
-    if (wheelDetails) {
-        wheelDetails.querySelector('h3').innerText = selectedWheel;
-        wheelDetails.querySelector('p').innerText = wheelPrice;
-    }
-
-    // Sync the updated config to the backend
-    const updatedConfig = getCurrentConfigFromUI();
-    updateConfigInBackend(updatedConfig);
-}
-
-function selectInterior(element) {
-    document.querySelectorAll('.interior-option').forEach(option => option.classList.remove('active'));
-    element.classList.add('active');
-    const interiorName = element.getAttribute('data-interior');
-    const interiorPrice = element.getAttribute('data-price');
-    const interiorDescription = element.getAttribute('data-description');
-    const interiorDetails = document.querySelector('.interior-details');
-    if (interiorDetails) {
-        interiorDetails.querySelector('h3').innerText = interiorName;
-        interiorDetails.querySelector('.interior-price').innerText = interiorPrice;
-        interiorDetails.querySelector('.interior-description').innerText = interiorDescription;
-    }
-
-    // Sync the updated config to the backend
-    const updatedConfig = getCurrentConfigFromUI();
-    updateConfigInBackend(updatedConfig);
-}
-
-function toggleCategory(button) {
-    const category = button.nextElementSibling;
-    if (category) {
-        category.classList.toggle('active');
-        button.classList.toggle('active');
-    }
-}
-
-function toggleAdd(button) {
-    if (button.classList.contains('added')) {
-        button.classList.remove('added');
-        button.innerText = 'Add';
-    } else {
-        button.classList.add('added');
-        button.innerText = 'Added';
-    }
-
-    // Sync the updated config to the backend
-    const updatedConfig = getCurrentConfigFromUI();
-    updateConfigInBackend(updatedConfig);
+    updateConfigInBackend(currentConfig);
 }
 
 // ========================
@@ -193,187 +189,19 @@ function toggleAdd(button) {
 // ========================
 
 function getCurrentConfigFromUI() {
-    const config = {
-        color: document.querySelector('.color-option.active')?.getAttribute('data-color') || null,
-        wheel: document.querySelector('.wheel-option.active')?.getAttribute('data-wheel') || null,
-        interior: document.querySelector('.interior-option.active')?.getAttribute('data-interior') || null,
-        optionalEquipment: Array.from(document.querySelectorAll('.add-btn.added'))
-            .map(button => button.closest('.equipment-option').querySelector('.equipment-name').innerText)
-    };
-    return config;
-}
-
-function updateConfigInBackend(config) {
-    console.log('Updated Config:', config);
-    // Add your backend sync logic here (e.g., API call)
-}
-
-// ===================
-// Apply Configuration from JSON
-// ===================
-
-function applyConfigFromJSON(config) {
-    console.log('Applying Config:', config);
-
-    // Update Level
-    document.querySelectorAll('.option-group[data-group="level"] .option').forEach(option => {
-        if (option.querySelector('.option-name').innerText === config.level) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Theme
-    document.querySelectorAll('.option-group[data-group="theme"] .option').forEach(option => {
-        if (option.querySelector('.option-name').innerText === config.theme) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Color
-    document.querySelectorAll('.color-option').forEach(option => {
-        if (option.getAttribute('title') === config.color) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Color Details (Name, Description, Price)
-    const activeColorOption = document.querySelector(`.color-option[title="${config.color}"]`);
-    if (activeColorOption) {
-        const colorDetails = document.querySelector('.color-details');
-        const colorName = activeColorOption.getAttribute('title');
-        const colorPrice = activeColorOption.getAttribute('data-price') || "Standard";
-        const colorDescription = activeColorOption.getAttribute('data-description') || "No description available.";
-        if (colorDetails) {
-            colorDetails.querySelector('h3').innerText = colorName;
-            colorDetails.querySelector('.color-price').innerText = colorPrice;
-            colorDetails.querySelector('.color-description').innerText = colorDescription;
-        }
-    }
-
-    // Update Wheels
-    document.querySelectorAll('.wheel-option').forEach(option => {
-        if (option.getAttribute('data-wheel') === config.wheels) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Wheel Details
-    const activeWheelOption = document.querySelector(`.wheel-option[data-wheel="${config.wheels}"]`);
-    if (activeWheelOption) {
-        const wheelDetails = document.querySelector('.wheel-details');
-        if (wheelDetails) {
-            wheelDetails.querySelector('h3').innerText = config.wheels;
-            wheelDetails.querySelector('p').innerText =
-                config.wheels === "21″ 5-multi spoke black diamond cut" ? "Standard" : "£795";
-        }
-    }
-
-    // Update Interior
-    document.querySelectorAll('.option-group[data-group="interior"] .option').forEach(option => {
-        if (option.querySelector('.option-name').innerText === config.interior) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Optional Equipment
-    document.querySelectorAll('.option-group[data-group="optional-equipment"] input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = config.optionalEquipment.includes(checkbox.value);
-    });
-
-    // Sync the updated configuration to the backend
-    updateConfigInBackend(config);
-}
-
-// ===================
-// Pusher Setup
-// ===================
-
-Pusher.logToConsole = true;
-
-const pusher = new Pusher('4e6d9761c08398dd9b26', {
-    cluster: 'eu',
-    forceTLS: true,
-});
-
-// Subscribe to channel
-const channel = pusher.subscribe('config-channel');
-
-// Listen for updates
-channel.bind('update-config', function (data) {
-    console.log('Received Config:', data);
-    applyConfigFromJSON(data);
-});
-
-// ===================
-// Fetch and Send Configurations
-// ===================
-
-function sendConfigToAPI(config) {
-    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(config),
-    })
-        .then(response => response.json())
-        .then(data => console.log('Configuration sent:', data))
-        .catch(error => console.error('Error sending configuration:', error));
-}
-
-function fetchDefaultConfig() {
-    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Default Config:', data);
-            applyConfigFromJSON(data.data);
-        })
-        .catch(error => console.error('Error fetching default configuration:', error));
-}
-
-// ===================
-// Initialize UI with Default Config
-// ===================
-
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Fetching default configuration...');
-    fetchDefaultConfig();
-});
-
-// ===================
-// Sync UI to Backend
-// ===================
-
-function getCurrentConfigFromUI() {
     return {
-        level: document.querySelector('.option-group[data-group="level"] .option.active .option-name').innerText,
-        theme: document.querySelector('.option-group[data-group="theme"] .option.active .option-name').innerText,
-        color: document.querySelector('.color-option.active').getAttribute('title'),
-        wheels: document.querySelector('.wheel-option.active').getAttribute('data-wheel'),
-        interior: document.querySelector('.option-group[data-group="interior"] .option.active .option-name').innerText,
-        optionalEquipment: Array.from(document.querySelectorAll('.equipment-checkbox:checked')).map(cb => cb.value),
+        level: document.querySelector('.option-group[data-group="level"] .option.active .option-name')?.innerText,
+        powertrain: document.querySelector('.option-group[data-group="powertrain"] .option.active .option-name')?.innerText,
+        theme: document.querySelector('.option-group[data-group="theme"] .option.active .option-name')?.innerText,
+        color: document.querySelector(".color-option.active")?.getAttribute("data-color"),
+        wheels: document.querySelector(".wheel-option.active")?.getAttribute("data-wheel"),
+        interior: document.querySelector('.option-group[data-group="interior"] .option.active .option-name')?.innerText,
+        optionalEquipment: Array.from(document.querySelectorAll(".add-btn.added")).map(
+            (button) => button.closest(".equipment-option").querySelector(".equipment-name").innerText
+        ),
     };
 }
 
 function updateConfigInBackend(config) {
-    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(config),
-    })
-        .then(response => response.json())
-        .then(data => console.log('Config synced to backend:', data))
-        .catch(error => console.error('Error syncing config:', error));
+    // Add API call or backend sync logic here
 }

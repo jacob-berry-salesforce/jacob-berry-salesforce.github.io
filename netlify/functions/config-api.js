@@ -50,6 +50,7 @@ exports.handler = async (event, context) => {
         };
     }
 
+    // Handle POST request for updates
     if (event.httpMethod === 'POST') {
         try {
             const config = JSON.parse(event.body);
@@ -83,30 +84,15 @@ exports.handler = async (event, context) => {
         }
     }
 
+    // Handle GET request (no longer sets defaults)
     if (event.httpMethod === 'GET') {
-        try {
-            console.log('GET request received: Sending default configuration');
-            return response(200, {
-                message: 'Default configuration',
-                data: {
-                    level: 'Core',
-                    powertrain: 'T8 AWD Plug-in Hybrid',
-                    theme: 'Bright',
-                    color: 'Vapour Grey',
-                    wheels: '20″ 5-Multi Spoke Black Diamond Cut',
-                    interior: 'Charcoal Quilted Nordico in Charcoal interior',
-                    optionalEquipment: [],
-                },
-            });
-        } catch (error) {
-            console.error('Error in GET handler:', error);
-            return response(500, {
-                message: 'Failed to fetch default configuration',
-                error: error.message,
-            });
-        }
+        console.log('GET request received: No default configuration set by API');
+        return response(204, {
+            message: 'Default configuration no longer set by API. Defaults are managed on the frontend.',
+        });
     }
 
+    // Handle unsupported methods
     console.warn(`Unsupported HTTP method: ${event.httpMethod}`);
     return response(405, {
         message: 'Method not allowed',
