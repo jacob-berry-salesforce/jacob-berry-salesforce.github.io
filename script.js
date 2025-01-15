@@ -171,21 +171,37 @@ function applyConfigFromJSON(json) {
     }
 }
 
+// Enable Pusher logging for debugging
+Pusher.logToConsole = true;
+
 // Initialize Pusher
 const pusher = new Pusher('4e6d9761c08398dd9b26', {
     cluster: 'eu',
+    forceTLS: true, // Ensure secure connection
 });
 
 // Subscribe to the channel
 const channel = pusher.subscribe('config-channel');
 
 // Listen for the 'update-config' event
-channel.bind('update-config', function (config) {
-    console.log('Received Config:', config);
-
-    // Apply the configuration to the frontend
-    applyConfigFromJSON(config); // Update the UI with the new configuration
+channel.bind('update-config', function (data) {
+    console.log('Received Config:', data); // Log the received config
+    applyConfigFromJSON(data); // Update the UI (ensure this function exists)
 });
+
+// Handle connection issues
+pusher.connection.bind('error', function (err) {
+    console.error('Pusher connection error:', err);
+});
+
+pusher.connection.bind('connected', function () {
+    console.log('Pusher connected successfully.');
+});
+
+pusher.connection.bind('disconnected', function () {
+    console.warn('Pusher disconnected.');
+});
+
 
 // Send configuration to the API
 function sendConfigToAPI(config) {
