@@ -72,12 +72,12 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({
                 message: 'Default configuration',
                 data: {
-                    level: 'Ultra',
-                    theme: 'Dark',
-                    color: 'Onyx Black',
-                    wheels: '22″ 7-double spoke black diamond cut',
+                    level: 'Core',
+                    theme: 'Bright',
+                    color: 'Vapour Grey',
+                    wheels: '21″ 5-multi spoke black diamond cut',
                     interior: 'Charcoal Ventilated nappa leather',
-                    optionalEquipment: ['Heated Steering Wheel', 'Panoramic Roof'],
+                    optionalEquipment: [],
                 },
             }),
         };
