@@ -85,8 +85,10 @@ header img {
 /* Main Layout */
 .main-container {
     display: grid;
-    grid-template-columns: 50% 20% 30%; /* Define column widths */
-    gap: 20px; /* Space between grid items */
+    grid-template-columns: 50% 20% 30%;
+    /* Define column widths */
+    gap: 20px;
+    /* Space between grid items */
     padding: 20px;
     background-color: white;
 }
@@ -207,22 +209,29 @@ header img {
     color: #666;
     line-height: 1.5;
     margin-top: 10px;
-    display: block; /* Ensure details are visible */
+    display: block;
+    /* Ensure details are visible */
 }
 
 .option-details p {
-    margin: 0 0 5px; /* Adjust spacing for labels */
-    font-weight: bold; /* Highlight labels like "Included:" */
+    margin: 0 0 5px;
+    /* Adjust spacing for labels */
+    font-weight: bold;
+    /* Highlight labels like "Included:" */
 }
 
 .option-details ul {
-    list-style-type: disc; /* Default bullet style */
-    padding-left: 20px; /* Indent the bullets */
-    margin: 0; /* Remove default list margin */
+    list-style-type: disc;
+    /* Default bullet style */
+    padding-left: 20px;
+    /* Indent the bullets */
+    margin: 0;
+    /* Remove default list margin */
 }
 
 .option-details ul li {
-    margin-bottom: 5px; /* Add space between list items */
+    margin-bottom: 5px;
+    /* Add space between list items */
 }
 
 
@@ -265,117 +274,194 @@ header img {
 /* Color Options */
 .color-options {
     display: flex;
-    flex-wrap: wrap;
     gap: 15px;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0;
-    background-color: transparent;
-    border-radius: 0;
-    box-shadow: none;
-    max-width: 100%;
+    flex-wrap: wrap;
+    position: relative;
 }
 
 .color-option {
     width: 30px;
     height: 30px;
-    margin-left: 10px;
-    margin-bottom: 10px;
-    aspect-ratio: 1/1;
     border-radius: 50%;
     border: 2px solid transparent;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 
-        0 0 0 4px #fff,
-        0 0 0 6px #ccc;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    position: relative;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
 .color-option:hover {
-    border-color: #0057a3;
-    box-shadow: 
-        0 0 0 4px #fff,
-        0 0 0 6px #999;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
 .color-option.active {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.color-option::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.color-option.active::before {
     border-color: #0057a3;
-    box-shadow: 
-        0 0 0 4px #fff,
-        0 0 0 6px #0057a3;
+    box-shadow: 0 0 8px rgba(0, 87, 163, 0.5);
+}
+
+/* Dynamically adjust the inner circle color for contrast */
+.color-option[style*="background-color: #ffffff;"] {
+    background-color: #f0f0f0;
+    /* Slightly darker for white */
+}
+
+.color-option[style*="background-color: #000000;"] {
+    background-color: #1a1a1a;
+    /* Slightly lighter for black */
+}
+
+.color-option[style*="background-color: #4a6785;"] {
+    background-color: #5b7897;
+    /* Slightly lighter for Denim Blue */
+}
+
+.color-option[style*="background-color: #c3c3c3;"] {
+    background-color: #d2d2d2;
+    /* Slightly lighter for Silver Dawn */
+}
+
+.color-option[style*="background-color: #d9b8a0;"] {
+    background-color: #eac7b3;
+    /* Slightly lighter for Bright Dusk */
+}
+
+.color-option[style*="background-color: #5b2a2f;"] {
+    background-color: #6a3a3f;
+    /* Slightly lighter for Mulberry Red */
+}
+
+.color-option[style*="background-color: #7a7a7a;"] {
+    background-color: #8a8a8a;
+    /* Slightly lighter for Vapour Grey */
 }
 
 /* Color Details */
 .color-details {
-    text-align: left; /* Align text to the left */
-    margin-top: 10px;
-    padding: 10px 0;
+    margin-top: 20px;
+    text-align: left;
 }
 
 .color-details h3 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .color-details .color-price {
     font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-weight: normal;
+    color: #888;
+    margin-bottom: 5px;
 }
 
-.color-details p {
+.color-details .color-description {
     font-size: 14px;
     color: #666;
-    margin: 5px 0;
 }
 
 
 /* Wheel Options */
 .wheel-options {
     display: flex;
-    flex-wrap: nowrap;
-    gap: 15px;
+    flex-wrap: wrap;
+    /* Allow multiple rows if needed */
+    gap: 30px;
+    /* Increase gap between wheel options */
     align-items: center;
+    justify-content: flex-start;
+    /* Align options to the left */
     margin-bottom: 20px;
+    padding: 0;
 }
 
 .wheel-option {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    /* Inner wheel size */
+    height: 80px;
+    position: relative;
     border-radius: 50%;
-    border: 2px solid transparent;
     cursor: pointer;
-    background-color: #fff;
-    object-fit: cover;
+    overflow: hidden;
+    /* Ensure image stays inside the circle */
+    box-sizing: border-box;
+    /* Prevent layout shifting */
     transition: all 0.3s ease;
 }
 
 .wheel-option img {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
-.wheel-option:hover {
+/* Outer Circle */
+.wheel-option::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    /* Outer ring size */
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    /* Default grey outer circle */
+    pointer-events: none;
+    /* Ensure clicks register on the wheel */
+    box-sizing: border-box;
+    /* Prevent layout changes when adding borders */
+    transition: all 0.3s ease;
+}
+
+.wheel-option:hover::before {
+    border-color: #999;
+    /* Highlight on hover */
+}
+
+.wheel-option.active::before {
     border-color: #0057a3;
+    /* Blue border when selected */
+    box-shadow: 0 0 8px rgba(0, 87, 163, 0.5);
+    /* Add glow effect */
 }
 
-.wheel-option.active {
-    border-color: #0057a3;
-    box-shadow: 0 2px 6px rgba(0, 87, 163, 0.3);
+.wheel-option.active img {
+    box-shadow: 0 0 0 2px transparent;
+    /* Avoid layout shift on selection */
 }
 
+/* Wheel Details */
 .wheel-details {
+    margin-top: 20px;
     text-align: left;
-    margin-top: 15px;
 }
 
 .wheel-details h3 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .wheel-details p {
@@ -383,13 +469,106 @@ header img {
     color: #666;
 }
 
+/* Interior Options */
+.interior-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.interior-row {
+    display: flex;
+    flex-direction: column;
+    /* Stack label above the options */
+    align-items: flex-start;
+    /* Align label and options to the left */
+    gap: 10px;
+    /* Add spacing between the label and the options */
+}
+
+.row-label {
+    font-size: 12px;
+    font-weight: normal;
+    color: #666;
+    margin: 0;
+    /* Remove any unnecessary margins */
+    white-space: nowrap;
+    /* Prevent the label from breaking into multiple lines */
+}
+
+.interior-options-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    /* Allow wrapping for smaller screens */
+}
+
+.interior-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow:
+        inset 0 0 0 2px rgba(0, 0, 0, 0.1),
+        0 0 0 6px #ccc;
+    /* Outer circle effect */
+}
+
+.interior-option:hover {
+    box-shadow:
+        inset 0 0 0 2px rgba(0, 0, 0, 0.3),
+        0 0 0 6px #999;
+    /* Subtle hover effect */
+}
+
+.interior-option.active {
+    box-shadow:
+        inset 0 0 0 2px rgba(0, 87, 163, 0.5),
+        0 0 0 6px #0057a3;
+    /* Active state */
+}
+
+/* Interior Details */
+.interior-details {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.interior-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.interior-details .interior-price {
+    font-size: 14px;
+    font-weight: normal;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.interior-details .interior-description {
+    font-size: 14px;
+    color: #666;
+}
+
 /* Optional Equipment Section */
+.optional-category,
+.equipment-category {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+}
+
 .optional-equipment-section {
-    background-color: #fff;
+    margin-top: 40px;
+    /* Space between main content and this section */
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    background-color: white;
+    border-top: 1px solid #ddd;
 }
 
 .optional-equipment-section h2 {
@@ -397,133 +576,210 @@ header img {
     font-weight: bold;
     margin-bottom: 20px;
     color: #333;
+    text-align: left;
+    /* Align heading to the left */
 }
 
-/* Collapsible Buttons */
+/* Ensure the collapsible sections are hidden by default */
+.optional-equipment, .equipment-options {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+}
+
+.optional-equipment.active, .equipment-options.active {
+    height: auto;
+    overflow: visible;
+}
+
+
+/* Collapsible button styles */
 .collapsible {
-    background-color: #f7f7f7;
-    color: #333;
-    cursor: pointer;
-    padding: 15px;
-    width: 100%;
+    background: none;
     border: none;
-    border-radius: 8px;
-    text-align: left;
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    padding: 10px 0;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .collapsible:hover {
-    background-color: #0057a3;
-    color: #fff;
-}
-
-.collapsible.active {
-    background-color: #0057a3;
-    color: #fff;
+    color: #0057a3;
 }
 
 .collapsible:after {
-    content: '\25BC'; /* Down arrow */
+    content: "\25bc";  /* Down arrow */
     font-size: 12px;
-    float: right;
+    color: #666;
+    margin-left: 10px;
+    transform: rotate(0);
     transition: transform 0.3s ease;
 }
 
 .collapsible.active:after {
-    transform: rotate(180deg); /* Flip the arrow */
+    transform: rotate(180deg);  /* Rotate the arrow when active */
 }
 
-/* Equipment Options */
-.equipment-options {
-    display: none; /* Hidden by default */
-    padding-left: 20px;
-    margin-top: 10px;
-    border-left: 3px solid #ddd;
-}
-
-.equipment-options.open {
-    display: grid; /* Use grid layout for better alignment */
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-}
-
-
+/* Equipment Option Box */
 .equipment-option {
-    background-color: #fff;
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Space out the elements inside the card */
+    align-items: flex-start;
+    background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    text-align: center;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.equipment-option:hover {
-    border-color: #0057a3;
-    box-shadow: 0 2px 6px rgba(0, 87, 163, 0.3);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 100%;
+    /* Full width within the grid space */
+    max-width: 200px;
+    /* Prevent options from becoming too wide */
+    min-width: 150px;
+    /* Prevent options from becoming too narrow */
+    height: 270px;
+    /* Fixed height for consistency */
+    position: relative;
+    padding: 10px;
+    /* Padding for inner content */
+    box-sizing: border-box;
 }
 
 .equipment-option img {
-    max-width: 100%;
+    width: 100%;
+    /* Image takes the full width of the card */
     height: auto;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    /* Maintain aspect ratio */
+    border-bottom: 1px solid #ddd;
+    /* Add a border below the image for separation */
 }
 
-.equipment-option label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 14px;
-}
-
+/* Name text wraps properly */
 .equipment-option .equipment-name {
     font-weight: bold;
-    margin-bottom: 5px;
+    color: #333;
+    margin: 10px 0;
+    /* Add spacing around the name */
+    font-size: 14px;
+    text-align: left;
+    line-height: 1.2;
+    white-space: normal;
+    /* Allow the name to wrap */
+    overflow: visible;
+    /* Ensure visibility of wrapped text */
+    word-break: break-word;
+    /* Break long words to prevent overflow */
 }
 
-.equipment-option .equipment-price {
+/* Description handling */
+.equipment-option .equipment-description {
+    font-size: 12px;
     color: #666;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    /* Allow description to take up remaining space */
 }
 
-.add-btn {
-    background-color: #0057a3;
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
+/* Price and button container fixed at the bottom */
+.equipment-option .bottom-container {
+    margin-top: auto;
+    /* Push this container to the bottom */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Price styling */
+.equipment-option .equipment-price {
     font-size: 14px;
     font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    color: #333;
+    margin-bottom: 5px;
+    /* Space above the button */
 }
 
-.add-btn:hover {
-    background-color: #004080;
+/* Button styling */
+.equipment-option .add-btn {
+    background-color: white;
+    color: black;
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    align-self: flex-start;
+    /* Align to the left */
+    transition: all 0.3s ease;
+}
+
+.equipment-option .add-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.equipment-option .add-btn.added {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+.equipment-option .add-btn.added:hover {
+    background-color: #333;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    .optional-equipment-section {
+
+    .optional-equipment,
+    .equipment-options {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .equipment-option {
+        max-width: 150px;
+        /* Prevent excessively wide options on smaller screens */
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .optional-equipment-section,
+    .optional-equipment {
         padding: 15px;
     }
 
-    .equipment-options.open {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
+    .equipment-options,
+    .equipment-options {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
-    .collapsible {
-        font-size: 14px;
+    .equipment-option {
+        max-width: 150px; /* Prevent excessively wide options on smaller screens */
     }
-}
 
+    .interior-options-row {
+        flex-wrap: wrap;
+    }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
+    .vertical-line {
+        display: none;
+    }
+
     .option {
         margin-bottom: 10px;
     }
@@ -542,15 +798,168 @@ header img {
     }
 }
 
+
+
 .embeddedMessagingFrame {
-    position: fixed !important;          /* Fix the position to the right side of the screen */
-    bottom: 0px !important;                /* Move the chat window down, below the header */
-    right: 0 !important;                 /* Align to the right side of the viewport */
-    height: calc(100vh - 20px) !important; /* Full height minus space for the header */
-    width: calc(25%) !important;  /* Narrower width (20% of the screen with a small gap) */
-    z-index: 9999 !important;            /* Ensure it's above other content */
-    margin: 0 !important;                /* Remove margin */
-    padding: 0 !important;               /* Remove padding */
-    background-color: #f9f9f9;           /* Optional: Set background color */
-    box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2) !important; /* Optional: Add shadow */
+    position: fixed !important;
+    /* Fix the position to the right side of the screen */
+    bottom: 0px !important;
+    /* Move the chat window down, below the header */
+    right: 0 !important;
+    /* Align to the right side of the viewport */
+    height: calc(100vh - 20px) !important;
+    /* Full height minus space for the header */
+    width: calc(25%) !important;
+    /* Narrower width (20% of the screen with a small gap) */
+    z-index: 9999 !important;
+    /* Ensure it's above other content */
+    margin: 0 !important;
+    /* Remove margin */
+    padding: 0 !important;
+    /* Remove padding */
+    background-color: #f9f9f9;
+    /* Optional: Set background color */
+    box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2) !important;
+    /* Optional: Add shadow */
+}
+
+/* Container to leave right 30% empty */
+.config-summary-container {
+    display: grid;
+    grid-template-columns: 70% auto;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Left column for configurations */
+.config-summary-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Individual Configuration Boxes */
+.current-config,
+.alternative-config {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Config Titles */
+.current-config h2,
+.alternative-config h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Config Details */
+.config-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.config-details strong {
+    color: #666
+}
+
+/* Carousel Styling */
+.carousel img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.carousel-nav .nav-arrow {
+    pointer-events: all;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.carousel-nav .nav-arrow:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Payment and Delivery Section */
+.payment-delivery {
+    grid-column: span 2;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-delivery h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.payment-delivery p {
+    font-size: 14px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.payment-delivery a {
+    color: #0057a3;
+    text-decoration: none;
+}
+
+.payment-delivery a:hover {
+    text-decoration: underline;
+}
+
+/* Button Styling */
+.view-summary-btn {
+    display: block;
+    width: 100%;
+    background-color: #0057a3;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.view-summary-btn:hover {
+    background-color: #003d66;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .config-summary-container {
+        grid-template-columns: 1fr;
+    }
+
+    .config-summary-section {
+        grid-template-columns: 1fr;
+    }
 }

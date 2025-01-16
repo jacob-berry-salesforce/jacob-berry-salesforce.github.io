@@ -57,6 +57,33 @@ function nextImage(carouselId, carouselNumber) {
     updateImage(carouselId, images);
 }
 
+// ==============================
+// Optional Equipment Functionality
+// ==============================
+
+function toggleCategory(button) {
+    const parent = button.parentElement;
+    const content = parent.querySelector('.optional-equipment, .equipment-options');
+    const isActive = content.classList.toggle('active');
+
+    button.classList.toggle('active', isActive);
+}
+
+function toggleAdd(button) {
+    const isAdded = button.classList.contains("added");
+
+    if (isAdded) {
+        // Change back to "Add" state
+        button.classList.remove("added");
+        button.textContent = "Add";
+    } else {
+        // Change to "Added" state
+        button.classList.add("added");
+        button.textContent = "Added";
+    }
+}
+
+
 // ========================
 // Option Selection Handlers
 // ========================
@@ -67,6 +94,10 @@ function selectOption(element, groupName) {
         group.querySelectorAll('.option').forEach(option => option.classList.remove('active'));
         element.classList.add('active');
     }
+
+    // Sync the updated config to the backend
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
 }
 
 function toggleDetails(element) {
@@ -77,25 +108,104 @@ function toggleDetails(element) {
         group.querySelectorAll('.option').forEach(option => option.classList.remove('active'));
         element.classList.add('active');
     }
+
+    // Sync the updated config to the backend
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
 }
 
-function selectColor(element, colorName) {
+function selectColor(element) {
     document.querySelectorAll('.color-option').forEach(option => option.classList.remove('active'));
     element.classList.add('active');
     const colorDetails = document.querySelector('.color-details');
     if (colorDetails) {
+        const colorName = element.getAttribute('data-color');
+        const colorPrice = element.getAttribute('data-price');
+        const colorDescription = element.getAttribute('data-description');
         colorDetails.querySelector('h3').innerText = colorName;
+        colorDetails.querySelector('.color-price').innerText = colorPrice;
+        colorDetails.querySelector('.color-description').innerText = colorDescription;
     }
+
+    // Sync the updated config to the backend
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
 }
 
 function selectWheel(element) {
     document.querySelectorAll('.wheel-option').forEach(option => option.classList.remove('active'));
     element.classList.add('active');
     const selectedWheel = element.getAttribute('data-wheel');
+    const wheelPrice = element.getAttribute('data-price');
     const wheelDetails = document.querySelector('.wheel-details');
     if (wheelDetails) {
         wheelDetails.querySelector('h3').innerText = selectedWheel;
+        wheelDetails.querySelector('p').innerText = wheelPrice;
     }
+
+    // Sync the updated config to the backend
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
+}
+
+function selectInterior(element) {
+    document.querySelectorAll('.interior-option').forEach(option => option.classList.remove('active'));
+    element.classList.add('active');
+    const interiorName = element.getAttribute('data-interior');
+    const interiorPrice = element.getAttribute('data-price');
+    const interiorDescription = element.getAttribute('data-description');
+    const interiorDetails = document.querySelector('.interior-details');
+    if (interiorDetails) {
+        interiorDetails.querySelector('h3').innerText = interiorName;
+        interiorDetails.querySelector('.interior-price').innerText = interiorPrice;
+        interiorDetails.querySelector('.interior-description').innerText = interiorDescription;
+    }
+
+    // Sync the updated config to the backend
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
+}
+
+function toggleCategory(button) {
+    const category = button.nextElementSibling;
+    if (category) {
+        category.classList.toggle('active');
+        button.classList.toggle('active');
+    }
+}
+
+function toggleAdd(button) {
+    if (button.classList.contains('added')) {
+        button.classList.remove('added');
+        button.innerText = 'Add';
+    } else {
+        button.classList.add('added');
+        button.innerText = 'Added';
+    }
+
+    // Sync the updated config to the backend
+    const updatedConfig = getCurrentConfigFromUI();
+    updateConfigInBackend(updatedConfig);
+}
+
+// ========================
+// Utility Functions
+// ========================
+
+function getCurrentConfigFromUI() {
+    const config = {
+        color: document.querySelector('.color-option.active')?.getAttribute('data-color') || null,
+        wheel: document.querySelector('.wheel-option.active')?.getAttribute('data-wheel') || null,
+        interior: document.querySelector('.interior-option.active')?.getAttribute('data-interior') || null,
+        optionalEquipment: Array.from(document.querySelectorAll('.add-btn.added'))
+            .map(button => button.closest('.equipment-option').querySelector('.equipment-name').innerText)
+    };
+    return config;
+}
+
+function updateConfigInBackend(config) {
+    console.log('Updated Config:', config);
+    // Add your backend sync logic here (e.g., API call)
 }
 
 // ===================
@@ -132,6 +242,20 @@ function applyConfigFromJSON(config) {
         }
     });
 
+    // Update Color Details (Name, Description, Price)
+    const activeColorOption = document.querySelector(`.color-option[title="${config.color}"]`);
+    if (activeColorOption) {
+        const colorDetails = document.querySelector('.color-details');
+        const colorName = activeColorOption.getAttribute('title');
+        const colorPrice = activeColorOption.getAttribute('data-price') || "Standard";
+        const colorDescription = activeColorOption.getAttribute('data-description') || "No description available.";
+        if (colorDetails) {
+            colorDetails.querySelector('h3').innerText = colorName;
+            colorDetails.querySelector('.color-price').innerText = colorPrice;
+            colorDetails.querySelector('.color-description').innerText = colorDescription;
+        }
+    }
+
     // Update Wheels
     document.querySelectorAll('.wheel-option').forEach(option => {
         if (option.getAttribute('data-wheel') === config.wheels) {
@@ -140,6 +264,17 @@ function applyConfigFromJSON(config) {
             option.classList.remove('active');
         }
     });
+
+    // Update Wheel Details
+    const activeWheelOption = document.querySelector(`.wheel-option[data-wheel="${config.wheels}"]`);
+    if (activeWheelOption) {
+        const wheelDetails = document.querySelector('.wheel-details');
+        if (wheelDetails) {
+            wheelDetails.querySelector('h3').innerText = config.wheels;
+            wheelDetails.querySelector('p').innerText =
+                config.wheels === "21″ 5-multi spoke black diamond cut" ? "Standard" : "£795";
+        }
+    }
 
     // Update Interior
     document.querySelectorAll('.option-group[data-group="interior"] .option').forEach(option => {
@@ -154,6 +289,9 @@ function applyConfigFromJSON(config) {
     document.querySelectorAll('.option-group[data-group="optional-equipment"] input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = config.optionalEquipment.includes(checkbox.value);
     });
+
+    // Sync the updated configuration to the backend
+    updateConfigInBackend(config);
 }
 
 // ===================
@@ -212,42 +350,30 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchDefaultConfig();
 });
 
-// ========================
-// Collapsible Sections for Optional Equipment
-// ========================
+// ===================
+// Sync UI to Backend
+// ===================
 
-// Toggle the visibility of optional equipment sections
-function toggleCategory(element) {
-    // Get the sibling element containing the equipment options
-    const equipmentOptions = element.nextElementSibling;
-
-    // Check if the section is currently open
-    const isOpen = equipmentOptions.classList.contains('open');
-
-    // Close all other collapsible sections
-    document.querySelectorAll('.optional-equipment-section .equipment-options').forEach(section => {
-        section.classList.remove('open');
-        section.previousElementSibling.classList.remove('active'); // Remove active state from button
-    });
-
-    // If the clicked section was not open, open it
-    if (!isOpen) {
-        equipmentOptions.classList.add('open');
-        element.classList.add('active'); // Add active state to button
-    } else {
-        equipmentOptions.classList.remove('open');
-        element.classList.remove('active'); // Remove active state from button
-    }
+function getCurrentConfigFromUI() {
+    return {
+        level: document.querySelector('.option-group[data-group="level"] .option.active .option-name').innerText,
+        theme: document.querySelector('.option-group[data-group="theme"] .option.active .option-name').innerText,
+        color: document.querySelector('.color-option.active').getAttribute('title'),
+        wheels: document.querySelector('.wheel-option.active').getAttribute('data-wheel'),
+        interior: document.querySelector('.option-group[data-group="interior"] .option.active .option-name').innerText,
+        optionalEquipment: Array.from(document.querySelectorAll('.equipment-checkbox:checked')).map(cb => cb.value),
+    };
 }
 
-// ===================
-// Initialize Collapsible Event Listeners
-// ===================
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Attach click event to all collapsible buttons
-    const collapsibles = document.querySelectorAll('.collapsible');
-    collapsibles.forEach(button => {
-        button.addEventListener('click', () => toggleCategory(button));
-    });
-});
+function updateConfigInBackend(config) {
+    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(config),
+    })
+        .then(response => response.json())
+        .then(data => console.log('Config synced to backend:', data))
+        .catch(error => console.error('Error syncing config:', error));
+}
