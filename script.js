@@ -226,27 +226,6 @@ function selectInterior(element) {
     updateConfigInBackend(updatedConfig);
 }
 
-function toggleCategory(button) {
-    const category = button.nextElementSibling;
-
-    if (category) {
-        // Toggle the active class
-        const isActive = category.classList.toggle("active");
-        button.classList.toggle("active", isActive);
-
-        // Properly set the height for smooth transitions
-        if (isActive) {
-            category.style.height = `${category.scrollHeight}px`;
-        } else {
-            category.style.height = "0";
-        }
-    } else {
-        console.warn("No content found to toggle for this category.");
-    }
-}
-
-
-
 function toggleAdd(button) {
     const equipmentName = button.closest(".equipment-option").querySelector(".equipment-name").innerText;
 

@@ -580,51 +580,44 @@ header img {
     /* Align heading to the left */
 }
 
-/* Ensure the collapsible sections are hidden by default */
-.optional-equipment, .equipment-options {
-    height: 0;
-    overflow: hidden;
-    transition: height 0.3s ease-out;
+/* Optional Equipment Section */
+.optional-equipment-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: white;
+    width: 70%; /* Limit section to the left 70% of the screen */
+    box-sizing: border-box;
 }
 
-.optional-equipment.active, .equipment-options.active {
-    height: auto;
-    overflow: visible;
-}
-
-
-/* Collapsible button styles */
-.collapsible {
-    background: none;
-    border: none;
-    font-size: 16px;
+.optional-equipment-section h2 {
+    font-size: 24px;
     font-weight: bold;
-    text-align: left;
-    width: 100%;
-    cursor: pointer;
-    outline: none;
-    padding: 10px 0;
+    margin-bottom: 20px;
     color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: left;
 }
 
-.collapsible:hover {
-    color: #0057a3;
+/* Category Styling */
+.optional-category {
+    margin-top: 20px;
 }
 
-.collapsible:after {
-    content: "\25bc";  /* Down arrow */
-    font-size: 12px;
-    color: #666;
-    margin-left: 10px;
-    transform: rotate(0);
-    transition: transform 0.3s ease;
+.optional-category h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: left;
 }
 
-.collapsible.active:after {
-    transform: rotate(180deg);  /* Rotate the arrow when active */
+/* Equipment Options Grid */
+.optional-equipment,
+.equipment-options {
+    display: flex; /* Change from grid to flexbox for better alignment */
+    flex-wrap: wrap; /* Allow wrapping of items */
+    gap: 20px; /* Add consistent spacing between items */
+    justify-content: flex-start; /* Align items to the left */
+    align-items: flex-start;
 }
 
 /* Equipment Option Box */
@@ -632,89 +625,65 @@ header img {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* Space out the elements inside the card */
     align-items: flex-start;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
-    width: 100%;
-    /* Full width within the grid space */
-    max-width: 200px;
-    /* Prevent options from becoming too wide */
-    min-width: 150px;
-    /* Prevent options from becoming too narrow */
-    height: 270px;
-    /* Fixed height for consistency */
+    width: 200px; /* Fixed width for consistency */
+    height: 270px; /* Fixed height for consistency */
     position: relative;
     padding: 10px;
-    /* Padding for inner content */
     box-sizing: border-box;
 }
 
 .equipment-option img {
     width: 100%;
-    /* Image takes the full width of the card */
     height: auto;
-    /* Maintain aspect ratio */
     border-bottom: 1px solid #ddd;
-    /* Add a border below the image for separation */
 }
 
-/* Name text wraps properly */
+/* Name text styling */
 .equipment-option .equipment-name {
     font-weight: bold;
     color: #333;
     margin: 10px 0;
-    /* Add spacing around the name */
     font-size: 14px;
     text-align: left;
     line-height: 1.2;
-    white-space: normal;
-    /* Allow the name to wrap */
-    overflow: visible;
-    /* Ensure visibility of wrapped text */
     word-break: break-word;
-    /* Break long words to prevent overflow */
 }
 
-/* Description handling */
+/* Description styling */
 .equipment-option .equipment-description {
     font-size: 12px;
     color: #666;
     margin-top: 5px;
     line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    /* Limit to 3 lines */
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex-grow: 1;
-    /* Allow description to take up remaining space */
 }
 
 /* Price and button container fixed at the bottom */
 .equipment-option .bottom-container {
     margin-top: auto;
-    /* Push this container to the bottom */
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-/* Price styling */
 .equipment-option .equipment-price {
     font-size: 14px;
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
-    /* Space above the button */
 }
 
-/* Button styling */
 .equipment-option .add-btn {
     background-color: white;
     color: black;
@@ -723,8 +692,6 @@ header img {
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
-    align-self: flex-start;
-    /* Align to the left */
     transition: all 0.3s ease;
 }
 
@@ -744,17 +711,18 @@ header img {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-
     .optional-equipment,
     .equipment-options {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        justify-content: flex-start; /* Align items to the left on smaller screens */
     }
 
     .equipment-option {
-        max-width: 150px;
-        /* Prevent excessively wide options on smaller screens */
+        width: 150px; /* Smaller width for smaller screens */
+        height: auto; /* Allow dynamic height */
     }
 }
+
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
