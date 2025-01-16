@@ -228,11 +228,24 @@ function selectInterior(element) {
 
 function toggleCategory(button) {
     const category = button.nextElementSibling;
+
     if (category) {
-        category.classList.toggle("active");
-        button.classList.toggle("active");
+        // Toggle the active class
+        const isActive = category.classList.toggle("active");
+        button.classList.toggle("active", isActive);
+
+        // Properly set the height for smooth transitions
+        if (isActive) {
+            category.style.height = `${category.scrollHeight}px`;
+        } else {
+            category.style.height = "0";
+        }
+    } else {
+        console.warn("No content found to toggle for this category.");
     }
 }
+
+
 
 function toggleAdd(button) {
     const equipmentName = button.closest(".equipment-option").querySelector(".equipment-name").innerText;
@@ -263,19 +276,6 @@ function getCurrentConfigFromUI() {
     const wheels = document.querySelector('.wheel-option.active')?.getAttribute('data-wheel') || "20″ 5-Multi Spoke Black Diamond Cut";
     const interior = document.querySelector('.interior-option.active')?.getAttribute('data-interior') || "Charcoal Quilted Nordico in Charcoal interior";
 
-    // Log any missing fields for debugging
-    const missingFields = [];
-    if (!level) missingFields.push("level");
-    if (!powertrain) missingFields.push("powertrain");
-    if (!theme) missingFields.push("theme");
-    if (!color) missingFields.push("color");
-    if (!wheels) missingFields.push("wheels");
-    if (!interior) missingFields.push("interior");
-
-    if (missingFields.length > 0) {
-        console.error("Missing fields detected:", missingFields);
-    }
-
     return {
         level,
         powertrain,
@@ -291,27 +291,70 @@ function getCurrentConfigFromUI() {
 
 
 function updateConfigInBackend(config) {
-    console.groupCollapsed("%c[Backend Request] Sending configuration to backend", "color: green; font-weight: bold;");
-    console.log("Payload:", config);
-
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(config),
     })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`Backend error: ${response.statusText}`);
-            }
-            return response.json();
-        })
+        .then((response) => response.json())
         .then((data) => {
             console.log("%c[Backend Response] Success:", "color: green;", data);
         })
         .catch((error) => {
             console.error("%c[Backend Response] Error:", "color: red;", error);
-        })
-        .finally(() => {
-            console.groupEnd(); // Close the group
         });
+}
+
+
+// Function to go to the previous image in a carousel
+function prevImage(carouselId, carouselGroup) {
+    console.log(`prevImage triggered for ${carouselId}, group ${carouselGroup}`);
+    const carousel = document.getElementById(carouselId);
+    console.log(`Images: ${images}, Current: ${carousel.src}`);
+    if (!carousel) return;
+
+    const images = getCarouselImages(carouselGroup);
+    const currentIndex = images.indexOf(carousel.src);
+
+    // Calculate the previous index (loop back if needed)
+    const prevIndex = (currentIndex - 1 + images.length) % images.length;
+    carousel.src = images[prevIndex];
+}
+
+// Function to go to the next image in a carousel
+function nextImage(carouselId, carouselGroup) {
+    console.log(`nextImage triggered for ${carouselId}, group ${carouselGroup}`);
+    const carousel = document.getElementById(carouselId);
+    console.log(`Images: ${images}, Current: ${carousel.src}`);
+    if (!carousel) return;
+
+    const images = getCarouselImages(carouselGroup);
+    const currentIndex = images.indexOf(carousel.src);
+
+    // Calculate the next index (loop back if needed)
+    const nextIndex = (currentIndex + 1) % images.length;
+    carousel.src = images[nextIndex];
+}
+
+// Helper function to get the list of images for a given carousel group
+function getCarouselImages(carouselGroup) {
+    const imageGroups = {
+        1: [
+            'Images/XC90Ultra1-6.jpeg',
+            'Images/XC90Ultra2.jpeg',
+            'Images/XC90Ultra3.jpeg',
+        ],
+        2: [
+            'Images/XC90UltraWheel1-3.jpeg',
+            'Images/XC90UltraWheel2.jpeg',
+            'Images/XC90UltraWheel3.jpeg',
+        ],
+        3: [
+            'Images/XC90UltraInterior1-8.jpeg',
+            'Images/XC90UltraInterior2.jpeg',
+            'Images/XC90UltraInterior3.jpeg',
+        ],
+    };
+
+    return imageGroups[carouselGroup] || [];
 }
