@@ -274,28 +274,32 @@ header img {
 /* Color Options */
 .color-options {
     display: flex;
-    gap: 15px;
     flex-wrap: wrap;
-    position: relative;
+    gap: 15px;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
 }
 
 .color-option {
     width: 30px;
     height: 30px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    aspect-ratio: 1/1;
     border-radius: 50%;
     border: 2px solid transparent;
     cursor: pointer;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    position: relative;
-    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
-}
-
-.color-option:hover {
-    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
-}
-
-.color-option.active {
-    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    box-shadow:
+        0 0 0 4px #fff,
+        /* First outline */
+        0 0 0 6px #ccc;
+    /* Second outline (grey outer circle) */
 }
 
 .color-option::before {
@@ -304,16 +308,32 @@ header img {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
+    /* Center the outer circle */
+    width: 60px;
+    /* Outer ring size */
+    height: 60px;
     border-radius: 50%;
     border: 2px solid #ccc;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    /* Grey outer circle */
+    transition: all 0.3s ease;
+}
+
+.color-option:hover::before {
+    border-color: #999;
+    /* Subtle highlight on hover */
 }
 
 .color-option.active::before {
     border-color: #0057a3;
-    box-shadow: 0 0 8px rgba(0, 87, 163, 0.5);
+    /* Blue for the outer circle when active */
+    box-shadow: 0 0 4px rgba(0, 87, 163, 0.5);
+    /* Glow effect */
+}
+
+.color-option.active {
+    box-shadow:
+        inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+    /* Keep inner circle original outline */
 }
 
 /* Dynamically adjust the inner circle color for contrast */
@@ -580,20 +600,6 @@ header img {
     /* Align heading to the left */
 }
 
-/* Ensure the collapsible sections are hidden by default */
-.optional-equipment, .equipment-options {
-    height: 0;
-    overflow: hidden;
-    transition: height 0.3s ease-out;
-}
-
-.optional-equipment.active, .equipment-options.active {
-    height: auto;
-    overflow: visible;
-}
-
-
-/* Collapsible button styles */
 .collapsible {
     background: none;
     border: none;
@@ -615,7 +621,8 @@ header img {
 }
 
 .collapsible:after {
-    content: "\25bc";  /* Down arrow */
+    content: "\25bc";
+    /* Down arrow */
     font-size: 12px;
     color: #666;
     margin-left: 10px;
@@ -624,7 +631,22 @@ header img {
 }
 
 .collapsible.active:after {
-    transform: rotate(180deg);  /* Rotate the arrow when active */
+    transform: rotate(180deg);
+    /* Rotate arrow */
+}
+
+.optional-equipment,
+.equipment-options {
+    display: none;
+    padding: 10px 0;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
+    /* Ensure narrow and consistent sizing */
+    gap: 20px;
+}
+
+.optional-equipment.active,
+.equipment-options.active {
+    display: grid;
 }
 
 /* Equipment Option Box */
@@ -756,20 +778,15 @@ header img {
     }
 }
 
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    .optional-equipment-section,
-    .optional-equipment {
+    .optional-equipment-section {
         padding: 15px;
     }
 
-    .equipment-options,
     .equipment-options {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-
-    .equipment-option {
-        max-width: 150px; /* Prevent excessively wide options on smaller screens */
     }
 
     .interior-options-row {
@@ -797,7 +814,6 @@ header img {
         height: 30px;
     }
 }
-
 
 
 .embeddedMessagingFrame {
@@ -864,7 +880,7 @@ header img {
 }
 
 .config-details strong {
-    color: #666
+    color: #0057a3;
 }
 
 /* Carousel Styling */

@@ -169,8 +169,8 @@ function selectInterior(element) {
 function toggleCategory(button) {
     const category = button.nextElementSibling;
     if (category) {
-        category.classList.toggle('active');
-        button.classList.toggle('active');
+        category.classList.toggle("active");
+        button.classList.toggle("active");
     }
 }
 
@@ -193,179 +193,43 @@ function toggleAdd(button) {
 // ========================
 
 function getCurrentConfigFromUI() {
-    const config = {
-        color: document.querySelector('.color-option.active')?.getAttribute('data-color') || null,
-        wheel: document.querySelector('.wheel-option.active')?.getAttribute('data-wheel') || null,
-        interior: document.querySelector('.interior-option.active')?.getAttribute('data-interior') || null,
-        optionalEquipment: Array.from(document.querySelectorAll('.add-btn.added'))
-            .map(button => button.closest('.equipment-option').querySelector('.equipment-name').innerText)
-    };
-    return config;
-}
+    const level = document.querySelector('.option-group[data-group="level"] .option.active .option-name')?.innerText || "Core";
+    const powertrain = document.querySelector('.option-group[data-group="powertrain"] .option.active .option-name')?.innerText || "T8 AWD Plug-in Hybrid";
+    const theme = document.querySelector('.option-group[data-group="theme"] .option.active .option-name')?.innerText || "Bright";
+    const color = document.querySelector('.color-option.active')?.getAttribute('data-color') || "Vapour Grey";
+    const wheels = document.querySelector('.wheel-option.active')?.getAttribute('data-wheel') || "20″ 5-Multi Spoke Black Diamond Cut";
+    const interior = document.querySelector('.interior-option.active')?.getAttribute('data-interior') || "Charcoal Quilted Nordico in Charcoal interior";
 
-function updateConfigInBackend(config) {
-    console.log('Updated Config:', config);
-    // Add your backend sync logic here (e.g., API call)
-}
+    // Log any missing fields for debugging
+    const missingFields = [];
+    if (!level) missingFields.push("level");
+    if (!powertrain) missingFields.push("powertrain");
+    if (!theme) missingFields.push("theme");
+    if (!color) missingFields.push("color");
+    if (!wheels) missingFields.push("wheels");
+    if (!interior) missingFields.push("interior");
 
-// ===================
-// Apply Configuration from JSON
-// ===================
-
-function applyConfigFromJSON(config) {
-    console.log('Applying Config:', config);
-
-    // Update Level
-    document.querySelectorAll('.option-group[data-group="level"] .option').forEach(option => {
-        if (option.querySelector('.option-name').innerText === config.level) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Theme
-    document.querySelectorAll('.option-group[data-group="theme"] .option').forEach(option => {
-        if (option.querySelector('.option-name').innerText === config.theme) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Color
-    document.querySelectorAll('.color-option').forEach(option => {
-        if (option.getAttribute('title') === config.color) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Color Details (Name, Description, Price)
-    const activeColorOption = document.querySelector(`.color-option[title="${config.color}"]`);
-    if (activeColorOption) {
-        const colorDetails = document.querySelector('.color-details');
-        const colorName = activeColorOption.getAttribute('title');
-        const colorPrice = activeColorOption.getAttribute('data-price') || "Standard";
-        const colorDescription = activeColorOption.getAttribute('data-description') || "No description available.";
-        if (colorDetails) {
-            colorDetails.querySelector('h3').innerText = colorName;
-            colorDetails.querySelector('.color-price').innerText = colorPrice;
-            colorDetails.querySelector('.color-description').innerText = colorDescription;
-        }
+    if (missingFields.length > 0) {
+        console.error("Missing fields detected:", missingFields);
     }
 
-    // Update Wheels
-    document.querySelectorAll('.wheel-option').forEach(option => {
-        if (option.getAttribute('data-wheel') === config.wheels) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Wheel Details
-    const activeWheelOption = document.querySelector(`.wheel-option[data-wheel="${config.wheels}"]`);
-    if (activeWheelOption) {
-        const wheelDetails = document.querySelector('.wheel-details');
-        if (wheelDetails) {
-            wheelDetails.querySelector('h3').innerText = config.wheels;
-            wheelDetails.querySelector('p').innerText =
-                config.wheels === "21″ 5-multi spoke black diamond cut" ? "Standard" : "£795";
-        }
-    }
-
-    // Update Interior
-    document.querySelectorAll('.option-group[data-group="interior"] .option').forEach(option => {
-        if (option.querySelector('.option-name').innerText === config.interior) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-
-    // Update Optional Equipment
-    document.querySelectorAll('.option-group[data-group="optional-equipment"] input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = config.optionalEquipment.includes(checkbox.value);
-    });
-
-    // Sync the updated configuration to the backend
-    updateConfigInBackend(config);
-}
-
-// ===================
-// Pusher Setup
-// ===================
-
-Pusher.logToConsole = true;
-
-const pusher = new Pusher('4e6d9761c08398dd9b26', {
-    cluster: 'eu',
-    forceTLS: true,
-});
-
-// Subscribe to channel
-const channel = pusher.subscribe('config-channel');
-
-// Listen for updates
-channel.bind('update-config', function (data) {
-    console.log('Received Config:', data);
-    applyConfigFromJSON(data);
-});
-
-// ===================
-// Fetch and Send Configurations
-// ===================
-
-function sendConfigToAPI(config) {
-    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(config),
-    })
-        .then(response => response.json())
-        .then(data => console.log('Configuration sent:', data))
-        .catch(error => console.error('Error sending configuration:', error));
-}
-
-function fetchDefaultConfig() {
-    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Default Config:', data);
-            applyConfigFromJSON(data.data);
-        })
-        .catch(error => console.error('Error fetching default configuration:', error));
-}
-
-// ===================
-// Initialize UI with Default Config
-// ===================
-
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Fetching default configuration...');
-    fetchDefaultConfig();
-});
-
-// ===================
-// Sync UI to Backend
-// ===================
-
-function getCurrentConfigFromUI() {
     return {
-        level: document.querySelector('.option-group[data-group="level"] .option.active .option-name').innerText,
-        theme: document.querySelector('.option-group[data-group="theme"] .option.active .option-name').innerText,
-        color: document.querySelector('.color-option.active').getAttribute('title'),
-        wheels: document.querySelector('.wheel-option.active').getAttribute('data-wheel'),
-        interior: document.querySelector('.option-group[data-group="interior"] .option.active .option-name').innerText,
-        optionalEquipment: Array.from(document.querySelectorAll('.equipment-checkbox:checked')).map(cb => cb.value),
+        level,
+        powertrain,
+        theme,
+        color,
+        wheels,
+        interior,
+        optionalEquipment: Array.from(document.querySelectorAll('.add-btn.added')).map(
+            (button) => button.closest('.equipment-option').querySelector('.equipment-name').innerText
+        ),
     };
 }
 
 function updateConfigInBackend(config) {
+    console.groupCollapsed("%c[Backend Request] Sending configuration to backend", "color: green; font-weight: bold;");
+    console.log("Payload:", config);
+
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
         method: 'POST',
         headers: {
@@ -373,7 +237,19 @@ function updateConfigInBackend(config) {
         },
         body: JSON.stringify(config),
     })
-        .then(response => response.json())
-        .then(data => console.log('Config synced to backend:', data))
-        .catch(error => console.error('Error syncing config:', error));
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Backend error: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("%c[Backend Response] Success:", "color: green;", data);
+        })
+        .catch((error) => {
+            console.error("%c[Backend Response] Error:", "color: red;", error);
+        })
+        .finally(() => {
+            console.groupEnd(); // Close the group
+        });
 }
