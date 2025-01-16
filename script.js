@@ -211,3 +211,43 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Fetching default configuration...');
     fetchDefaultConfig();
 });
+
+// ========================
+// Collapsible Sections for Optional Equipment
+// ========================
+
+// Toggle the visibility of optional equipment sections
+function toggleCategory(element) {
+    // Get the sibling element containing the equipment options
+    const equipmentOptions = element.nextElementSibling;
+
+    // Check if the section is currently open
+    const isOpen = equipmentOptions.classList.contains('open');
+
+    // Close all other collapsible sections
+    document.querySelectorAll('.optional-equipment-section .equipment-options').forEach(section => {
+        section.classList.remove('open');
+        section.previousElementSibling.classList.remove('active'); // Remove active state from button
+    });
+
+    // If the clicked section was not open, open it
+    if (!isOpen) {
+        equipmentOptions.classList.add('open');
+        element.classList.add('active'); // Add active state to button
+    } else {
+        equipmentOptions.classList.remove('open');
+        element.classList.remove('active'); // Remove active state from button
+    }
+}
+
+// ===================
+// Initialize Collapsible Event Listeners
+// ===================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Attach click event to all collapsible buttons
+    const collapsibles = document.querySelectorAll('.collapsible');
+    collapsibles.forEach(button => {
+        button.addEventListener('click', () => toggleCategory(button));
+    });
+});

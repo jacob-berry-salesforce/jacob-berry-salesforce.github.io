@@ -383,6 +383,145 @@ header img {
     color: #666;
 }
 
+/* Optional Equipment Section */
+.optional-equipment-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.optional-equipment-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Collapsible Buttons */
+.collapsible {
+    background-color: #f7f7f7;
+    color: #333;
+    cursor: pointer;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.collapsible:hover {
+    background-color: #0057a3;
+    color: #fff;
+}
+
+.collapsible.active {
+    background-color: #0057a3;
+    color: #fff;
+}
+
+.collapsible:after {
+    content: '\25BC'; /* Down arrow */
+    font-size: 12px;
+    float: right;
+    transition: transform 0.3s ease;
+}
+
+.collapsible.active:after {
+    transform: rotate(180deg); /* Flip the arrow */
+}
+
+/* Equipment Options */
+.equipment-options {
+    display: none; /* Hidden by default */
+    padding-left: 20px;
+    margin-top: 10px;
+    border-left: 3px solid #ddd;
+}
+
+.equipment-options.open {
+    display: grid; /* Use grid layout for better alignment */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+
+.equipment-option {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.equipment-option:hover {
+    border-color: #0057a3;
+    box-shadow: 0 2px 6px rgba(0, 87, 163, 0.3);
+}
+
+.equipment-option img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.equipment-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+}
+
+.equipment-option .equipment-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.equipment-option .equipment-price {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.add-btn {
+    background-color: #0057a3;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #004080;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .optional-equipment-section {
+        padding: 15px;
+    }
+
+    .equipment-options.open {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .collapsible {
+        font-size: 14px;
+    }
+}
+
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .option {

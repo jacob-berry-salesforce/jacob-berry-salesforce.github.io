@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
@@ -9,6 +10,7 @@
     <link rel="icon" type="image/x-icon" href="/Images/favicon2.png">
     <meta name="description" content="Configure your Volvo XC90 and explore various options to personalize your car.">
 </head>
+
 <body>
     <header>
         <img src="Images/VolvoLogo.png" alt="Volvo Logo">
@@ -106,7 +108,7 @@
                     <a href="#" class="learn-more">View all features <span class="arrow">&#10095;</span></a>
                 </div>
             </div>
-        
+
             <!-- Powertrain -->
             <div class="option-group">
                 <h2>Your powertrain</h2>
@@ -122,7 +124,7 @@
                     </p>
                 </div>
             </div>
-        
+
             <!-- Theme -->
             <div class="option-group" data-group="theme">
                 <h2>Choose your theme</h2>
@@ -139,30 +141,30 @@
                     </p>
                 </div>
             </div>
-            
+
             <!-- Color -->
-             <div class="option-group" data-group="color">
+            <div class="option-group" data-group="color">
                 <h2>Choose your colour</h2>
                 <div class="color-options">
-                    <div class="color-option" style="background-color: #ffffff;" title="Crystal White" 
+                    <div class="color-option" style="background-color: #ffffff;" title="Crystal White"
                         onclick="selectColor(this, 'Crystal White', '£795', 'Shimmering white pearl colour with a soft, deep pearlescent effect for a silky appearance.')">
                     </div>
-                    <div class="color-option" style="background-color: #000000;" title="Onyx Black" 
+                    <div class="color-option" style="background-color: #000000;" title="Onyx Black"
                         onclick="selectColor(this, 'Onyx Black', '£795', 'Elegant, deep black metallic with a brilliant sparkle in strong daylight and a solid darkness in reduced light.')">
                     </div>
-                    <div class="color-option" style="background-color: #4a6785;" title="Denim Blue" 
+                    <div class="color-option" style="background-color: #4a6785;" title="Denim Blue"
                         onclick="selectColor(this, 'Denim Blue', '£795', 'A rich, smokey blue metallic with plenty of depth and a fluid, silky finish.')">
                     </div>
-                    <div class="color-option" style="background-color: #c3c3c3;" title="Silver Dawn" 
+                    <div class="color-option" style="background-color: #c3c3c3;" title="Silver Dawn"
                         onclick="selectColor(this, 'Silver Dawn', '£795', 'A modern silver metallic that shimmers from warm yellow to cold, more solid blue.')">
                     </div>
-                    <div class="color-option" style="background-color: #d9b8a0;" title="Bright Dusk" 
+                    <div class="color-option" style="background-color: #d9b8a0;" title="Bright Dusk"
                         onclick="selectColor(this, 'Bright Dusk', '£795', 'A warm silver high-metallic with light rosé tones that distinguishes the car\'s shapes and gives an anodized metal look in direct sunlight.')">
                     </div>
-                    <div class="color-option" style="background-color: #5b2a2f;" title="Mulberry Red" 
+                    <div class="color-option" style="background-color: #5b2a2f;" title="Mulberry Red"
                         onclick="selectColor(this, 'Mulberry Red', '£795', 'A dark, elegant blackish red that sparkles up in sunlight for a colourful expression with prominent shades of red.')">
                     </div>
-                    <div class="color-option active" style="background-color: #7a7a7a;" title="Vapour Grey" 
+                    <div class="color-option active" style="background-color: #7a7a7a;" title="Vapour Grey"
                         onclick="selectColor(this, 'Vapour Grey', 'Standard', 'A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.')">
                     </div>
                 </div>
@@ -170,19 +172,22 @@
                     <h3>Vapour Grey</h3>
                     <p class="color-price">Standard</p>
                     <p class="color-description">
-                        A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian limestone houses.
+                        A solid effect metallic in neutral grey with a misty touch, inspired by windswept Scandinavian
+                        limestone houses.
                     </p>
                 </div>
             </div>
-            
+
             <!-- Wheels -->
-             <div class="option-group" data-group="wheels">
+            <div class="option-group" data-group="wheels">
                 <h2>Choose your wheels</h2>
                 <div class="wheel-options">
-                    <div class="wheel-option active" data-wheel="21″ 5-multi spoke black diamond cut" onclick="selectWheel(this)">
+                    <div class="wheel-option active" data-wheel="21″ 5-multi spoke black diamond cut"
+                        onclick="selectWheel(this)">
                         <img src="Images/Wheel21.jpeg" alt="21″ 5-multi spoke black diamond cut">
                     </div>
-                    <div class="wheel-option" data-wheel="22″ 7-double spoke black diamond cut" onclick="selectWheel(this)">
+                    <div class="wheel-option" data-wheel="22″ 7-double spoke black diamond cut"
+                        onclick="selectWheel(this)">
                         <img src="Images/Wheel22.jpeg" alt="22″ 7-double spoke black diamond cut">
                     </div>
                 </div>
@@ -190,8 +195,8 @@
                     <h3>21″ 5-multi spoke black diamond cut</h3>
                     <p>Standard</p>
                 </div>
-             </div>
-        
+            </div>
+
             <!-- Interior -->
             <div class="option-group">
                 <h2>Choose your interior</h2>
@@ -234,49 +239,364 @@
                     </p>
                 </div>
             </div>
-        
-            <!-- Optional Equipment -->
-            <div class="option-group">
-                <h2>Add optional equipment</h2>
-                <p>Explore a catalogue of add-ons in different categories to enhance your experience.</p>
+
+            <div>
+                <!-- Optional Equipment -->
+                <div class="optional-equipment-section" data-group="optional-equipment">
+                    <h2>Add Optional Equipment</h2>
+                    <!-- Seats -->
+                    <div class="optional-category">
+                        <button class="collapsible" onclick="toggleCategory(this)">Seats (2)</button>
+                        <div class="optional-equipment">
+                            <!-- Front Seat Massage -->
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/seat1.jpeg" alt="Front Seat Massage">
+                                <label>
+                                    <span class="equipment-name">Front Seat Massage</span>
+                                    <p class="equipment-price">Included</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <!-- Nubuck Textile Headlining -->
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/seat2.jpeg" alt="Nubuck Textile Headlining">
+                                <label>
+                                    <span class="equipment-name">Nubuck Textile Headlining</span>
+                                    <p class="equipment-price">£1,495</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Exterior -->
+                    <div class="equipment-category">
+                        <button class="collapsible" onclick="toggleCategory(this)">Exterior (5)</button>
+                        <div class="equipment-options">
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/exterior1.jpeg" alt="Panoramic Roof">
+                                <label>
+                                    <span class="equipment-name">Panoramic Roof</span>
+                                    <p class="equipment-price">£1,495</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/exterior2.jpeg" alt="Tinted Rear Windows">
+                                <label>
+                                    <span class="equipment-name">Tinted Rear Windows</span>
+                                    <p class="equipment-price">£545</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/exterior3.jpeg" alt="Mud Flaps (Front)">
+                                <label>
+                                    <span class="equipment-name">Mud Flaps (Front)</span>
+                                    <p class="equipment-price">£128</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/exterior4.jpeg" alt="Mud Flaps (Rear)">
+                                <label>
+                                    <span class="equipment-name">Mud Flaps (Rear)</span>
+                                    <p class="equipment-price">£128</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/exterior5.jpeg" alt="Running Boards (Integrated)">
+                                <label>
+                                    <span class="equipment-name">Running Boards (Integrated)</span>
+                                    <p class="equipment-price">£1,418</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Driver Support -->
+                    <div class="equipment-category">
+                        <button class="collapsible" onclick="toggleCategory(this)">Driver Support (1)</button>
+                        <div class="equipment-options">
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/driversupport1.jpeg" alt="360° Camera">
+                                <label>
+                                    <span class="equipment-name">360° Camera</span>
+                                    <p class="equipment-price">£695</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Climate -->
+                    <div class="equipment-category">
+                        <button class="collapsible" onclick="toggleCategory(this)">Climate (2)</button>
+                        <div class="equipment-options">
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/climate1.jpeg" alt="Rear Door Sun Curtains">
+                                <label>
+                                    <span class="equipment-name">Rear Door Sun Curtains</span>
+                                    <p class="equipment-price">£195</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/climate2.jpeg" alt="Heated Windscreen">
+                                <label>
+                                    <span class="equipment-name">Heated Windscreen</span>
+                                    <p class="equipment-price">No additional cost</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pack & Load -->
+                    <div class="equipment-category">
+                        <button class="collapsible" onclick="toggleCategory(this)">Pack & Load (1)</button>
+                        <div class="equipment-options">
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/packload.jpeg" alt="Towbar (Foldable)">
+                                <label>
+                                    <span class="equipment-name">Towbar (Foldable)</span>
+                                    <p class="equipment-price">£1,400</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accessories -->
+                    <div class="equipment-category">
+                        <button class="collapsible" onclick="toggleCategory(this)">Accessories (15)</button>
+                        <div class="equipment-options">
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory1.jpeg" alt="Dashcams (Front and Rear)">
+                                <label>
+                                    <span class="equipment-name">Dashcams (Front and Rear)</span>
+                                    <p class="equipment-price">£537</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory2.jpeg"
+                                    alt="Extendable and Reversible Load Compartment Mat">
+                                <label>
+                                    <span class="equipment-name">Extendable and Reversible Load Compartment Mat</span>
+                                    <p class="equipment-price">£179</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory3.jpeg" alt="Spectacle Holder">
+                                <label>
+                                    <span class="equipment-name">Spectacle Holder</span>
+                                    <p class="equipment-price">£51</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory4.jpeg" alt="Protective Grille (Steel)">
+                                <label>
+                                    <span class="equipment-name">Protective Grille (Steel)</span>
+                                    <p class="equipment-price">£265</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory5.jpeg"
+                                    alt="All-Weather Interior Cabin Floor Mats (Third Row)">
+                                <label>
+                                    <span class="equipment-name">All-Weather Interior Cabin Floor Mats (Third
+                                        Row)</span>
+                                    <p class="equipment-price">£51</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory6.jpeg" alt="All-Weather Load Compartment Mat">
+                                <label>
+                                    <span class="equipment-name">All-Weather Load Compartment Mat</span>
+                                    <p class="equipment-price">£230</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory7.jpeg"
+                                    alt="Volvo Car Protect (Leather and Leather Alternative)">
+                                <label>
+                                    <span class="equipment-name">Volvo Car Protect (Leather and Leather
+                                        Alternative)</span>
+                                    <p class="equipment-price">£455</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory8.jpeg" alt="Charging Cable Bag">
+                                <label>
+                                    <span class="equipment-name">Charging Cable Bag</span>
+                                    <p class="equipment-price">£41</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory9.jpeg" alt="Luggage Net">
+                                <label>
+                                    <span class="equipment-name">Luggage Net</span>
+                                    <p class="equipment-price">£92</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory10.jpeg" alt="Bumper Cover">
+                                <label>
+                                    <span class="equipment-name">Bumper Cover</span>
+                                    <p class="equipment-price">£128</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory11.jpeg" alt="Dashcam (Front)">
+                                <label>
+                                    <span class="equipment-name">Dashcam (Front)</span>
+                                    <p class="equipment-price">£335</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory12.jpeg"
+                                    alt="All-Weather Interior Cabin Floor Mats">
+                                <label>
+                                    <span class="equipment-name">All-Weather Interior Cabin Floor Mats</span>
+                                    <p class="equipment-price">£128</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory13.jpeg" alt="Volvo Car Protect (Textile)">
+                                <label>
+                                    <span class="equipment-name">Volvo Car Protect (Textile)</span>
+                                    <p class="equipment-price">£405</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory14.jpeg"
+                                    alt="Black Load Carriers (Wing Profile for Rails)">
+                                <label>
+                                    <span class="equipment-name">Black Load Carriers (Wing Profile for Rails)</span>
+                                    <p class="equipment-price">£275</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                            <div class="equipment-option">
+                                <img src="Images/Optionals/accessory15.jpeg" alt="Tracker (Vodafone Automotive VTS S5)">
+                                <label>
+                                    <span class="equipment-name">Tracker (Vodafone Automotive VTS S5)</span>
+                                    <p class="equipment-price">£629</p>
+                                    <button class="add-btn">Add</button>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section -->
+            <div class="config-summary-container">
+                <!-- Configurations -->
+                <div class="config-summary-section">
+                    <!-- Current Configuration -->
+                    <div class="current-config">
+                        <h2>Current Configuration</h2>
+                        <div class="carousel">
+                            <img id="current-config-carousel" src="Images/XC90Ultra1-6.jpeg"
+                                alt="Current Configured Volvo XC90">
+                            <div class="carousel-nav">
+                                <button class="nav-arrow left-arrow"
+                                    onclick="prevImage('current-config-carousel')">&#10094;</button>
+                                <button class="nav-arrow right-arrow"
+                                    onclick="nextImage('current-config-carousel')">&#10095;</button>
+                            </div>
+                        </div>
+                        <div class="config-details">
+                            <p>Trim Level: <strong>Ultra</strong></p>
+                            <p>Colour: <strong>Vapour Grey</strong></p>
+                            <p>Wheels: <strong>20″ 5-Multi Spoke Black Diamond Cut</strong></p>
+                            <p>Interior: <strong>Charcoal Quilted Nordico</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Alternative Configuration -->
+                    <div class="alternative-config">
+                        <h2>Alternative Configuration</h2>
+                        <div class="carousel">
+                            <img id="alternative-config-carousel" src="Images/XC90Ultra1-6.jpeg"
+                                alt="Alternative Configured Volvo XC90">
+                            <div class="carousel-nav">
+                                <button class="nav-arrow left-arrow"
+                                    onclick="prevImage('alternative-config-carousel')">&#10094;</button>
+                                <button class="nav-arrow right-arrow"
+                                    onclick="nextImage('alternative-config-carousel')">&#10095;</button>
+                            </div>
+                        </div>
+                        <div class="config-details">
+                            <p>Trim Level: <strong>Ultra</strong></p>
+                            <p>Colour: <strong>Denim Blue</strong></p>
+                            <p>Wheels: <strong>21″ 5-Multi Spoke Black Diamond Cut</strong></p>
+                            <p>Interior: <strong>Charcoal Ventilated Nappa Leather</strong></p>
+                        </div>
+                        <p>Delivery Time: <strong>1-2 weeks</strong></p>
+                        <p>Price: <strong>£84,945 (Incl. VAT)</strong></p>
+                    </div>
+                </div>
+
+                <!-- Payment and Delivery Details -->
+                <div class="payment-delivery">
+                    <h2>Payment & Delivery</h2>
+                    <p>Due today: <strong>£500 (Incl. VAT)</strong> <a href="#">More info</a></p>
+                    <p>Due before delivery: <strong>£84,445 (Incl. VAT)</strong> <a href="#">More info</a></p>
+                    <p>Delivery Time: <strong>3-4 months</strong></p>
+                    <button class="view-summary-btn">View Summary</button>
+                </div>
             </div>
         </div>
-    </main>
-    <script type="text/javascript">
-        function initEmbeddedMessaging() {
-            try {
-                // Set language (optional, can be adjusted)
-                embeddedservice_bootstrap.settings.language = 'en_US';
-    
-                // Customize the text that appears in different chat states
-                embeddedservice_bootstrap.settings.defaultMinimizedText = "Need help?";  // Minimized button text
-                embeddedservice_bootstrap.settings.disabledMinimizedText = "Chat is unavailable";  // When chat is disabled
-                embeddedservice_bootstrap.settings.offlineSupportMinimizedText = "Offline, leave a message";  // When offline
-                embeddedservice_bootstrap.settings.loadingText = "Connecting...";  // When loading the chat
-    
-                // Initialize the embedded chat window
-                embeddedservice_bootstrap.init(
-                    '00DHu00000GKyNZ',  // Replace with your Salesforce instance ID
-                    'Volta',             // Bot site name
-                    'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941',  // Your Salesforce site URL
-                    {
-                        scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com',  // Secure URL for encrypted communications
-                    }
-                );
-            } catch (err) {
-                console.error('Error initializing Embedded Messaging:', err);
+    </div>
+        <script type="text/javascript">
+            function initEmbeddedMessaging() {
+                try {
+                    // Set language (optional, can be adjusted)
+                    embeddedservice_bootstrap.settings.language = 'en_US';
+
+                    // Customize the text that appears in different chat states
+                    embeddedservice_bootstrap.settings.defaultMinimizedText = "Need help?";  // Minimized button text
+                    embeddedservice_bootstrap.settings.disabledMinimizedText = "Chat is unavailable";  // When chat is disabled
+                    embeddedservice_bootstrap.settings.offlineSupportMinimizedText = "Offline, leave a message";  // When offline
+                    embeddedservice_bootstrap.settings.loadingText = "Connecting...";  // When loading the chat
+
+                    // Initialize the embedded chat window
+                    embeddedservice_bootstrap.init(
+                        '00DHu00000GKyNZ',  // Replace with your Salesforce instance ID
+                        'Volta',             // Bot site name
+                        'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941',  // Your Salesforce site URL
+                        {
+                            scrt2URL: 'https://storm-c67b8b7b3bfc6d.my.salesforce-scrt.com',  // Secure URL for encrypted communications
+                        }
+                    );
+                } catch (err) {
+                    console.error('Error initializing Embedded Messaging:', err);
+                }
             }
-        }
-    
-        // Dynamically load the Embedded Messaging script
-        window.onload = function() {
-            const script = document.createElement('script');
-            script.src = 'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941/assets/js/bootstrap.min.js';
-            script.onload = initEmbeddedMessaging;
-            document.head.appendChild(script);
-        };
-    </script>
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script src="script.js"></script>
+
+            // Dynamically load the Embedded Messaging script
+            window.onload = function () {
+                const script = document.createElement('script');
+                script.src = 'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941/assets/js/bootstrap.min.js';
+                script.onload = initEmbeddedMessaging;
+                document.head.appendChild(script);
+            };
+        </script>
+        <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+        <script src="script.js"></script>
 </body>
+
 </html>
