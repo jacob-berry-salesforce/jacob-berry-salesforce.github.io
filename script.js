@@ -36,7 +36,25 @@ document.addEventListener("DOMContentLoaded", () => {
 // Function to Apply Config to UI
 // ==============================
 
+let lastAppliedVersion = 0; // Tracks the last applied version
+let userMakingChanges = false; // Tracks if the user is actively making changes
+
 function applyConfigToUI(config) {
+    // Ignore updates during user interaction unless the source is explicitly 'API'
+    if (userMakingChanges && config.source !== 'API') {
+        console.warn("Ignored backend update during user interaction:", config);
+        return;
+    }
+
+    // Only apply updates with a newer version
+    if (config.version <= lastAppliedVersion) {
+        console.warn("Ignored outdated configuration update:", config);
+        return;
+    }
+
+    // Update the last applied version
+    lastAppliedVersion = config.version;
+
     console.groupCollapsed("%c[UI Update] Applying configuration", "color: green; font-weight: bold;");
     console.log("Configuration applied:", config);
     console.groupEnd();
@@ -113,8 +131,23 @@ function applyConfigToUI(config) {
         }
     });
 
-    console.log('UI updated with new configuration:', config);
+    console.log("UI updated with new configuration:", config);
 }
+
+// Track user interactions
+function onUserInteraction() {
+    userMakingChanges = true;
+
+    // Reset the flag after 1 second of inactivity
+    setTimeout(() => {
+        userMakingChanges = false;
+    }, 1000);
+}
+
+// Attach event listeners to detect user interactions
+document.body.addEventListener('click', onUserInteraction);
+document.body.addEventListener('input', onUserInteraction);
+
 
 // ==============================
 // Event Delegation for Dynamic UI
@@ -282,58 +315,4 @@ function updateConfigInBackend(config) {
         .catch((error) => {
             console.error("%c[Backend Response] Error:", "color: red;", error);
         });
-}
-
-
-// Function to go to the previous image in a carousel
-function prevImage(carouselId, carouselGroup) {
-    console.log(`prevImage triggered for ${carouselId}, group ${carouselGroup}`);
-    const carousel = document.getElementById(carouselId);
-    console.log(`Images: ${images}, Current: ${carousel.src}`);
-    if (!carousel) return;
-
-    const images = getCarouselImages(carouselGroup);
-    const currentIndex = images.indexOf(carousel.src);
-
-    // Calculate the previous index (loop back if needed)
-    const prevIndex = (currentIndex - 1 + images.length) % images.length;
-    carousel.src = images[prevIndex];
-}
-
-// Function to go to the next image in a carousel
-function nextImage(carouselId, carouselGroup) {
-    console.log(`nextImage triggered for ${carouselId}, group ${carouselGroup}`);
-    const carousel = document.getElementById(carouselId);
-    console.log(`Images: ${images}, Current: ${carousel.src}`);
-    if (!carousel) return;
-
-    const images = getCarouselImages(carouselGroup);
-    const currentIndex = images.indexOf(carousel.src);
-
-    // Calculate the next index (loop back if needed)
-    const nextIndex = (currentIndex + 1) % images.length;
-    carousel.src = images[nextIndex];
-}
-
-// Helper function to get the list of images for a given carousel group
-function getCarouselImages(carouselGroup) {
-    const imageGroups = {
-        1: [
-            'Images/XC90Ultra1-6.jpeg',
-            'Images/XC90Ultra2.jpeg',
-            'Images/XC90Ultra3.jpeg',
-        ],
-        2: [
-            'Images/XC90UltraWheel1-3.jpeg',
-            'Images/XC90UltraWheel2.jpeg',
-            'Images/XC90UltraWheel3.jpeg',
-        ],
-        3: [
-            'Images/XC90UltraInterior1-8.jpeg',
-            'Images/XC90UltraInterior2.jpeg',
-            'Images/XC90UltraInterior3.jpeg',
-        ],
-    };
-
-    return imageGroups[carouselGroup] || [];
 }
