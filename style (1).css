@@ -1,0 +1,965 @@
+/* General Reset */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    box-sizing: border-box;
+    line-height: 24px;
+}
+
+/* Page Header */
+header {
+    background-color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+header img {
+    height: 40px;
+}
+
+.header-center {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.header-center a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right img {
+    height: 24px;
+    cursor: pointer;
+}
+
+.header-right .profile-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Page Title */
+.page-title {
+    text-align: left;
+    padding: 20px;
+    background-color: white;
+}
+
+.page-title h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.page-title p {
+    margin: 10px 0 0;
+    font-size: 16px;
+    color: #666;
+}
+
+/* Main Layout */
+.main-container {
+    display: grid;
+    grid-template-columns: 50% 20% 30%;
+    /* Define column widths */
+    gap: 20px;
+    /* Space between grid items */
+    padding: 20px;
+    background-color: white;
+}
+
+/* Common styles for sections */
+.middle-section,
+.right-section,
+.left-section {
+    background: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.right-section {
+    text-align: center;
+}
+
+
+/* Carousel */
+.carousel {
+    position: relative;
+    margin-bottom: 300px;
+}
+
+.carousel img {
+    width: 100%;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.nav-arrow {
+    pointer-events: all;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.nav-arrow:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Options Section */
+.options-section {
+    padding: 0;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.option-group {
+    margin-bottom: 150px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.option-group h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    color: #333;
+}
+
+/* Option Box */
+
+.option {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.option:hover {
+    border-color: #0057a3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option.active {
+    border-color: #0057a3;
+    background-color: #f7fbff;
+    box-shadow: 0 0 8px rgba(0, 87, 163, 0.5);
+}
+
+.option-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.option-details {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-top: 10px;
+    display: block;
+    /* Ensure details are visible */
+}
+
+.option-details p {
+    margin: 0 0 5px;
+    /* Adjust spacing for labels */
+    font-weight: bold;
+    /* Highlight labels like "Included:" */
+}
+
+.option-details ul {
+    list-style-type: disc;
+    /* Default bullet style */
+    padding-left: 20px;
+    /* Indent the bullets */
+    margin: 0;
+    /* Remove default list margin */
+}
+
+.option-details ul li {
+    margin-bottom: 5px;
+    /* Add space between list items */
+}
+
+
+.option-price {
+    font-weight: lighter;
+}
+
+.option-name {
+    font-weight: bold;
+}
+
+.option-details {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-top: 10px;
+    display: none;
+}
+
+.option.active .option-details {
+    display: block;
+}
+
+/* Learn More Links */
+.learn-more {
+    display: none;
+    font-size: 14px;
+    text-decoration: none;
+    color: #0057a3;
+}
+
+.option.active .learn-more {
+    display: inline-block;
+}
+
+.learn-more:hover {
+    text-decoration: underline;
+}
+
+/* Color Options */
+.color-options {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    position: relative;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.color-option:hover {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.color-option.active {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.color-option::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.color-option.active::before {
+    border-color: #0057a3;
+    box-shadow: 0 0 8px rgba(0, 87, 163, 0.5);
+}
+
+/* Dynamically adjust the inner circle color for contrast */
+.color-option[style*="background-color: #ffffff;"] {
+    background-color: #f0f0f0;
+    /* Slightly darker for white */
+}
+
+.color-option[style*="background-color: #000000;"] {
+    background-color: #1a1a1a;
+    /* Slightly lighter for black */
+}
+
+.color-option[style*="background-color: #4a6785;"] {
+    background-color: #5b7897;
+    /* Slightly lighter for Denim Blue */
+}
+
+.color-option[style*="background-color: #c3c3c3;"] {
+    background-color: #d2d2d2;
+    /* Slightly lighter for Silver Dawn */
+}
+
+.color-option[style*="background-color: #d9b8a0;"] {
+    background-color: #eac7b3;
+    /* Slightly lighter for Bright Dusk */
+}
+
+.color-option[style*="background-color: #5b2a2f;"] {
+    background-color: #6a3a3f;
+    /* Slightly lighter for Mulberry Red */
+}
+
+.color-option[style*="background-color: #7a7a7a;"] {
+    background-color: #8a8a8a;
+    /* Slightly lighter for Vapour Grey */
+}
+
+/* Color Details */
+.color-details {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.color-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.color-details .color-price {
+    font-size: 14px;
+    font-weight: normal;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.color-details .color-description {
+    font-size: 14px;
+    color: #666;
+}
+
+
+/* Wheel Options */
+.wheel-options {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow multiple rows if needed */
+    gap: 30px;
+    /* Increase gap between wheel options */
+    align-items: center;
+    justify-content: flex-start;
+    /* Align options to the left */
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.wheel-option {
+    width: 80px;
+    /* Inner wheel size */
+    height: 80px;
+    position: relative;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    /* Ensure image stays inside the circle */
+    box-sizing: border-box;
+    /* Prevent layout shifting */
+    transition: all 0.3s ease;
+}
+
+.wheel-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+/* Outer Circle */
+.wheel-option::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    /* Outer ring size */
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    /* Default grey outer circle */
+    pointer-events: none;
+    /* Ensure clicks register on the wheel */
+    box-sizing: border-box;
+    /* Prevent layout changes when adding borders */
+    transition: all 0.3s ease;
+}
+
+.wheel-option:hover::before {
+    border-color: #999;
+    /* Highlight on hover */
+}
+
+.wheel-option.active::before {
+    border-color: #0057a3;
+    /* Blue border when selected */
+    box-shadow: 0 0 8px rgba(0, 87, 163, 0.5);
+    /* Add glow effect */
+}
+
+.wheel-option.active img {
+    box-shadow: 0 0 0 2px transparent;
+    /* Avoid layout shift on selection */
+}
+
+/* Wheel Details */
+.wheel-details {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.wheel-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.wheel-details p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Interior Options */
+.interior-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.interior-row {
+    display: flex;
+    flex-direction: column;
+    /* Stack label above the options */
+    align-items: flex-start;
+    /* Align label and options to the left */
+    gap: 10px;
+    /* Add spacing between the label and the options */
+}
+
+.row-label {
+    font-size: 12px;
+    font-weight: normal;
+    color: #666;
+    margin: 0;
+    /* Remove any unnecessary margins */
+    white-space: nowrap;
+    /* Prevent the label from breaking into multiple lines */
+}
+
+.interior-options-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    /* Allow wrapping for smaller screens */
+}
+
+.interior-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow:
+        inset 0 0 0 2px rgba(0, 0, 0, 0.1),
+        0 0 0 6px #ccc;
+    /* Outer circle effect */
+}
+
+.interior-option:hover {
+    box-shadow:
+        inset 0 0 0 2px rgba(0, 0, 0, 0.3),
+        0 0 0 6px #999;
+    /* Subtle hover effect */
+}
+
+.interior-option.active {
+    box-shadow:
+        inset 0 0 0 2px rgba(0, 87, 163, 0.5),
+        0 0 0 6px #0057a3;
+    /* Active state */
+}
+
+/* Interior Details */
+.interior-details {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.interior-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.interior-details .interior-price {
+    font-size: 14px;
+    font-weight: normal;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.interior-details .interior-description {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Optional Equipment Section */
+.optional-category,
+.equipment-category {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.optional-equipment-section {
+    margin-top: 40px;
+    /* Space between main content and this section */
+    padding: 20px;
+    background-color: white;
+    border-top: 1px solid #ddd;
+}
+
+.optional-equipment-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: left;
+    /* Align heading to the left */
+}
+
+/* Ensure the collapsible sections are hidden by default */
+.optional-equipment, .equipment-options {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+}
+
+.optional-equipment.active, .equipment-options.active {
+    height: auto;
+    overflow: visible;
+}
+
+
+/* Collapsible button styles */
+.collapsible {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    padding: 10px 0;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collapsible:hover {
+    color: #0057a3;
+}
+
+.collapsible:after {
+    content: "\25bc";  /* Down arrow */
+    font-size: 12px;
+    color: #666;
+    margin-left: 10px;
+    transform: rotate(0);
+    transition: transform 0.3s ease;
+}
+
+.collapsible.active:after {
+    transform: rotate(180deg);  /* Rotate the arrow when active */
+}
+
+/* Equipment Option Box */
+.equipment-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Space out the elements inside the card */
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 100%;
+    /* Full width within the grid space */
+    max-width: 200px;
+    /* Prevent options from becoming too wide */
+    min-width: 150px;
+    /* Prevent options from becoming too narrow */
+    height: 270px;
+    /* Fixed height for consistency */
+    position: relative;
+    padding: 10px;
+    /* Padding for inner content */
+    box-sizing: border-box;
+}
+
+.equipment-option img {
+    width: 100%;
+    /* Image takes the full width of the card */
+    height: auto;
+    /* Maintain aspect ratio */
+    border-bottom: 1px solid #ddd;
+    /* Add a border below the image for separation */
+}
+
+/* Name text wraps properly */
+.equipment-option .equipment-name {
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+    /* Add spacing around the name */
+    font-size: 14px;
+    text-align: left;
+    line-height: 1.2;
+    white-space: normal;
+    /* Allow the name to wrap */
+    overflow: visible;
+    /* Ensure visibility of wrapped text */
+    word-break: break-word;
+    /* Break long words to prevent overflow */
+}
+
+/* Description handling */
+.equipment-option .equipment-description {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    /* Allow description to take up remaining space */
+}
+
+/* Price and button container fixed at the bottom */
+.equipment-option .bottom-container {
+    margin-top: auto;
+    /* Push this container to the bottom */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Price styling */
+.equipment-option .equipment-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    /* Space above the button */
+}
+
+/* Button styling */
+.equipment-option .add-btn {
+    background-color: white;
+    color: black;
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    align-self: flex-start;
+    /* Align to the left */
+    transition: all 0.3s ease;
+}
+
+.equipment-option .add-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.equipment-option .add-btn.added {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+.equipment-option .add-btn.added:hover {
+    background-color: #333;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+
+    .optional-equipment,
+    .equipment-options {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .equipment-option {
+        max-width: 150px;
+        /* Prevent excessively wide options on smaller screens */
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .optional-equipment-section,
+    .optional-equipment {
+        padding: 15px;
+    }
+
+    .equipment-options,
+    .equipment-options {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .equipment-option {
+        max-width: 150px; /* Prevent excessively wide options on smaller screens */
+    }
+
+    .interior-options-row {
+        flex-wrap: wrap;
+    }
+
+    .vertical-line {
+        display: none;
+    }
+
+    .option {
+        margin-bottom: 10px;
+    }
+
+    .option-header {
+        font-size: 14px;
+    }
+
+    .option-details {
+        font-size: 12px;
+    }
+
+    .color-option {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+
+.embeddedMessagingFrame {
+    position: fixed !important;
+    /* Fix the position to the right side of the screen */
+    bottom: 0px !important;
+    /* Move the chat window down, below the header */
+    right: 0 !important;
+    /* Align to the right side of the viewport */
+    height: calc(100vh - 20px) !important;
+    /* Full height minus space for the header */
+    width: calc(25%) !important;
+    /* Narrower width (20% of the screen with a small gap) */
+    z-index: 9999 !important;
+    /* Ensure it's above other content */
+    margin: 0 !important;
+    /* Remove margin */
+    padding: 0 !important;
+    /* Remove padding */
+    background-color: #f9f9f9;
+    /* Optional: Set background color */
+    box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2) !important;
+    /* Optional: Add shadow */
+}
+
+/* Container to leave right 30% empty */
+.config-summary-container {
+    display: grid;
+    grid-template-columns: 70% auto;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Left column for configurations */
+.config-summary-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Individual Configuration Boxes */
+.current-config,
+.alternative-config {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Config Titles */
+.current-config h2,
+.alternative-config h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Config Details */
+.config-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.config-details strong {
+    color: #666
+}
+
+/* Carousel Styling */
+.carousel img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.carousel-nav .nav-arrow {
+    pointer-events: all;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.carousel-nav .nav-arrow:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Payment and Delivery Section */
+.payment-delivery {
+    grid-column: span 2;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-delivery h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.payment-delivery p {
+    font-size: 14px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.payment-delivery a {
+    color: #0057a3;
+    text-decoration: none;
+}
+
+.payment-delivery a:hover {
+    text-decoration: underline;
+}
+
+/* Button Styling */
+.view-summary-btn {
+    display: block;
+    width: 100%;
+    background-color: #0057a3;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.view-summary-btn:hover {
+    background-color: #003d66;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .config-summary-container {
+        grid-template-columns: 1fr;
+    }
+
+    .config-summary-section {
+        grid-template-columns: 1fr;
+    }
+}
