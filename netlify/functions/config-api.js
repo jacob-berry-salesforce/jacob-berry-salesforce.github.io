@@ -39,6 +39,8 @@ exports.handler = async (event) => {
     }
 
     if (!event.headers['x-api-key'] || event.headers['x-api-key'] !== process.env.API_KEY) {
+        console.log('Expected API Key:', process.env.API_KEY);
+        console.log('Received API Key:', event.headers['x-api-key']);
         return { statusCode: 403, headers: defaultHeaders, body: 'Forbidden' };
     }
 
