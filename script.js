@@ -46,12 +46,6 @@ function applyConfigToUI(config) {
         return;
     }
 
-    // Only apply updates with a newer version
-    if (config.version <= lastAppliedVersion) {
-        console.warn("Ignored outdated configuration update:", config);
-        return;
-    }
-
     // Update the last applied version
     lastAppliedVersion = config.version;
 
