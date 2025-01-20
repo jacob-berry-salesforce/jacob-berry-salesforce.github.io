@@ -55,59 +55,85 @@ const validateConfig = (config) => {
 };
 
 exports.handler = async (event) => {
-    if (event.httpMethod === 'OPTIONS') {
-        return { statusCode: 200, headers: defaultHeaders, body: '' };
-    }    
-
-    const path = event.path || '';
-
-    if (event.httpMethod === 'GET' && path === '/session') {
-        // Generate a new session ID and return it
-        const sessionId = uuidv4();
-        userConfigs[sessionId] = { ...defaultConfig };
-        sessionTimestamps[sessionId] = Date.now();
-
-        console.log(`New session created: ${sessionId}`);
-        return {
-            statusCode: 200,
-            headers: defaultHeaders,
-            body: JSON.stringify({ sessionId }),
-        };
-    }
-
-    if (event.httpMethod === 'GET' && path === '/config') {
-        const sessionId = event.headers['x-session-id'];
-        if (!sessionId || !userConfigs[sessionId]) {
-            return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
+    try {
+        if (event.httpMethod === 'OPTIONS') {
+            return { statusCode: 200, headers: defaultHeaders, body: '' };
         }
 
-        sessionTimestamps[sessionId] = Date.now();
-        return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ data: userConfigs[sessionId] }) };
-    }
+        const path = event.path || '';
 
-    if (event.httpMethod === 'POST' && path === '/config') {
-        const sessionId = event.headers['x-session-id'];
-        if (!sessionId || !userConfigs[sessionId]) {
-            return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
+        if (event.httpMethod === 'GET' && path === '/session') {
+            // Generate a new session ID and return it
+            const sessionId = uuidv4();
+            userConfigs[sessionId] = { ...defaultConfig };
+            sessionTimestamps[sessionId] = Date.now();
+
+            console.log(`New session created: ${sessionId}`);
+            return {
+                statusCode: 200,
+                headers: defaultHeaders,
+                body: JSON.stringify({ sessionId }),
+            };
         }
 
-        try {
-            const newConfig = JSON.parse(event.body);
+        if (event.httpMethod === 'GET' && path === '/config') {
+            const sessionId = event.headers['x-session-id'];
+            if (!sessionId || !userConfigs[sessionId]) {
+                console.error('Invalid or missing session ID:', { sessionId, userConfigs });
+                return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
+            }
+
+            sessionTimestamps[sessionId] = Date.now();
+            return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ data: userConfigs[sessionId] }) };
+        }
+
+        if (event.httpMethod === 'POST' && path === '/config') {
+            const sessionId = event.headers['x-session-id'];
+            if (!sessionId || !userConfigs[sessionId]) {
+                console.error('Invalid or missing session ID:', { sessionId, userConfigs });
+                return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
+            }
+
+            let newConfig;
+            try {
+                newConfig = JSON.parse(event.body);
+                console.log('Parsed request body:', newConfig);
+            } catch (parseError) {
+                console.error('Invalid JSON in request body:', parseError);
+                return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid JSON in request body' }) };
+            }
 
             if (!validateConfig(newConfig)) {
+                console.error('Validation failed for configuration:', newConfig);
                 return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid configuration data' }) };
             }
 
             userConfigs[sessionId] = { ...newConfig, source: 'API' };
             sessionTimestamps[sessionId] = Date.now();
 
-            await pusher.trigger(`config-channel-${sessionId}`, 'update-config', userConfigs[sessionId]);
+            try {
+                await pusher.trigger(`config-channel-${sessionId}`, 'update-config', userConfigs[sessionId]);
+                console.log(`Pusher triggered for session ${sessionId}`);
+            } catch (pusherError) {
+                console.error('Error triggering Pusher:', pusherError);
+                throw new Error('Failed to trigger Pusher');
+            }
 
-            return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ message: 'Configuration updated successfully', data: userConfigs[sessionId] }) };
-        } catch (error) {
-            return { statusCode: 500, headers: defaultHeaders, body: JSON.stringify({ error: 'Internal Server Error', details: error.message }) };
+            return {
+                statusCode: 200,
+                headers: defaultHeaders,
+                body: JSON.stringify({ message: 'Configuration updated successfully', data: userConfigs[sessionId] }),
+            };
         }
-    }
 
-    return { statusCode: 405, headers: defaultHeaders, body: 'Method not allowed' };
+        return { statusCode: 405, headers: defaultHeaders, body: 'Method not allowed' };
+
+    } catch (error) {
+        console.error('Unexpected server error:', {
+            message: error.message,
+            stack: error.stack,
+            event,
+        });
+        return { statusCode: 500, headers: defaultHeaders, body: JSON.stringify({ error: 'Internal Server Error', details: error.message }) };
+    }
 };
