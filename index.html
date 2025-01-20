@@ -601,7 +601,7 @@
         
                         // Pass the session ID as a hidden pre-chat parameter
                         embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-                            "Session_Id__c": sessionId // Replace 'Session_Id__c' with your custom field API name
+                            "Session_Id": sessionId // Replace 'Session_Id__c' with your custom field API name
                         });
                     } else {
                         console.warn("Session ID not found in localStorage.");
