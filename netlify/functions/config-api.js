@@ -9,8 +9,6 @@ const pusher = new Pusher({
     useTLS: true,
 });
 
-const { v4: uuidv4 } = require('uuid'); // To generate unique session IDs
-
 const defaultHeaders = {
     'Access-Control-Allow-Origin': 'https://jacob-berry-salesforce.github.io', // Allow your frontend origin
     'Access-Control-Allow-Headers': 'Content-Type, x-session-id', // Include x-session-id
@@ -28,20 +26,16 @@ const defaultConfig = {
     optionalEquipment: [],
 };
 
-// Store configurations and session timestamps
+// Store configurations
 const userConfigs = {};
-const sessionTimestamps = {};
-
-// TTL mechanism for sessions
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
-// Periodic cleanup of expired sessions
+// TTL mechanism for sessions
 setInterval(() => {
     const now = Date.now();
-    Object.keys(sessionTimestamps).forEach((sessionId) => {
-        if (now - sessionTimestamps[sessionId] > SESSION_TIMEOUT) {
+    Object.keys(userConfigs).forEach((sessionId) => {
+        if (now - userConfigs[sessionId].timestamp > SESSION_TIMEOUT) {
             delete userConfigs[sessionId];
-            delete sessionTimestamps[sessionId];
             console.log(`Session expired and removed: ${sessionId}`);
         }
     });
@@ -56,45 +50,35 @@ const validateConfig = (config) => {
 
 exports.handler = async (event) => {
     try {
+        console.log('Function invoked:', {
+            method: event.httpMethod,
+            path: event.path,
+            headers: event.headers,
+            body: event.body,
+        });
+
         if (event.httpMethod === 'OPTIONS') {
             console.log('Handling OPTIONS request');
             return { statusCode: 200, headers: defaultHeaders, body: '' };
         }
-        console.log('HTTP Method:', event.httpMethod, 'Path:', event.path);
-        const path = event.path || '';
 
-        if (event.httpMethod === 'GET' && path === '/session') {
-            // Generate a new session ID and return it
-            const sessionId = uuidv4();
-            userConfigs[sessionId] = { ...defaultConfig };
-            sessionTimestamps[sessionId] = Date.now();
-
-            console.log(`New session created: ${sessionId}`);
-            return {
-                statusCode: 200,
-                headers: defaultHeaders,
-                body: JSON.stringify({ sessionId }),
-            };
+        const sessionId = event.headers['x-session-id'];
+        if (!sessionId) {
+            console.error('Missing session ID in request');
+            return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Missing session ID' }) };
         }
 
-        if (event.httpMethod === 'GET' && path === '/config') {
-            const sessionId = event.headers['x-session-id'];
-            if (!sessionId || !userConfigs[sessionId]) {
-                console.error('Invalid or missing session ID:', { sessionId, userConfigs });
+        if (event.httpMethod === 'GET' && event.path === '/config') {
+            if (!userConfigs[sessionId]) {
+                console.error('Invalid or missing session ID:', sessionId);
                 return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
             }
 
-            sessionTimestamps[sessionId] = Date.now();
-            return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ data: userConfigs[sessionId] }) };
+            userConfigs[sessionId].timestamp = Date.now(); // Refresh session
+            return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ data: userConfigs[sessionId].config }) };
         }
 
-        if (event.httpMethod === 'POST' && path === '/config') {
-            const sessionId = event.headers['x-session-id'];
-            if (!sessionId || !userConfigs[sessionId]) {
-                console.error('Invalid or missing session ID:', { sessionId, userConfigs });
-                return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
-            }
-
+        if (event.httpMethod === 'POST' && event.path === '/config') {
             let newConfig;
             try {
                 newConfig = JSON.parse(event.body);
@@ -109,24 +93,25 @@ exports.handler = async (event) => {
                 return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid configuration data' }) };
             }
 
-            userConfigs[sessionId] = { ...newConfig, source: 'API' };
-            sessionTimestamps[sessionId] = Date.now();
+            userConfigs[sessionId] = { config: newConfig, timestamp: Date.now() };
+            console.log('Updated configuration for session:', { sessionId, config: userConfigs[sessionId].config });
 
             try {
-                await pusher.trigger(`config-channel-${sessionId}`, 'update-config', userConfigs[sessionId]);
-                console.log(`Pusher triggered for session ${sessionId}`);
+                await pusher.trigger(`config-channel-${sessionId}`, 'update-config', userConfigs[sessionId].config);
+                console.log(`Pusher triggered successfully for session ${sessionId}`);
             } catch (pusherError) {
                 console.error('Error triggering Pusher:', pusherError);
-                throw new Error('Failed to trigger Pusher');
+                return { statusCode: 500, headers: defaultHeaders, body: JSON.stringify({ error: 'Failed to trigger Pusher', details: pusherError.message }) };
             }
 
             return {
                 statusCode: 200,
                 headers: defaultHeaders,
-                body: JSON.stringify({ message: 'Configuration updated successfully', data: userConfigs[sessionId] }),
+                body: JSON.stringify({ message: 'Configuration updated successfully', data: userConfigs[sessionId].config }),
             };
         }
 
+        console.warn('Method not allowed:', { method: event.httpMethod, path: event.path });
         return { statusCode: 405, headers: defaultHeaders, body: 'Method not allowed' };
 
     } catch (error) {
