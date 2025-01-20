@@ -12,8 +12,8 @@ const pusher = new Pusher({
 const { v4: uuidv4 } = require('uuid'); // To generate unique session IDs
 
 const defaultHeaders = {
-    'Access-Control-Allow-Origin': 'https://jacob-berry-salesforce.github.io', // Frontend origin
-    'Access-Control-Allow-Headers': 'Content-Type, x-session-id',
+    'Access-Control-Allow-Origin': 'https://jacob-berry-salesforce.github.io', // Allow your frontend origin
+    'Access-Control-Allow-Headers': 'Content-Type, x-session-id', // Include x-session-id
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
 };
 
@@ -57,7 +57,7 @@ const validateConfig = (config) => {
 exports.handler = async (event) => {
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers: defaultHeaders, body: '' };
-    }
+    }    
 
     const path = event.path || '';
 
