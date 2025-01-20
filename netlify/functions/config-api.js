@@ -28,14 +28,14 @@ const defaultConfig = {
     optionalEquipment: [],
 };
 
-// Store configurations by sessionId
+// Store configurations and session timestamps
 const userConfigs = {};
 const sessionTimestamps = {};
 
 // TTL mechanism for sessions
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
-// Cleanup expired sessions
+// Periodic cleanup of expired sessions
 setInterval(() => {
     const now = Date.now();
     Object.keys(sessionTimestamps).forEach((sessionId) => {
@@ -45,9 +45,7 @@ setInterval(() => {
             console.log(`Session expired and removed: ${sessionId}`);
         }
     });
-}, SESSION_TIMEOUT / 2); // Check for expired sessions periodically
-
-
+}, SESSION_TIMEOUT / 2); // Cleanup every 15 minutes
 
 const validateConfig = (config) => {
     const requiredFields = ['version', 'level', 'powertrain', 'theme', 'color', 'wheels', 'interior', 'optionalEquipment'];

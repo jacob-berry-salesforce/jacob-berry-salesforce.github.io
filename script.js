@@ -181,8 +181,7 @@ function updateConfigInBackend(config) {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
-            'x-session-id': sessionId,
-            'x-api-key': process.env.API_KEY
+            'x-session-id': sessionId
         },
         body: JSON.stringify(config),
     })
