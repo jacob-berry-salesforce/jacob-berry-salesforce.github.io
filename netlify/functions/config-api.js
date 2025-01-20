@@ -31,12 +31,28 @@ const defaultConfig = {
 // Store configurations by sessionId
 const userConfigs = {};
 
+// TTL mechanism for userConfigs
+const sessionTTL = 24 * 60 * 60 * 1000; // 24 hours
+const sessionTimestamps = {};
+
 const validateConfig = (config) => {
     const requiredFields = ['version', 'level', 'powertrain', 'theme', 'color', 'wheels', 'interior', 'optionalEquipment'];
     const isValid = requiredFields.every((field) => field in config);
     const isCorrectType = Array.isArray(config.optionalEquipment);
     return isValid && isCorrectType;
 };
+
+// Cleanup expired sessions
+setInterval(() => {
+    const now = Date.now();
+    Object.keys(sessionTimestamps).forEach((sessionId) => {
+        if (now - sessionTimestamps[sessionId] > sessionTTL) {
+            delete userConfigs[sessionId];
+            delete sessionTimestamps[sessionId];
+            console.log(`Session expired and removed: ${sessionId}`);
+        }
+    });
+}, sessionTTL / 2); // Check for expired sessions every 12 hours
 
 exports.handler = async (event) => {
     if (event.httpMethod === 'OPTIONS') {
@@ -56,7 +72,9 @@ exports.handler = async (event) => {
         // Generate a new session ID and return it
         const sessionId = uuidv4();
         userConfigs[sessionId] = { ...defaultConfig }; // Preload the session with the default configuration
+        sessionTimestamps[sessionId] = Date.now(); // Track session creation time
 
+        console.log(`New session created: ${sessionId}`);
         return {
             statusCode: 200,
             headers: defaultHeaders,
@@ -65,35 +83,36 @@ exports.handler = async (event) => {
     }
 
     if (event.httpMethod === 'GET' && path === '/config') {
-        // Return the configuration for the given session ID
         const sessionId = event.headers['x-session-id'];
-        if (!sessionId) {
+        if (!sessionId || !userConfigs[sessionId]) {
+            console.log(`Invalid or missing session ID: ${sessionId}`);
             return {
                 statusCode: 400,
                 headers: defaultHeaders,
-                body: JSON.stringify({ error: 'Missing session ID' }),
+                body: JSON.stringify({ error: 'Invalid or missing session ID' }),
             };
         }
 
-        const config = userConfigs[sessionId] || { ...defaultConfig };
+        sessionTimestamps[sessionId] = Date.now(); // Refresh session TTL
         return {
             statusCode: 200,
             headers: defaultHeaders,
-            body: JSON.stringify({ data: config }),
+            body: JSON.stringify({ data: userConfigs[sessionId] }),
         };
     }
 
     if (event.httpMethod === 'POST' && path === '/config') {
-        try {
-            const sessionId = event.headers['x-session-id'];
-            if (!sessionId) {
-                return {
-                    statusCode: 400,
-                    headers: defaultHeaders,
-                    body: JSON.stringify({ error: 'Missing session ID' }),
-                };
-            }
+        const sessionId = event.headers['x-session-id'];
+        if (!sessionId || !userConfigs[sessionId]) {
+            console.log(`Invalid or missing session ID: ${sessionId}`);
+            return {
+                statusCode: 400,
+                headers: defaultHeaders,
+                body: JSON.stringify({ error: 'Invalid or missing session ID' }),
+            };
+        }
 
+        try {
             const newConfig = JSON.parse(event.body);
 
             // Required fields validation
@@ -130,6 +149,7 @@ exports.handler = async (event) => {
                 ...newConfig,
                 source: 'API', // Mark the source of the change
             };
+            sessionTimestamps[sessionId] = Date.now(); // Refresh session TTL
 
             // Broadcast the updated configuration to the session-specific channel
             await pusher.trigger(`config-channel-${sessionId}`, 'update-config', userConfigs[sessionId]);
@@ -149,6 +169,6 @@ exports.handler = async (event) => {
         }
     }
 
-    // Method not allowed
+    console.log(`Invalid path or method: ${event.httpMethod} ${path}`);
     return { statusCode: 405, headers: defaultHeaders, body: 'Method not allowed' };
 };
