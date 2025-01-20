@@ -57,20 +57,20 @@ exports.handler = async (event) => {
             body: event.body,
         });
 
-        const normalizedPath = event.path.replace('/.netlify/functions/config-api', ''); // Normalize the path
-
+        // Handle preflight requests
         if (event.httpMethod === 'OPTIONS') {
-            console.log('Handling OPTIONS request');
             return { statusCode: 200, headers: defaultHeaders, body: '' };
         }
 
+        const path = event.path.replace(/\/$/, ''); // Remove trailing slash
         const sessionId = event.headers['x-session-id'];
         if (!sessionId) {
             console.error('Missing session ID in request');
             return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Missing session ID' }) };
         }
 
-        if (event.httpMethod === 'GET' && (normalizedPath === '/config' || normalizedPath === '/')) {
+        // GET request to fetch configuration
+        if (event.httpMethod === 'GET' && path.endsWith('/config')) {
             if (!userConfigs[sessionId]) {
                 console.error('Invalid or missing session ID:', sessionId);
                 return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
@@ -80,7 +80,8 @@ exports.handler = async (event) => {
             return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ data: userConfigs[sessionId].config }) };
         }
 
-        if (event.httpMethod === 'POST' && (normalizedPath === '/config' || normalizedPath === '/')) {
+        // POST request to update configuration
+        if (event.httpMethod === 'POST' && path.endsWith('/config')) {
             let newConfig;
             try {
                 newConfig = JSON.parse(event.body);
@@ -113,7 +114,7 @@ exports.handler = async (event) => {
             };
         }
 
-        console.warn('Method not allowed:', { method: event.httpMethod, path: normalizedPath });
+        console.warn('Method not allowed or unknown path:', { method: event.httpMethod, path });
         return { statusCode: 405, headers: defaultHeaders, body: 'Method not allowed' };
 
     } catch (error) {
