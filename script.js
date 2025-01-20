@@ -142,14 +142,14 @@ function applyConfigToUI(config) {
 // ==============================
 
 function updateConfigInBackend(config) {
-    fetch('/.netlify/functions/config-api', { // Ensure relative path
+    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'x-session-id': sessionId, // Send session ID
         },
         body: JSON.stringify(config),
-    })
+    })    
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
