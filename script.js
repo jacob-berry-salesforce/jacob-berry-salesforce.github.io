@@ -4,7 +4,7 @@ const pusher = new Pusher('4e6d9761c08398dd9b26', {
 });
 
 // Subscribe to the correct channel
-const channel = pusher.subscribe('config-channel');
+const channel = pusher.subscribe(`config-channel-${sessionId}`);
 
 // Listen for the 'update-config' event
 channel.bind('update-config', (config) => {
@@ -299,7 +299,10 @@ function getCurrentConfigFromUI() {
 function updateConfigInBackend(config) {
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'x-session-id': sessionId
+        },
         body: JSON.stringify(config),
     })
         .then((response) => response.json())
@@ -309,4 +312,10 @@ function updateConfigInBackend(config) {
         .catch((error) => {
             console.error("%c[Backend Response] Error:", "color: red;", error);
         });
+}
+
+let sessionId = localStorage.getItem('sessionId');
+if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem('sessionId', sessionId);
 }
