@@ -190,7 +190,7 @@ function setupEventDelegation() {
                 selectColor(target.closest('.color-option'));
             } else {
                 console.error('selectColor function is not defined or accessible.');
-            }
+            } 
         }
 
         // Handle wheel selection
@@ -315,4 +315,25 @@ function toggleAdd(button) {
     }
 
     updateConfigInBackend(currentConfig);
+}
+
+function getCurrentConfigFromUI() {
+    const level = document.querySelector('.option-group[data-group="level"] .option.active .option-name')?.innerText || "Core";
+    const powertrain = document.querySelector('.option-group[data-group="powertrain"] .option.active .option-name')?.innerText || "T8 AWD Plug-in Hybrid";
+    const theme = document.querySelector('.option-group[data-group="theme"] .option.active .option-name')?.innerText || "Bright";
+    const color = document.querySelector('.color-option.active')?.getAttribute('data-color') || "Vapour Grey";
+    const wheels = document.querySelector('.wheel-option.active')?.getAttribute('data-wheel') || "20″ 5-Multi Spoke Black Diamond Cut";
+    const interior = document.querySelector('.interior-option.active')?.getAttribute('data-interior') || "Charcoal Quilted Nordico in Charcoal interior";
+
+    return {
+        level,
+        powertrain,
+        theme,
+        color,
+        wheels,
+        interior,
+        optionalEquipment: Array.from(document.querySelectorAll('.add-btn.added')).map(
+            (button) => button.closest('.equipment-option').querySelector('.equipment-name').innerText
+        ),
+    };
 }
