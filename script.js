@@ -206,35 +206,60 @@ function setupEventDelegation() {
         if (target.closest('.option')) {
             const option = target.closest('.option');
             const groupName = option.closest('.option-group').getAttribute('data-group');
-            selectOption(option, groupName);
+            if (typeof selectOption === 'function') {
+                selectOption(option, groupName);
+            } else {
+                console.error('selectOption function is not defined or accessible.');
+            }
         }
 
         // Handle color selection
         if (target.closest('.color-option')) {
-            selectColor(target.closest('.color-option'));
+            if (typeof selectColor === 'function') {
+                selectColor(target.closest('.color-option'));
+            } else {
+                console.error('selectColor function is not defined or accessible.');
+            }
         }
 
         // Handle wheel selection
         if (target.closest('.wheel-option')) {
-            selectWheel(target.closest('.wheel-option'));
+            if (typeof selectWheel === 'function') {
+                selectWheel(target.closest('.wheel-option'));
+            } else {
+                console.error('selectWheel function is not defined or accessible.');
+            }
         }
 
         // Handle interior selection
         if (target.closest('.interior-option')) {
-            selectInterior(target.closest('.interior-option'));
+            if (typeof selectInterior === 'function') {
+                selectInterior(target.closest('.interior-option'));
+            } else {
+                console.error('selectInterior function is not defined or accessible.');
+            }
         }
 
         // Handle optional equipment buttons
         if (target.classList.contains('add-btn')) {
-            toggleAdd(target);
+            if (typeof toggleAdd === 'function') {
+                toggleAdd(target);
+            } else {
+                console.error('toggleAdd function is not defined or accessible.');
+            }
         }
 
         // Handle collapsible categories
         if (target.classList.contains('collapsible')) {
-            toggleCategory(target);
+            if (typeof toggleCategory === 'function') {
+                toggleCategory(target);
+            } else {
+                console.error('toggleCategory function is not defined or accessible.');
+            }
         }
     });
 }
+
 
 // ==============================
 // Option Selection Handlers
