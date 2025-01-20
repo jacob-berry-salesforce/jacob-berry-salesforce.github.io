@@ -12,7 +12,7 @@ const pusher = new Pusher({
 const { v4: uuidv4 } = require('uuid'); // To generate unique session IDs
 
 const defaultHeaders = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': 'https://jacob-berry-salesforce.github.io', // Ensure proper CORS configuration
     'Access-Control-Allow-Headers': 'Content-Type, x-api-key, x-session-id',
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
 };
@@ -30,20 +30,23 @@ const defaultConfig = {
 
 // Store configurations by sessionId
 const userConfigs = {};
+const sessionTimestamps = {};
 
-// TTL mechanism for userConfigs
+// TTL mechanism for sessions
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
+// Cleanup expired sessions
 setInterval(() => {
     const now = Date.now();
     Object.keys(sessionTimestamps).forEach((sessionId) => {
         if (now - sessionTimestamps[sessionId] > SESSION_TIMEOUT) {
-            console.log(`Cleaning up expired session: ${sessionId}`);
             delete userConfigs[sessionId];
             delete sessionTimestamps[sessionId];
+            console.log(`Session expired and removed: ${sessionId}`);
         }
     });
-}, 60 * 1000); // Run cleanup every 1 minute
+}, SESSION_TIMEOUT / 2); // Check for expired sessions periodically
+
 
 
 const validateConfig = (config) => {
@@ -52,18 +55,6 @@ const validateConfig = (config) => {
     const isCorrectType = Array.isArray(config.optionalEquipment);
     return isValid && isCorrectType;
 };
-
-// Cleanup expired sessions
-setInterval(() => {
-    const now = Date.now();
-    Object.keys(sessionTimestamps).forEach((sessionId) => {
-        if (now - sessionTimestamps[sessionId] > sessionTTL) {
-            delete userConfigs[sessionId];
-            delete sessionTimestamps[sessionId];
-            console.log(`Session expired and removed: ${sessionId}`);
-        }
-    });
-}, sessionTTL / 2); // Check for expired sessions every 12 hours
 
 exports.handler = async (event) => {
     if (event.httpMethod === 'OPTIONS') {
