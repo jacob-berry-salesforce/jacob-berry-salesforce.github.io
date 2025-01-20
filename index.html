@@ -582,11 +582,32 @@
             try {
                 // Set language (optional, can be adjusted)
                 embeddedservice_bootstrap.settings.language = 'en_US';
+                
                 // Customize the text that appears in different chat states
                 embeddedservice_bootstrap.settings.defaultMinimizedText = "Need help?";  // Minimized button text
                 embeddedservice_bootstrap.settings.disabledMinimizedText = "Chat is unavailable";  // When chat is disabled
                 embeddedservice_bootstrap.settings.offlineSupportMinimizedText = "Offline, leave a message";  // When offline
                 embeddedservice_bootstrap.settings.loadingText = "Connecting...";  // When loading the chat
+        
+                // Add an event listener for when the chat window is ready
+                window.addEventListener("onEmbeddedMessagingReady", () => {
+                    console.log("Embedded Messaging is ready.");
+        
+                    // Retrieve the session ID from localStorage
+                    const sessionId = localStorage.getItem('sessionId');
+        
+                    if (sessionId) {
+                        console.log("Passing session ID to Salesforce:", sessionId);
+        
+                        // Pass the session ID as a hidden pre-chat parameter
+                        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                            "Session_Id__c": sessionId // Replace 'Session_Id__c' with your custom field API name
+                        });
+                    } else {
+                        console.warn("Session ID not found in localStorage.");
+                    }
+                });
+        
                 // Initialize the embedded chat window
                 embeddedservice_bootstrap.init(
                     '00DHu00000GKyNZ',  // Replace with your Salesforce instance ID
@@ -600,13 +621,14 @@
                 console.error('Error initializing Embedded Messaging:', err);
             }
         }
+        
         // Dynamically load the Embedded Messaging script
         window.onload = function () {
             const script = document.createElement('script');
             script.src = 'https://storm-c67b8b7b3bfc6d.my.site.com/ESWVolta1736852410941/assets/js/bootstrap.min.js';
             script.onload = initEmbeddedMessaging;
             document.head.appendChild(script);
-        };
+        };        
     </script>
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script src="script.js"></script>
