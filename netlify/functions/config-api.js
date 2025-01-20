@@ -68,7 +68,7 @@ exports.handler = async (event) => {
             return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Missing session ID' }) };
         }
 
-        if (event.httpMethod === 'GET' && event.path === '/config') {
+        if (event.httpMethod === 'GET' && (event.path === '/config' || event.path === '/')) {
             if (!userConfigs[sessionId]) {
                 console.error('Invalid or missing session ID:', sessionId);
                 return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
@@ -78,7 +78,7 @@ exports.handler = async (event) => {
             return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ data: userConfigs[sessionId].config }) };
         }
 
-        if (event.httpMethod === 'POST' && event.path === '/config') {
+        if (event.httpMethod === 'POST' && (event.path === '/config' || event.path === '/')) {
             let newConfig;
             try {
                 newConfig = JSON.parse(event.body);
