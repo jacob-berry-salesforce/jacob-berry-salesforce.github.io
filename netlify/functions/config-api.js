@@ -57,6 +57,8 @@ exports.handler = async (event) => {
             body: event.body,
         });
 
+        const normalizedPath = event.path.replace('/.netlify/functions/config-api', ''); // Normalize the path
+
         if (event.httpMethod === 'OPTIONS') {
             console.log('Handling OPTIONS request');
             return { statusCode: 200, headers: defaultHeaders, body: '' };
@@ -68,7 +70,7 @@ exports.handler = async (event) => {
             return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Missing session ID' }) };
         }
 
-        if (event.httpMethod === 'GET' && (event.path === '/config' || event.path === '/')) {
+        if (event.httpMethod === 'GET' && (normalizedPath === '/config' || normalizedPath === '/')) {
             if (!userConfigs[sessionId]) {
                 console.error('Invalid or missing session ID:', sessionId);
                 return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
@@ -78,7 +80,7 @@ exports.handler = async (event) => {
             return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ data: userConfigs[sessionId].config }) };
         }
 
-        if (event.httpMethod === 'POST' && (event.path === '/config' || event.path === '/')) {
+        if (event.httpMethod === 'POST' && (normalizedPath === '/config' || normalizedPath === '/')) {
             let newConfig;
             try {
                 newConfig = JSON.parse(event.body);
@@ -111,7 +113,7 @@ exports.handler = async (event) => {
             };
         }
 
-        console.warn('Method not allowed:', { method: event.httpMethod, path: event.path });
+        console.warn('Method not allowed:', { method: event.httpMethod, path: normalizedPath });
         return { statusCode: 405, headers: defaultHeaders, body: 'Method not allowed' };
 
     } catch (error) {
