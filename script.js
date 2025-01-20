@@ -179,13 +179,18 @@ function getCurrentConfigFromUI() {
 function updateConfigInBackend(config) {
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
         method: 'POST',
-        headers: { 
+        headers: {
             'Content-Type': 'application/json',
-            'x-session-id': sessionId
+            'x-session-id': sessionId, // Send session ID
         },
         body: JSON.stringify(config),
     })
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then((data) => {
             console.log("%c[Backend Response] Success:", "color: green;", data);
         })
@@ -193,6 +198,7 @@ function updateConfigInBackend(config) {
             console.error("%c[Backend Response] Error:", "color: red;", error);
         });
 }
+
 
 // ==============================
 // Event Delegation for Dynamic UI

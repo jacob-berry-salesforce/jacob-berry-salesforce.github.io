@@ -12,8 +12,8 @@ const pusher = new Pusher({
 const { v4: uuidv4 } = require('uuid'); // To generate unique session IDs
 
 const defaultHeaders = {
-    'Access-Control-Allow-Origin': 'https://jacob-berry-salesforce.github.io', // Ensure proper CORS configuration
-    'Access-Control-Allow-Headers': 'Content-Type, x-api-key, x-session-id',
+    'Access-Control-Allow-Origin': 'https://jacob-berry-salesforce.github.io', // Frontend origin
+    'Access-Control-Allow-Headers': 'Content-Type, x-session-id',
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
 };
 
@@ -45,7 +45,7 @@ setInterval(() => {
             console.log(`Session expired and removed: ${sessionId}`);
         }
     });
-}, SESSION_TIMEOUT / 2); // Cleanup every 15 minutes
+}, SESSION_TIMEOUT / 2);
 
 const validateConfig = (config) => {
     const requiredFields = ['version', 'level', 'powertrain', 'theme', 'color', 'wheels', 'interior', 'optionalEquipment'];
@@ -59,20 +59,13 @@ exports.handler = async (event) => {
         return { statusCode: 200, headers: defaultHeaders, body: '' };
     }
 
-    // Validate API Key
-    if (!event.headers['x-api-key'] || event.headers['x-api-key'] !== process.env.API_KEY) {
-        console.log('Expected API Key:', process.env.API_KEY);
-        console.log('Received API Key:', event.headers['x-api-key']);
-        return { statusCode: 403, headers: defaultHeaders, body: 'Forbidden' };
-    }
-
     const path = event.path || '';
 
     if (event.httpMethod === 'GET' && path === '/session') {
         // Generate a new session ID and return it
         const sessionId = uuidv4();
-        userConfigs[sessionId] = { ...defaultConfig }; // Preload the session with the default configuration
-        sessionTimestamps[sessionId] = Date.now(); // Track session creation time
+        userConfigs[sessionId] = { ...defaultConfig };
+        sessionTimestamps[sessionId] = Date.now();
 
         console.log(`New session created: ${sessionId}`);
         return {
@@ -85,90 +78,36 @@ exports.handler = async (event) => {
     if (event.httpMethod === 'GET' && path === '/config') {
         const sessionId = event.headers['x-session-id'];
         if (!sessionId || !userConfigs[sessionId]) {
-            console.log(`Invalid or missing session ID: ${sessionId}`);
-            return {
-                statusCode: 400,
-                headers: defaultHeaders,
-                body: JSON.stringify({ error: 'Invalid or missing session ID' }),
-            };
+            return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
         }
 
-        sessionTimestamps[sessionId] = Date.now(); // Refresh session TTL
-        return {
-            statusCode: 200,
-            headers: defaultHeaders,
-            body: JSON.stringify({ data: userConfigs[sessionId] }),
-        };
+        sessionTimestamps[sessionId] = Date.now();
+        return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ data: userConfigs[sessionId] }) };
     }
 
     if (event.httpMethod === 'POST' && path === '/config') {
         const sessionId = event.headers['x-session-id'];
         if (!sessionId || !userConfigs[sessionId]) {
-            console.log(`Invalid or missing session ID: ${sessionId}`);
-            return {
-                statusCode: 400,
-                headers: defaultHeaders,
-                body: JSON.stringify({ error: 'Invalid or missing session ID' }),
-            };
+            return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid or missing session ID' }) };
         }
 
         try {
             const newConfig = JSON.parse(event.body);
 
-            // Required fields validation
-            const requiredFields = [
-                'version',
-                'level',
-                'powertrain',
-                'theme',
-                'color',
-                'wheels',
-                'interior',
-                'optionalEquipment',
-            ];
-
-            const missingFields = requiredFields.filter((field) => !(field in newConfig));
-            if (missingFields.length > 0) {
-                return {
-                    statusCode: 400,
-                    headers: defaultHeaders,
-                    body: JSON.stringify({ error: `Missing required fields: ${missingFields.join(', ')}` }),
-                };
-            }
-
-            // Validate and update session-specific configuration
             if (!validateConfig(newConfig)) {
-                return {
-                    statusCode: 400,
-                    headers: defaultHeaders,
-                    body: JSON.stringify({ error: 'Invalid configuration data' }),
-                };
+                return { statusCode: 400, headers: defaultHeaders, body: JSON.stringify({ error: 'Invalid configuration data' }) };
             }
 
-            userConfigs[sessionId] = {
-                ...newConfig,
-                source: 'API', // Mark the source of the change
-            };
-            sessionTimestamps[sessionId] = Date.now(); // Refresh session TTL
+            userConfigs[sessionId] = { ...newConfig, source: 'API' };
+            sessionTimestamps[sessionId] = Date.now();
 
-            // Broadcast the updated configuration to the session-specific channel
             await pusher.trigger(`config-channel-${sessionId}`, 'update-config', userConfigs[sessionId]);
 
-            return {
-                statusCode: 200,
-                headers: defaultHeaders,
-                body: JSON.stringify({ message: 'Configuration updated successfully', data: userConfigs[sessionId] }),
-            };
+            return { statusCode: 200, headers: defaultHeaders, body: JSON.stringify({ message: 'Configuration updated successfully', data: userConfigs[sessionId] }) };
         } catch (error) {
-            console.error('Error updating configuration:', error);
-            return {
-                statusCode: 500,
-                headers: defaultHeaders,
-                body: JSON.stringify({ error: 'Internal Server Error' }),
-            };
+            return { statusCode: 500, headers: defaultHeaders, body: JSON.stringify({ error: 'Internal Server Error', details: error.message }) };
         }
     }
 
-    console.log(`Invalid path or method: ${event.httpMethod} ${path}`);
     return { statusCode: 405, headers: defaultHeaders, body: 'Method not allowed' };
 };
