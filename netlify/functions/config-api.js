@@ -32,8 +32,19 @@ const defaultConfig = {
 const userConfigs = {};
 
 // TTL mechanism for userConfigs
-const sessionTTL = 24 * 60 * 60 * 1000; // 24 hours
-const sessionTimestamps = {};
+const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+
+setInterval(() => {
+    const now = Date.now();
+    Object.keys(sessionTimestamps).forEach((sessionId) => {
+        if (now - sessionTimestamps[sessionId] > SESSION_TIMEOUT) {
+            console.log(`Cleaning up expired session: ${sessionId}`);
+            delete userConfigs[sessionId];
+            delete sessionTimestamps[sessionId];
+        }
+    });
+}, 60 * 1000); // Run cleanup every 1 minute
+
 
 const validateConfig = (config) => {
     const requiredFields = ['version', 'level', 'powertrain', 'theme', 'color', 'wheels', 'interior', 'optionalEquipment'];
