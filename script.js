@@ -137,47 +137,12 @@ function applyConfigToUI(config) {
     console.log("UI updated with new configuration:", config);
 }
 
-// Track user interactions
-function onUserInteraction() {
-    userMakingChanges = true;
-
-    // Reset the flag after 1 second of inactivity
-    setTimeout(() => {
-        userMakingChanges = false;
-    }, 1000);
-}
-
-// Attach event listeners to detect user interactions
-document.body.addEventListener('click', onUserInteraction);
-document.body.addEventListener('input', onUserInteraction);
-
 // ==============================
 // Utility Functions
 // ==============================
 
-function getCurrentConfigFromUI() {
-    const level = document.querySelector('.option-group[data-group="level"] .option.active .option-name')?.innerText || "Core";
-    const powertrain = document.querySelector('.option-group[data-group="powertrain"] .option.active .option-name')?.innerText || "T8 AWD Plug-in Hybrid";
-    const theme = document.querySelector('.option-group[data-group="theme"] .option.active .option-name')?.innerText || "Bright";
-    const color = document.querySelector('.color-option.active')?.getAttribute('data-color') || "Vapour Grey";
-    const wheels = document.querySelector('.wheel-option.active')?.getAttribute('data-wheel') || "20″ 5-Multi Spoke Black Diamond Cut";
-    const interior = document.querySelector('.interior-option.active')?.getAttribute('data-interior') || "Charcoal Quilted Nordico in Charcoal interior";
-
-    return {
-        level,
-        powertrain,
-        theme,
-        color,
-        wheels,
-        interior,
-        optionalEquipment: Array.from(document.querySelectorAll('.add-btn.added')).map(
-            (button) => button.closest('.equipment-option').querySelector('.equipment-name').innerText
-        ),
-    };
-}
-
 function updateConfigInBackend(config) {
-    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
+    fetch('/.netlify/functions/config-api', { // Ensure relative path
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
