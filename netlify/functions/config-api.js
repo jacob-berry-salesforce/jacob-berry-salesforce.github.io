@@ -57,9 +57,10 @@ const validateConfig = (config) => {
 exports.handler = async (event) => {
     try {
         if (event.httpMethod === 'OPTIONS') {
+            console.log('Handling OPTIONS request');
             return { statusCode: 200, headers: defaultHeaders, body: '' };
         }
-
+        console.log('HTTP Method:', event.httpMethod, 'Path:', event.path);
         const path = event.path || '';
 
         if (event.httpMethod === 'GET' && path === '/session') {
