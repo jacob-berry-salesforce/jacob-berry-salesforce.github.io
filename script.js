@@ -176,7 +176,7 @@ function updateConfigInBackend(config) {
     const sanitizedConfig = sanitizeConfig(config);
 
     console.log("Updating Config in the backend:", sessionId);
-    console.log("Payload being sent to the backend:", sanitizedConfig);
+    console.log("Payload being sent to the backend:", sanitizedConfig); // Debug payload
 
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api/config', {
         method: 'POST',
@@ -364,7 +364,9 @@ function getCurrentConfigFromUI() {
     const wheels = document.querySelector('.wheel-option.active')?.getAttribute('data-wheel') || "20″ 5-Multi Spoke Black Diamond Cut";
     const interior = document.querySelector('.interior-option.active')?.getAttribute('data-interior') || "Charcoal Quilted Nordico in Charcoal interior";
 
+    // Ensure `version` is carried over from `currentConfig`
     return {
+        version: currentConfig.version, // Include the version explicitly
         level,
         powertrain,
         theme,
@@ -376,6 +378,7 @@ function getCurrentConfigFromUI() {
         ),
     };
 }
+
 
 
 // Function to generate image paths based on current configuration
