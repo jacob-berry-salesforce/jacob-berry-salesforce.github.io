@@ -352,26 +352,25 @@ function getCurrentConfigFromUI() {
 
 // Function to generate image paths based on current configuration
 function getImagePaths(type) {
-    const { level, color, wheels } = currentConfig;
+    const { level, color, wheels, interior } = currentConfig;
 
-    // Sanitize inputs: remove spaces and special characters
-    const sanitizedColor = color.replace(/ /g, ""); // Remove spaces
-    const sanitizedWheels = wheels.split("″")[0]; // Extract numeric part of wheels (e.g., "20")
+    const sanitizedColor = color.replace(/ /g, "");
+    const sanitizedWheels = wheels.split("″")[0]; // Extract numeric wheel size
+    const sanitizedInterior = encodeURIComponent(interior.replace(/ /g, ""));
 
-    // Adjust the base path
     let basePath = `/Images/Car/${level}/${sanitizedColor}/${sanitizedWheels}`;
     if (type === "wheels") {
-        basePath += `/wheel`; // Singular for wheel images
-    } else {
-        basePath += `/${type}`;
+        basePath += `/wheel`;
+    } else if (type === "wholeCar") {
+        basePath += `/wholeCar`;
+    } else if (type === "interior") {
+        basePath = `/Images/Interior/${sanitizedInterior}`;
     }
 
-    console.log("Generated Path:", basePath); // Debug log
-
-    // Determine number of images based on type
     const numImages = type === "wholeCar" ? 6 : type === "wheels" ? 3 : 8;
     return Array.from({ length: numImages }, (_, index) => `${basePath}_${index + 1}.jpeg`);
 }
+
 
 
 
