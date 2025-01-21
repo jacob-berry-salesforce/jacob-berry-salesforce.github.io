@@ -145,16 +145,27 @@ function applyConfigToUI(config) {
 // Utility Functions
 // ==============================
 
+function sanitizeConfig(config) {
+    return {
+        ...config,
+        color: config.color.replace(/ /g, "").trim(), // Remove spaces
+        wheels: config.wheels.replace(/″/g, '').trim(), // Remove special characters
+        interior: config.interior.replace(/ /g, "").trim(),
+    };
+}
+
 function updateConfigInBackend(config) {
-    console.log("Updating Config in the backend: ", sessionId);
-    console.log("Payload being sent to the backend:", config); // Log the payload for debugging
+    const sanitizedConfig = sanitizeConfig(config);
+    console.log("Updating Config in the backend:", sessionId);
+    console.log("Payload being sent to the backend:", sanitizedConfig);
+
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api/config', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'x-session-id': sessionId,
         },
-        body: JSON.stringify(config),
+        body: JSON.stringify(sanitizedConfig),
     })
         .then((response) => {
             if (!response.ok) {
@@ -169,6 +180,7 @@ function updateConfigInBackend(config) {
             console.error("%c[Backend Response] Error:", "color: red;", error);
         });
 }
+    
 
 
 // ==============================
@@ -450,38 +462,37 @@ function nextImage(carouselId) {
     carousel.setAttribute("data-current-index", newIndex);
 }
 
-// Apply the default configuration to the UI and initialize event listeners on page load
 document.addEventListener("DOMContentLoaded", () => {
-    // Apply the default configuration
-    applyConfigToUI(currentConfig);
-    console.log("Applied default configuration to the UI:", currentConfig);
+    console.log("Initializing application...");
 
-    // Update carousels
+    // Apply the default configuration and update carousels
+    applyConfigToUI(currentConfig);
     updateCarCarousel();
     updateInteriorCarousel();
 
-    // Attach dynamic event listeners for user interactions
-    setupEventDelegation();
-
-    // Add specific event listeners for configuration changes
+    // Add event listeners for user interactions
     document.getElementById("colorSelector")?.addEventListener("change", (e) => {
         currentConfig.color = e.target.value;
         updateCarCarousel();
+        updateConfigInBackend(currentConfig);
     });
 
     document.getElementById("wheelSizeSelector")?.addEventListener("change", (e) => {
         currentConfig.wheels = e.target.value;
         updateCarCarousel();
+        updateConfigInBackend(currentConfig);
     });
 
     document.getElementById("trimSelector")?.addEventListener("change", (e) => {
         currentConfig.level = e.target.value;
         updateCarCarousel();
+        updateConfigInBackend(currentConfig);
     });
 
     document.getElementById("interiorSelector")?.addEventListener("change", (e) => {
         currentConfig.interior = e.target.value;
         updateInteriorCarousel();
+        updateConfigInBackend(currentConfig);
     });
 
     // Attach carousel navigation handlers
@@ -492,4 +503,5 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("prev-carousel3")?.addEventListener("click", () => prevImage("carousel3"));
     document.getElementById("next-carousel3")?.addEventListener("click", () => nextImage("carousel3"));
 });
+
 
