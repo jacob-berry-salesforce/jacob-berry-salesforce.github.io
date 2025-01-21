@@ -32,15 +32,6 @@ let currentConfig = {
     optionalEquipment: [],
 };
 
-// Apply the default configuration to the UI on page load
-document.addEventListener("DOMContentLoaded", () => {
-    applyConfigToUI(currentConfig);
-    console.log("Applied default configuration to the UI:", currentConfig);
-
-    // Attach event listeners for dynamic interaction
-    setupEventDelegation();
-});
-
 // ==============================
 // Function to Apply Config to UI
 // ==============================
@@ -456,13 +447,20 @@ function nextImage(carouselId) {
     carousel.setAttribute("data-current-index", newIndex);
 }
 
+// Apply the default configuration to the UI and initialize event listeners on page load
 document.addEventListener("DOMContentLoaded", () => {
-    // Apply initial configuration and update carousels
+    // Apply the default configuration
     applyConfigToUI(currentConfig);
+    console.log("Applied default configuration to the UI:", currentConfig);
+
+    // Update carousels
     updateCarCarousel();
     updateInteriorCarousel();
 
-    // Add event listeners for user interactions
+    // Attach dynamic event listeners for user interactions
+    setupEventDelegation();
+
+    // Add specific event listeners for configuration changes
     document.getElementById("colorSelector")?.addEventListener("change", (e) => {
         currentConfig.color = e.target.value;
         updateCarCarousel();
