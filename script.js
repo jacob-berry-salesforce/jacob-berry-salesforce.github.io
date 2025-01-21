@@ -157,9 +157,36 @@ function sanitizeConfig(config) {
 let isUpdatingBackend = false;
 
 function validateConfig(config) {
-    const requiredFields = ["level", "powertrain", "theme", "color", "wheels", "interior", "optionalEquipment"];
-    return requiredFields.every((field) => config[field] && typeof config[field] === "string");
+    const requiredFields = ["version", "level", "powertrain", "theme", "color", "wheels", "interior", "optionalEquipment"];
+    let isValid = true;
+
+    // Check required fields
+    requiredFields.forEach((field) => {
+        if (!(field in config)) {
+            console.error(`Validation failed: Missing field "${field}"`);
+            isValid = false;
+        } else if (config[field] === undefined || config[field] === null) {
+            console.error(`Validation failed: "${field}" is undefined or null`, config[field]);
+            isValid = false;
+        }
+    });
+
+    // Check optionalEquipment
+    if (!Array.isArray(config.optionalEquipment)) {
+        console.error("Validation failed: optionalEquipment is not an array", config.optionalEquipment);
+        isValid = false;
+    }
+
+    // Check version
+    if (typeof config.version !== "number" || config.version < 0) {
+        console.error("Validation failed: version is not a non-negative number", config.version);
+        isValid = false;
+    }
+
+    return isValid;
 }
+
+
 
 function updateConfigInBackend(config) {
     console.log("Config before validation", config)
