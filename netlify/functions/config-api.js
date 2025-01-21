@@ -28,18 +28,6 @@ const defaultConfig = {
 
 // Store configurations
 const userConfigs = {};
-const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
-
-// TTL mechanism for sessions
-setInterval(() => {
-    const now = Date.now();
-    Object.keys(userConfigs).forEach((sessionId) => {
-        if (now - userConfigs[sessionId].timestamp > SESSION_TIMEOUT) {
-            delete userConfigs[sessionId];
-            console.log(`Session expired and removed: ${sessionId}`);
-        }
-    });
-}, SESSION_TIMEOUT / 2);
 
 const validateConfig = (config) => {
     const requiredFields = ['version', 'level', 'powertrain', 'theme', 'color', 'wheels', 'interior', 'optionalEquipment'];
