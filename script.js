@@ -105,18 +105,29 @@ function applyConfigToUI(config) {
     }
 
     // Update Interior
-    document.querySelectorAll('.interior-option').forEach((option) => option.classList.remove('active'));
-    const interiorOption = document.querySelector(`.interior-option[data-interior="${config.interior}"]`);
+    // Normalize interior string for matching
+    const normalizedInterior = config.interior.trim().toLowerCase();
+
+    document.querySelectorAll('.interior-option').forEach((option) => {
+        option.classList.remove('active');
+    });
+
+    const interiorOption = Array.from(document.querySelectorAll('.interior-option')).find(
+        (option) => option.getAttribute('data-interior').trim().toLowerCase() === normalizedInterior
+    );
+
     if (interiorOption) {
         interiorOption.classList.add('active');
         const interiorDetails = document.querySelector('.interior-details');
         if (interiorDetails) {
-            interiorDetails.querySelector('h3').innerText = config.interior;
+            interiorDetails.querySelector('h3').innerText = interiorOption.getAttribute('data-interior');
             interiorDetails.querySelector('.interior-price').innerText =
                 interiorOption.getAttribute('data-price') || 'Standard';
             interiorDetails.querySelector('.interior-description').innerText =
                 interiorOption.getAttribute('data-description') || 'Description not available';
         }
+    } else {
+        console.error("No matching interior option found for:", config.interior);
     }
 
     // Update Optional Equipment
@@ -336,4 +347,62 @@ function getCurrentConfigFromUI() {
             (button) => button.closest('.equipment-option').querySelector('.equipment-name').innerText
         ),
     };
+}
+
+
+// Array of carousel image lists (this can be dynamic if you have multiple carousels)
+const carouselImages = {
+    carousel1: [
+        "Images/XC90Ultra1-6.jpeg",
+        "Images/XC90Ultra2-6.jpeg",
+        "Images/XC90Ultra3-6.jpeg",
+    ],
+    carousel2: [
+        "Images/XC90UltraWheel1-3.jpeg",
+        "Images/XC90UltraWheel2-3.jpeg",
+        "Images/XC90UltraWheel3-3.jpeg",
+    ],
+    carousel3: [
+        "Images/XC90UltraInterior1-8.jpeg",
+        "Images/XC90UltraInterior2-8.jpeg",
+        "Images/XC90UltraInterior3-8.jpeg",
+        "Images/XC90UltraInterior4-8.jpeg",
+    ],
+};
+
+// Track current image index for each carousel
+const currentImageIndex = {
+    carousel1: 0,
+    carousel2: 0,
+    carousel3: 0,
+};
+
+// Function to show the previous image in the carousel
+function prevImage(carouselId) {
+    if (currentImageIndex[carouselId] === 0) {
+        currentImageIndex[carouselId] = carouselImages[carouselId].length - 1; // Loop to last image
+    } else {
+        currentImageIndex[carouselId]--;
+    }
+    updateCarouselImage(carouselId);
+}
+
+// Function to show the next image in the carousel
+function nextImage(carouselId) {
+    if (currentImageIndex[carouselId] === carouselImages[carouselId].length - 1) {
+        currentImageIndex[carouselId] = 0; // Loop to first image
+    } else {
+        currentImageIndex[carouselId]++;
+    }
+    updateCarouselImage(carouselId);
+}
+
+// Function to update the carousel image based on the current index
+function updateCarouselImage(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    if (carousel) {
+        carousel.src = carouselImages[carouselId][currentImageIndex[carouselId]];
+    } else {
+        console.error(`Carousel with ID ${carouselId} not found.`);
+    }
 }
