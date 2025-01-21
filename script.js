@@ -350,59 +350,145 @@ function getCurrentConfigFromUI() {
 }
 
 
-// Array of carousel image lists (this can be dynamic if you have multiple carousels)
-const carouselImages = {
-    carousel1: [
-        "Images/XC90Ultra1-6.jpeg",
-        "Images/XC90Ultra2-6.jpeg",
-        "Images/XC90Ultra3-6.jpeg",
-    ],
-    carousel2: [
-        "Images/XC90UltraWheel1-3.jpeg",
-        "Images/XC90UltraWheel2-3.jpeg",
-        "Images/XC90UltraWheel3-3.jpeg",
-    ],
-    carousel3: [
-        "Images/XC90UltraInterior1-8.jpeg",
-        "Images/XC90UltraInterior2-8.jpeg",
-        "Images/XC90UltraInterior3-8.jpeg",
-        "Images/XC90UltraInterior4-8.jpeg",
-    ],
-};
+// Function to generate image paths based on current configuration
+function getImagePaths(type) {
+    const { level, color, wheels } = currentConfig;
 
-// Track current image index for each carousel
-const currentImageIndex = {
-    carousel1: 0,
-    carousel2: 0,
-    carousel3: 0,
-};
+    // Sanitize inputs: remove spaces and special characters
+    const sanitizedColor = color.replace(/ /g, ""); // Remove spaces
+    const sanitizedWheels = wheels.split("″")[0]; // Extract numeric part of wheels (e.g., "20")
 
-// Function to show the previous image in the carousel
-function prevImage(carouselId) {
-    if (currentImageIndex[carouselId] === 0) {
-        currentImageIndex[carouselId] = carouselImages[carouselId].length - 1; // Loop to last image
+    // Adjust the base path
+    let basePath = `/Images/Car/${level}/${sanitizedColor}/${sanitizedWheels}`;
+    if (type === "wheels") {
+        basePath += `/wheel`; // Singular for wheel images
     } else {
-        currentImageIndex[carouselId]--;
+        basePath += `/${type}`;
     }
-    updateCarouselImage(carouselId);
+
+    console.log("Generated Path:", basePath); // Debug log
+
+    // Determine number of images based on type
+    const numImages = type === "wholeCar" ? 6 : type === "wheels" ? 3 : 8;
+    return Array.from({ length: numImages }, (_, index) => `${basePath}_${index + 1}.jpeg`);
 }
 
-// Function to show the next image in the carousel
-function nextImage(carouselId) {
-    if (currentImageIndex[carouselId] === carouselImages[carouselId].length - 1) {
-        currentImageIndex[carouselId] = 0; // Loop to first image
-    } else {
-        currentImageIndex[carouselId]++;
-    }
-    updateCarouselImage(carouselId);
+
+
+
+
+function updateCarCarousel() {
+    const { level, color, wheels } = currentConfig;
+
+    // Get sanitized file paths for the whole car and wheels
+    const wholeCarImages = getImagePaths("wholeCar");
+    const wheelImages = getImagePaths("wheels"); // Singular wheel
+
+    // Use the first images as defaults
+    const defaultWholeCarImage = wholeCarImages[0] || "placeholder_car_image.jpeg";
+    const defaultWheelImage = wheelImages[0] || "placeholder_wheel_image.jpeg";
+
+    // Update the carousels
+    updateCarousel("carousel1", wholeCarImages, defaultWholeCarImage);
+    updateCarousel("carousel2", wheelImages, defaultWheelImage);
 }
 
-// Function to update the carousel image based on the current index
-function updateCarouselImage(carouselId) {
+
+
+
+function updateInteriorCarousel() {
+    const { interior } = currentConfig;
+
+    // Sanitize the interior string to remove spaces and special characters
+    const sanitizedInterior = interior.replace(/ /g, "");
+
+    // Construct the base path for interior images
+    const basePath = `/Images/Interior/${sanitizedInterior}`;
+    const interiorImages = Array.from(
+        { length: 8 }, // Always 8 interior images
+        (_, index) => `${basePath}/interior_${index + 1}.jpeg`
+    );
+
+    // Default to the first interior image
+    const defaultInteriorImage = interiorImages[0] || "placeholder_interior_image.jpeg";
+    updateCarousel("carousel3", interiorImages, defaultInteriorImage);
+}
+
+
+
+
+function updateCarousel(carouselId, images, defaultImage) {
     const carousel = document.getElementById(carouselId);
     if (carousel) {
-        carousel.src = carouselImages[carouselId][currentImageIndex[carouselId]];
+        carousel.src = defaultImage; // Set the first image as default
+        carousel.setAttribute("data-images", JSON.stringify(images)); // Store images for navigation
+        carousel.setAttribute("data-current-index", "0"); // Reset the current index
     } else {
         console.error(`Carousel with ID ${carouselId} not found.`);
     }
 }
+
+
+
+
+// Functions for carousel navigation
+function prevImage(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    const images = JSON.parse(carousel.getAttribute("data-images") || "[]");
+    if (images.length === 0) return;
+
+    const currentIndex = parseInt(carousel.getAttribute("data-current-index") || "0", 10);
+    const newIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+
+    carousel.src = images[newIndex];
+    carousel.setAttribute("data-current-index", newIndex);
+}
+
+function nextImage(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    const images = JSON.parse(carousel.getAttribute("data-images") || "[]");
+    if (images.length === 0) return;
+
+    const currentIndex = parseInt(carousel.getAttribute("data-current-index") || "0", 10);
+    const newIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+
+    carousel.src = images[newIndex];
+    carousel.setAttribute("data-current-index", newIndex);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Apply initial configuration and update carousels
+    applyConfigToUI(currentConfig);
+    updateCarCarousel();
+    updateInteriorCarousel();
+
+    // Add event listeners for user interactions
+    document.getElementById("colorSelector")?.addEventListener("change", (e) => {
+        currentConfig.color = e.target.value;
+        updateCarCarousel();
+    });
+
+    document.getElementById("wheelSizeSelector")?.addEventListener("change", (e) => {
+        currentConfig.wheels = e.target.value;
+        updateCarCarousel();
+    });
+
+    document.getElementById("trimSelector")?.addEventListener("change", (e) => {
+        currentConfig.level = e.target.value;
+        updateCarCarousel();
+    });
+
+    document.getElementById("interiorSelector")?.addEventListener("change", (e) => {
+        currentConfig.interior = e.target.value;
+        updateInteriorCarousel();
+    });
+
+    // Attach carousel navigation handlers
+    document.getElementById("prev-carousel1")?.addEventListener("click", () => prevImage("carousel1"));
+    document.getElementById("next-carousel1")?.addEventListener("click", () => nextImage("carousel1"));
+    document.getElementById("prev-carousel2")?.addEventListener("click", () => prevImage("carousel2"));
+    document.getElementById("next-carousel2")?.addEventListener("click", () => nextImage("carousel2"));
+    document.getElementById("prev-carousel3")?.addEventListener("click", () => prevImage("carousel3"));
+    document.getElementById("next-carousel3")?.addEventListener("click", () => nextImage("carousel3"));
+});
+
