@@ -189,9 +189,9 @@ function validateConfig(config) {
 
 
 function updateConfigInBackend(config) {
-    console.log("Config before validation", config)
+    //console.log("Config before validation", config)
     if (!validateConfig(config)) {
-        console.error("Invalid configuration. Skipping backend update:", config);
+        //console.error("Invalid configuration. Skipping backend update:", config);
         return;
     }
 
@@ -202,9 +202,6 @@ function updateConfigInBackend(config) {
     isUpdatingBackend = true;
 
     const sanitizedConfig = sanitizeConfig(config);
-
-    console.log("Updating Config in the backend:", sessionId);
-    console.log("Payload being sent to the backend:", sanitizedConfig); // Debug payload
 
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api/config', {
         method: 'POST',
@@ -413,9 +410,10 @@ function getCurrentConfigFromUI() {
 function getImagePaths(type) {
     const { level, color, wheels, interior } = currentConfig;
 
-    const sanitizedColor = color.replace(/ /g, "");
+    // Remove spaces from the color name to match file naming convention
+    const sanitizedColor = color.replace(/\s+/g, ""); // Removes all spaces
     const sanitizedWheels = wheels.split("″")[0]; // Extract numeric wheel size
-    const sanitizedInterior = encodeURIComponent(interior.replace(/ /g, ""));
+    const sanitizedInterior = encodeURIComponent(interior.replace(/\s+/g, "")); // Removes all spaces and encodes special characters
 
     let basePath = `/Images/Car/${level}/${sanitizedColor}/${sanitizedWheels}`;
     if (type === "wheels") {
@@ -431,25 +429,19 @@ function getImagePaths(type) {
 }
 
 
-
-
-
-
 function updateCarCarousel() {
     const { level, color, wheels } = currentConfig;
 
-    // Get sanitized file paths for the whole car and wheels
+    // Generate paths for the car images based on the current config
     const wholeCarImages = getImagePaths("wholeCar");
-    const wheelImages = getImagePaths("wheels"); // Singular wheel
+    const wheelImages = getImagePaths("wheels");
 
-    // Use the first images as defaults
-    const defaultWholeCarImage = wholeCarImages[0] || "placeholder_car_image.jpeg";
-    const defaultWheelImage = wheelImages[0] || "placeholder_wheel_image.jpeg";
-
-    // Update the carousels
-    updateCarousel("carousel1", wholeCarImages, defaultWholeCarImage);
-    updateCarousel("carousel2", wheelImages, defaultWheelImage);
+    // Update the car and wheel carousels with the new paths
+    updateCarousel("carousel1", wholeCarImages, wholeCarImages[0]);
+    updateCarousel("carousel2", wheelImages, wheelImages[0]);
 }
+
+
 
 
 
@@ -478,6 +470,7 @@ function updateInteriorCarousel() {
 function updateCarousel(carouselId, images, defaultImage) {
     const carousel = document.getElementById(carouselId);
     if (carousel) {
+
         carousel.src = defaultImage; // Set the first image as default
         carousel.setAttribute("data-images", JSON.stringify(images)); // Store images for navigation
         carousel.setAttribute("data-current-index", "0"); // Reset the current index
@@ -485,6 +478,7 @@ function updateCarousel(carouselId, images, defaultImage) {
         console.error(`Carousel with ID ${carouselId} not found.`);
     }
 }
+
 
 
 
@@ -522,31 +516,93 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCarCarousel();
     updateInteriorCarousel();
 
-    // Add event listeners for user interactions
-    document.getElementById("colorSelector")?.addEventListener("change", (e) => {
-        currentConfig.color = e.target.value.trim(); // Ensure proper formatting
+    // Handle color-option clicks using event delegation
+    document.querySelector(".color-options")?.addEventListener("click", (e) => {
+        const colorOption = e.target.closest(".color-option");
+        if (!colorOption) return; // Ignore clicks outside .color-option
+    
+        // Prevent redundant updates if the same color is already selected
+        if (currentConfig.color === colorOption.getAttribute("data-color")) {
+            console.log("Same color selected. No update required.");
+            return;
+        }
+    
+        // Update currentConfig with the selected color
+        currentConfig.color = colorOption.getAttribute("data-color");
+        console.log("Color changed to:", currentConfig.color);
+    
+        // Mark the selected color as active
+        document.querySelectorAll(".color-option").forEach((el) => el.classList.remove("active"));
+        colorOption.classList.add("active");
+    
+        // Update color details in the UI
+        const colorDetails = document.querySelector(".color-details");
+        if (colorDetails) {
+            const colorName = colorOption.getAttribute("data-color");
+            const colorPrice = colorOption.getAttribute("data-price");
+            const colorDescription = colorOption.getAttribute("data-description");
+    
+            colorDetails.querySelector("h3").innerText = colorName || "Unknown Color";
+            colorDetails.querySelector(".color-price").innerText = colorPrice || "Unknown Price";
+            colorDetails.querySelector(".color-description").innerText = colorDescription || "No description available";
+        } else {
+            console.error("Error: .color-details element not found in the DOM.");
+        }
+    
+        // Update car carousel and backend
         updateCarCarousel();
         updateConfigInBackend(currentConfig);
     });
     
+
+    document.querySelector(".wheel-options")?.addEventListener("click", (e) => {
+        const wheelOption = e.target.closest(".wheel-option");
+        if (!wheelOption) return; // Ignore clicks outside .wheel-option
+    
+        // Prevent redundant updates if the same wheel option is already selected
+        if (currentConfig.wheels === wheelOption.getAttribute("data-wheel")) {
+            console.log("Same wheels selected. No update required.");
+            return;
+        }
+    
+        // Update currentConfig with the selected wheels
+        currentConfig.wheels = wheelOption.getAttribute("data-wheel");
+        console.log("Wheels changed to:", currentConfig.wheels);
+    
+        // Mark the selected wheels as active
+        document.querySelectorAll(".wheel-option").forEach((el) => el.classList.remove("active"));
+        wheelOption.classList.add("active");
+    
+        // Update wheel details in the UI
+        const wheelDetails = document.querySelector(".wheel-details");
+        if (wheelDetails) {
+            const wheelName = wheelOption.getAttribute("data-wheel");
+            const wheelPrice = wheelOption.getAttribute("data-price");
+    
+            wheelDetails.querySelector("h3").innerText = wheelName || "Unknown Wheels";
+            wheelDetails.querySelector("p").innerText = wheelPrice || "Unknown Price";
+        } else {
+            console.error("Error: .wheel-details element not found in the DOM.");
+        }
+    
+        // Update car carousel and backend
+        updateCarCarousel();
+        updateConfigInBackend(currentConfig);
+    });
+    
+
     document.getElementById("interiorSelector")?.addEventListener("change", (e) => {
         currentConfig.interior = e.target.value.trim();
+        console.log("Interior updated:", currentConfig.interior);
         updateInteriorCarousel();
         updateConfigInBackend(currentConfig);
     });
-    
-    document.getElementById("wheelSizeSelector")?.addEventListener("change", (e) => {
-        currentConfig.wheels = `${e.target.value}″ ${currentConfig.wheels.split(" ").slice(1).join(" ")}`; // Ensure inch character
-        updateCarCarousel();
-        updateConfigInBackend(currentConfig);
-    });
-    
+
     document.getElementById("trimSelector")?.addEventListener("change", (e) => {
         currentConfig.level = e.target.value.trim();
         updateCarCarousel();
         updateConfigInBackend(currentConfig);
     });
-    
 
     // Attach carousel navigation handlers
     document.getElementById("prev-carousel1")?.addEventListener("click", () => prevImage("carousel1"));
@@ -556,5 +612,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("prev-carousel3")?.addEventListener("click", () => prevImage("carousel3"));
     document.getElementById("next-carousel3")?.addEventListener("click", () => nextImage("carousel3"));
 });
+
 
 
