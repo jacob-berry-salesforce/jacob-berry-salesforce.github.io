@@ -154,7 +154,25 @@ function sanitizeConfig(config) {
     };
 }
 
+let isUpdatingBackend = false;
+
+function validateConfig(config) {
+    const requiredFields = ["level", "powertrain", "theme", "color", "wheels", "interior", "optionalEquipment"];
+    return requiredFields.every((field) => config[field] && typeof config[field] === "string");
+}
+
 function updateConfigInBackend(config) {
+    if (!validateConfig(config)) {
+        console.error("Invalid configuration. Skipping backend update:", config);
+        return;
+    }
+
+    if (isUpdatingBackend) {
+        console.log("Backend update already in progress. Skipping...");
+        return;
+    }
+    isUpdatingBackend = true;
+
     const sanitizedConfig = sanitizeConfig(config);
 
     console.log("Updating Config in the backend:", sessionId);
@@ -179,9 +197,11 @@ function updateConfigInBackend(config) {
         })
         .catch((error) => {
             console.error("%c[Backend Response] Error:", "color: red;", error);
+        })
+        .finally(() => {
+            isUpdatingBackend = false;
         });
 }
-    
 
 
 // ==============================
@@ -473,28 +493,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add event listeners for user interactions
     document.getElementById("colorSelector")?.addEventListener("change", (e) => {
-        currentConfig.color = e.target.value;
+        currentConfig.color = e.target.value.trim(); // Ensure proper formatting
         updateCarCarousel();
         updateConfigInBackend(currentConfig);
     });
-
-    document.getElementById("wheelSizeSelector")?.addEventListener("change", (e) => {
-        currentConfig.wheels = e.target.value;
-        updateCarCarousel();
-        updateConfigInBackend(currentConfig);
-    });
-
-    document.getElementById("trimSelector")?.addEventListener("change", (e) => {
-        currentConfig.level = e.target.value;
-        updateCarCarousel();
-        updateConfigInBackend(currentConfig);
-    });
-
+    
     document.getElementById("interiorSelector")?.addEventListener("change", (e) => {
-        currentConfig.interior = e.target.value;
+        currentConfig.interior = e.target.value.trim();
         updateInteriorCarousel();
         updateConfigInBackend(currentConfig);
     });
+    
+    document.getElementById("wheelSizeSelector")?.addEventListener("change", (e) => {
+        currentConfig.wheels = `${e.target.value}″ ${currentConfig.wheels.split(" ").slice(1).join(" ")}`; // Ensure inch character
+        updateCarCarousel();
+        updateConfigInBackend(currentConfig);
+    });
+    
+    document.getElementById("trimSelector")?.addEventListener("change", (e) => {
+        currentConfig.level = e.target.value.trim();
+        updateCarCarousel();
+        updateConfigInBackend(currentConfig);
+    });
+    
 
     // Attach carousel navigation handlers
     document.getElementById("prev-carousel1")?.addEventListener("click", () => prevImage("carousel1"));
