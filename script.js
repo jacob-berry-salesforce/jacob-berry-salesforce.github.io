@@ -148,14 +148,15 @@ function applyConfigToUI(config) {
 function sanitizeConfig(config) {
     return {
         ...config,
-        color: config.color.replace(/ /g, "").trim(), // Remove spaces
-        wheels: config.wheels.replace(/″/g, '').trim(), // Remove special characters
-        interior: config.interior.replace(/ /g, "").trim(),
+        color: config.color.replace(/([a-z])([A-Z])/g, '$1 $2').trim(), // Add space between words if camelCase is present
+        interior: config.interior.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/([A-Z])/g, ' $1').trim(), // Add spaces
+        wheels: config.wheels.replace(/″/g, '″').trim(), // Ensure proper character for inches
     };
 }
 
 function updateConfigInBackend(config) {
     const sanitizedConfig = sanitizeConfig(config);
+
     console.log("Updating Config in the backend:", sessionId);
     console.log("Payload being sent to the backend:", sanitizedConfig);
 
