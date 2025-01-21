@@ -153,14 +153,15 @@ function applyConfigToUI(config) {
 // ==============================
 
 function updateConfigInBackend(config) {
-    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api', {
-        method: 'POST',
+    console.log('Updating Config in the backend: ',sessionId)
+    fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api/config', {
+        method: 'POST', // Ensure the method is explicitly POST
         headers: {
             'Content-Type': 'application/json',
             'x-session-id': sessionId, // Send session ID
         },
-        body: JSON.stringify(config),
-    })    
+        body: JSON.stringify(config), // Serialize the config object to JSON
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

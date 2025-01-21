@@ -10,7 +10,7 @@ const pusher = new Pusher({
 });
 
 const defaultHeaders = {
-    'Access-Control-Allow-Origin': 'https://jacob-berry-salesforce.github.io', // Allow your frontend origin
+    'Access-Control-Allow-Origin': '*', // Allow your frontend origin
     'Access-Control-Allow-Headers': 'Content-Type, x-session-id', // Include x-session-id
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
 };
