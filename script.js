@@ -162,6 +162,7 @@ function validateConfig(config) {
 }
 
 function updateConfigInBackend(config) {
+    console.log("Config before validation", config)
     if (!validateConfig(config)) {
         console.error("Invalid configuration. Skipping backend update:", config);
         return;
