@@ -33,8 +33,18 @@ const validateConfig = (config) => {
     const requiredFields = ['version', 'level', 'powertrain', 'theme', 'color', 'wheels', 'interior', 'optionalEquipment'];
     const isValid = requiredFields.every((field) => field in config);
     const isCorrectType = Array.isArray(config.optionalEquipment);
+
+    if (!isValid) {
+        console.error("Validation failed: Missing required fields. Received config:", config);
+    }
+
+    if (!isCorrectType) {
+        console.error("Validation failed: optionalEquipment is not an array. Received:", config.optionalEquipment);
+    }
+
     return isValid && isCorrectType;
 };
+
 
 exports.handler = async (event) => {
     try {

@@ -23,6 +23,7 @@ channel.bind('update-config', (config) => {
 
 // Default configuration defined in the frontend
 let currentConfig = {
+    version: 0,
     level: "Core",
     powertrain: "T8 AWD Plug-in Hybrid",
     theme: "Bright",
@@ -31,6 +32,7 @@ let currentConfig = {
     interior: "Charcoal Quilted Nordico in Charcoal interior",
     optionalEquipment: [],
 };
+
 
 // ==============================
 // Function to Apply Config to UI
@@ -144,14 +146,15 @@ function applyConfigToUI(config) {
 // ==============================
 
 function updateConfigInBackend(config) {
-    console.log('Updating Config in the backend: ',sessionId)
+    console.log("Updating Config in the backend: ", sessionId);
+    console.log("Payload being sent to the backend:", config); // Log the payload for debugging
     fetch('https://jacob-berry-salesforce.netlify.app/.netlify/functions/config-api/config', {
-        method: 'POST', // Ensure the method is explicitly POST
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'x-session-id': sessionId, // Send session ID
+            'x-session-id': sessionId,
         },
-        body: JSON.stringify(config), // Serialize the config object to JSON
+        body: JSON.stringify(config),
     })
         .then((response) => {
             if (!response.ok) {
