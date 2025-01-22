@@ -407,6 +407,29 @@ function getImagePaths(type) {
     return Array.from({ length: numImages }, (_, index) => `${basePath}_${index + 1}.jpeg`);
 }
 
+function getInteriorImagePaths(interior) {
+    // Sanitize the interior value
+    const sanitizedInterior = interior
+        .replace(/ /g, "") // Remove all spaces
+        .replace(/\//g, "-"); // Replace / with -
+
+    console.log("Sanitized Interior:", sanitizedInterior); // Debug log
+
+    // Construct the base path
+    const basePath = `/Images/Car/Interior/${sanitizedInterior}`;
+
+    // Generate 8 image paths
+    const paths = Array.from(
+        { length: 8 },
+        (_, index) => `${basePath}/interior_${index + 1}.jpeg`
+    );
+
+    console.log("Generated Interior Image Paths:", paths); // Debug log
+    return paths;
+}
+
+
+
 
 function updateCarCarousel() {
     const { level, color, wheels } = currentConfig;
@@ -427,21 +450,18 @@ function updateCarCarousel() {
 
 function updateInteriorCarousel() {
     const { interior } = currentConfig;
+    
+    // Sanitize interior value before generating paths
+    const imagePaths = getInteriorImagePaths(interior);
 
-    // Sanitize the interior string to remove spaces and special characters
-    const sanitizedInterior = interior.replace(/ /g, "");
+    // Use the first image as the default
+    const defaultImage = imagePaths[0] || "placeholder_interior_image.jpeg";
 
-    // Construct the base path for interior images
-    const basePath = `/Images/Interior/${sanitizedInterior}`;
-    const interiorImages = Array.from(
-        { length: 8 }, // Always 8 interior images
-        (_, index) => `${basePath}/interior_${index + 1}.jpeg`
-    );
-
-    // Default to the first interior image
-    const defaultInteriorImage = interiorImages[0] || "placeholder_interior_image.jpeg";
-    updateCarousel("carousel3", interiorImages, defaultInteriorImage);
+    // Update the carousel
+    updateCarousel("carousel3", imagePaths, defaultImage);
 }
+
+
 
 
 

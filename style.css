@@ -631,8 +631,8 @@ header img {
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
-    width: 200px; /* Fixed width for consistency */
-    height: 270px; /* Fixed height for consistency */
+    width: 400px; /* Fixed width for consistency */
+    height: 350px; /* Fixed height for consistency */
     position: relative;
     padding: 10px;
     box-sizing: border-box;
