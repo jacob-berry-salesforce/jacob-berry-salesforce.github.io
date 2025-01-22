@@ -410,8 +410,11 @@ function getImagePaths(type) {
 function getInteriorImagePaths(interior) {
     // Sanitize the interior value
     const sanitizedInterior = interior
-        .replace(/ /g, "") // Remove all spaces
-        .replace(/\//g, "-"); // Replace / with -
+    .replace(/\s+/g, '-') // Replace spaces with dashes
+    .replace(/\//g, '-') // Replace slashes with dashes
+    .replace(/[^a-zA-Z0-9-]/g, '') // Allow only alphanumeric and dashes
+    .toLowerCase(); // Convert to lowercase for consistency
+
 
     console.log("Sanitized Interior:", sanitizedInterior); // Debug log
 
