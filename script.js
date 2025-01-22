@@ -612,5 +612,25 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("next-carousel3")?.addEventListener("click", () => nextImage("carousel3"));
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const configuratorCarousel = document.querySelector(".configurator-carousel");
+    const thirdCarousel = document.querySelector(".third-carousel");
+
+    if (configuratorCarousel && thirdCarousel) {
+        const adjustHeight = () => {
+            const thirdTop = thirdCarousel.getBoundingClientRect().top + window.scrollY;
+            const viewportHeight = window.innerHeight;
+
+            // Adjust sticky container height to end just above the third carousel
+            configuratorCarousel.style.height = `${thirdTop - viewportHeight + 40}px`;
+        };
+
+        window.addEventListener("resize", adjustHeight);
+        window.addEventListener("scroll", adjustHeight);
+
+        // Initial adjustment
+        adjustHeight();
+    }
+});
 
 

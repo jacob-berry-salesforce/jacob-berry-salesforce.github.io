@@ -95,8 +95,7 @@ header img {
 
 /* Common styles for sections */
 .middle-section,
-.right-section,
-.left-section {
+.right-section{
     background: #f7f7f7;
     padding: 20px;
     border-radius: 10px;
@@ -107,16 +106,49 @@ header img {
 }
 
 
-/* Carousel */
-.carousel {
+/* Left Section */
+.left-section {
     position: relative;
-    margin-bottom: 300px;
+    background: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden; /* Prevent content overflow */
+}
+
+/* Configurator Carousel (Parent) */
+.configurator-carousel {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 20px; /* Sticky position starts 20px from top */
+    height: calc(100vh - 40px); /* Full viewport height minus some margin */
+    justify-content: flex-start;
+    gap: 20px; /* Space between carousels */
+}
+
+/* Individual Carousels */
+.carousel {
+    flex: none;
+    position: relative;
+    width: 100%;
+    height: auto;
 }
 
 .carousel img {
     width: 100%;
+    height: auto;
+    border-radius: 10px;
 }
 
+/* Fixed Third Carousel */
+.third-carousel {
+    position: sticky;
+    top: auto;
+    bottom: -500px; /* Lock it to the bottom of the viewport */
+}
+
+
+/* Carousel Navigation */
 .carousel-nav {
     position: absolute;
     top: 50%;
@@ -144,6 +176,7 @@ header img {
     transform: scale(1.1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
+
 
 /* Options Section */
 .options-section {
