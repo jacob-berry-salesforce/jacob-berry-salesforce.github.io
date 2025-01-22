@@ -428,9 +428,6 @@ function getInteriorImagePaths(interior) {
     return paths;
 }
 
-
-
-
 function updateCarCarousel() {
     const { level, color, wheels } = currentConfig;
 
@@ -438,51 +435,41 @@ function updateCarCarousel() {
     const wholeCarImages = getImagePaths("wholeCar");
     const wheelImages = getImagePaths("wheels");
 
-    // Update the car and wheel carousels with the new paths
-    updateCarousel("carousel1", wholeCarImages, wholeCarImages[0]);
-    updateCarousel("carousel2", wheelImages, wheelImages[0]);
+    // Get current indices for carousels
+    const carCurrentIndex = parseInt(document.getElementById("carousel1")?.getAttribute("data-current-index") || "0", 10);
+    const wheelCurrentIndex = parseInt(document.getElementById("carousel2")?.getAttribute("data-current-index") || "0", 10);
+
+    // Update the car and wheel carousels with the new paths, preserving current index
+    updateCarousel("carousel1", wholeCarImages, carCurrentIndex);
+    updateCarousel("carousel2", wheelImages, wheelCurrentIndex);
 }
-
-
-
-
-
 
 function updateInteriorCarousel() {
     const { interior } = currentConfig;
-    
-    // Sanitize interior value before generating paths
+
+    // Generate paths for the interior images based on the current config
     const imagePaths = getInteriorImagePaths(interior);
 
-    // Use the first image as the default
-    const defaultImage = imagePaths[0] || "placeholder_interior_image.jpeg";
+    // Get current index for interior carousel
+    const interiorCurrentIndex = parseInt(document.getElementById("carousel3")?.getAttribute("data-current-index") || "0", 10);
 
-    // Update the carousel
-    updateCarousel("carousel3", imagePaths, defaultImage);
+    // Update the interior carousel with the new paths, preserving current index
+    updateCarousel("carousel3", imagePaths, interiorCurrentIndex);
 }
 
-
-
-
-
-
-function updateCarousel(carouselId, images, defaultImage) {
+function updateCarousel(carouselId, images, currentIndex = 0) {
     const carousel = document.getElementById(carouselId);
     if (carousel) {
-
-        carousel.src = defaultImage; // Set the first image as default
+        const sanitizedIndex = Math.min(currentIndex, images.length - 1); // Ensure index is within bounds
+        carousel.src = images[sanitizedIndex]; // Set the image at the current index
         carousel.setAttribute("data-images", JSON.stringify(images)); // Store images for navigation
-        carousel.setAttribute("data-current-index", "0"); // Reset the current index
+        carousel.setAttribute("data-current-index", sanitizedIndex); // Set the current index
     } else {
         console.error(`Carousel with ID ${carouselId} not found.`);
     }
 }
 
-
-
-
-
-// Functions for carousel navigation
+// Carousel navigation functions
 function prevImage(carouselId) {
     const carousel = document.getElementById(carouselId);
     const images = JSON.parse(carousel.getAttribute("data-images") || "[]");
@@ -506,6 +493,7 @@ function nextImage(carouselId) {
     carousel.src = images[newIndex];
     carousel.setAttribute("data-current-index", newIndex);
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Initializing application...");
