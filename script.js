@@ -408,15 +408,11 @@ function getImagePaths(type) {
 }
 
 function getInteriorImagePaths(interior) {
-    // Sanitize the interior value
+    // Sanitize the interior value to lowercase
     const sanitizedInterior = interior
-    .replace(/\s+/g, '-') // Replace spaces with dashes
-    .replace(/\//g, '-') // Replace slashes with dashes
-    .replace(/[^a-zA-Z0-9-]/g, '') // Allow only alphanumeric and dashes
-    .toLowerCase(); // Convert to lowercase for consistency
-
-
-    console.log("Sanitized Interior:", sanitizedInterior); // Debug log
+        .replace(/\s+/g, '') // Remove spaces
+        .replace(/\//g, '-') // Replace slashes with dashes
+        .toLowerCase(); // Convert to lowercase
 
     // Construct the base path
     const basePath = `/Images/Car/Interior/${sanitizedInterior}`;
@@ -426,10 +422,9 @@ function getInteriorImagePaths(interior) {
         { length: 8 },
         (_, index) => `${basePath}/interior_${index + 1}.jpeg`
     );
-
-    console.log("Generated Interior Image Paths:", paths); // Debug log
     return paths;
 }
+
 
 function updateCarCarousel() {
     const { level, color, wheels } = currentConfig;
