@@ -48,8 +48,8 @@ function applyConfigToUI(config) {
         return;
     }
 
-    // Update the last applied version
-    lastAppliedVersion = config.version;
+    // Update the global configuration object
+    Object.assign(currentConfig, config);
 
     console.groupCollapsed("%c[UI Update] Applying configuration", "color: green; font-weight: bold;");
     console.log("Configuration applied:", config);
@@ -97,32 +97,6 @@ function applyConfigToUI(config) {
         }
     }
 
-    // Update Interior
-    // Normalize interior string for matching
-    const normalizedInterior = config.interior.trim().toLowerCase();
-
-    document.querySelectorAll('.interior-option').forEach((option) => {
-        option.classList.remove('active');
-    });
-
-    const interiorOption = Array.from(document.querySelectorAll('.interior-option')).find(
-        (option) => option.getAttribute('data-interior').trim().toLowerCase() === normalizedInterior
-    );
-
-    if (interiorOption) {
-        interiorOption.classList.add('active');
-        const interiorDetails = document.querySelector('.interior-details');
-        if (interiorDetails) {
-            interiorDetails.querySelector('h3').innerText = interiorOption.getAttribute('data-interior');
-            interiorDetails.querySelector('.interior-price').innerText =
-                interiorOption.getAttribute('data-price') || 'Standard';
-            interiorDetails.querySelector('.interior-description').innerText =
-                interiorOption.getAttribute('data-description') || 'Description not available';
-        }
-    } else {
-        console.error("No matching interior option found for:", config.interior);
-    }
-
     // Update Optional Equipment
     document.querySelectorAll('.add-btn').forEach((button) => {
         button.classList.remove('added');
@@ -138,8 +112,13 @@ function applyConfigToUI(config) {
         }
     });
 
+    // **Call the car and interior carousel update functions here**
+    updateCarCarousel();
+    updateInteriorCarousel();
+
     console.log("UI updated with new configuration:", config);
 }
+
 
 // ==============================
 // Utility Functions
